@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Restablecer | ESP32 Admin Tool v3</title>
+    <meta content="ESP32 Admin tool v3.0" name="description">
+    <meta content="Html Admin Panel for ESP32 configurations" name="keywords">
+    <!-- Favicons -->
+    <link href="assets/img/favicon.png" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+        rel="stylesheet">
+    <!-- Vendor CSS Files -->
+    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <link href="assets/css/icons.css" rel="stylesheet">
+    <!-- Template Main CSS File -->
+    <link href="assets/css/style.css" rel="stylesheet">
+    <!-- Other CSS File -->
+    <link href="assets/css/sweetalert.css" rel="stylesheet">
+    <!-- =======================================================
+  * Template Name: ESP32 Admin Tool - v3.0.0
+  * Author: iothost.org
+  ======================================================== -->
+</head>
+
+<body>
+    <!-- ======= Header ======= -->
+    <header id="header" class="header fixed-top d-flex align-items-center">
+        <div class="d-flex align-items-center justify-content-between">
+            <a href="/" class="logo d-flex align-items-center">
+                <img src="assets/img/logo.png" alt="">
+                <span class="d-none d-lg-block">ESP32Admin v3</span>
+            </a>
+            <i class="bi bi-list toggle-sidebar-btn"></i>
+        </div>
+        <!-- End Logo -->
+        <nav class="header-nav ms-auto">
+            <ul class="d-flex align-items-center">
+                <li class="nav-item dropdown">
+                    <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+                        <i class="bi bi-wifi text-success" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                            data-bs-original-title="Conexión WiFi" id="wifiStatus"></i>
+                    </a><!-- End wifi Icon -->
+                </li><!-- End wifi Nav -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+                        <i class="bi bi-reception-4 text-success" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                            data-bs-original-title="WIFI RSSI" id="rssiStatus"></i>
+                    </a><!-- End signal Icon -->
+                </li><!-- End signal Nav -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+                        <i class="bi bi-cloudy-fill text-success" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                            data-bs-original-title="Conexión MQTT" id="mqttStatus"></i>
+                    </a><!-- End mqtt Icon -->
+                </li><!-- End mqtt Nav -->
+                <li class="nav-item dropdown pe-3">
+                    <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                        <span class="d-none d-md-block dropdown-toggle ps-2">Admin</span>
+                    </a><!-- End Profile Iamge Icon -->
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                        <li class="dropdown-header">
+                            <h6>Admin</h6>
+                            <span>Administrador del sistema</span>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="esp-admin">
+                                <i class="bi bi-person"></i>
+                                <span>Perfil</span>
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="esp-device">
+                                <i class="bi bi-gear"></i>
+                                <span>Configuración</span>
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="https://electroniciot.com"
+                                target="_blank">
+                                <i class="bi bi-question-circle"></i>
+                                <span>Ayuda?</span>
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="esp-logout">
+                                <i class="bi bi-box-arrow-right"></i>
+                                <span>Salir</span>
+                            </a>
+                        </li>
+                    </ul><!-- End Profile Dropdown Items -->
+                </li><!-- End Profile Nav -->
+            </ul>
+        </nav><!-- End Icons Navigation -->
+    </header>
+    <!-- End Header -->
+    <!-- ======= Sidebar ======= -->
+    <aside id="sidebar" class="sidebar">
+        <ul class="sidebar-nav" id="sidebar-nav"> <!-- automatico -->
+            <li class="nav-item"><a class="collapsed"><a class="nav-link" href="/"><i
+                            class="bi bi-grid"></i><span>Dashboard</span></a></a></li>
+            <li class="nav-item"><span class="nav-link collapsed" data-bs-target="#Conexiones-nav"
+                    data-bs-toggle="collapse"><i class="bi bi-bar-chart"></i><span>Conexiones</span><i
+                        class="bi bi-chevron-down ms-auto"></i></span>
+                <ul class="nav-content collapse" data-bs-parent="#sidebar-nav" id="Conexiones-nav">
+                    <li><a href="esp-wifi"><i class="bi bi-circle"></i><span>WiFi</span></a></li>
+                    <li><a href="esp-mqtt"><i class="bi bi-circle"></i><span>MQTT</span></a></li>
+                </ul>
+            </li>
+            <li class="nav-item"><span class="nav-link collapsed" data-bs-target="#Dispositivo-nav"
+                    data-bs-toggle="collapse"><i class="bi bi-sliders"></i><span>Dispositivo</span><i
+                        class="bi bi-chevron-down ms-auto"></i></span>
+                <ul class="nav-content collapse" data-bs-parent="#sidebar-nav" id="Dispositivo-nav">
+                    <li><a href="esp-restore"><i class="bi bi-circle"></i><span>Restaurar a fabrica</span></a></li>
+                    <li><a href="esp-restart"><i class="bi bi-circle"></i><span>Reiniciar</span></a></li>
+                    <li><a href="esp-device"><i class="bi bi-circle"></i><span>Firmware</span></a></li>
+                </ul>
+            </li>
+            <li class="nav-item"><a class="collapsed"><a class="nav-link" href="esp-admin"><i
+                            class="bi bi-person"></i><span>Perfil</span></a></a></li>
+        </ul>
+    </aside>
+
+    <main id="main" class="main">
+        <div class="pagetitle"> <!-- automatica -->
+            <h1>Restablecer configuraciones predeterminadas</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Inicio</a></li>
+                    <li class="breadcrumb-item">Dispositivo</li>
+                    <li class="breadcrumb-item active">Restablecer</li>
+                </ol>
+            </nav>
+        </div>
+        <!-- End Page Title -->
+        <!-- section automatica-->
+        <section class="section">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header">Restablecer</div>
+                        <div class="card-body">
+                            <h5 class="card-title">Use este botón para restablecer a los parámetros de fábrica.</h5>
+                            <button class="btn btn-primary"><i
+                                    class="bi bi-arrow-counterclockwise me-1"></i>Restablecer</button>
+                            <div class="restoreLoading" style="display:none">
+                                <h5 class="card-title mt-2">Restableciendo...</h5>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped bg-secondary progress-bar-animated"
+                                        style="width: 100%" id="progressRestore">100</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- End #main -->
+    <!-- ======= Footer ======= -->
+    <footer id="footer" class="footer">
+        <div class="copyright">
+            © Copyright <strong><span>iothost.org</span></strong>. All Rights Reserved
+            <strong><span>v1.0.0</span></strong>
+        </div>
+        <div class="credits">
+            Designed by <a href="https://iothost.org/">IOTHost</a>
+        </div>
+    </footer>
+    <!-- End Footer -->
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+            class="bi bi-arrow-up-short"></i></a>
+    <!-- Vendor JS Files -->
+    <script src="assets/js/bundle.min.js"></script>
+    <!-- Template Main JS File -->
+    <script src="assets/js/main.js"></script>
+    <!-- Other JS File -->
+    <script src="assets/js/sweetalert.js"></script>
+    <!-- Personal JS File -->
+    <script src="assets/js/app.js" type="module"></script>
+</body>
+
+</html>

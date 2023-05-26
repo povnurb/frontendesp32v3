@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>HOME | ESP32 Admin Tool v3</title>
+  <meta content="ESP32 Admin tool v3.0" name="description">
+  <meta content="Html Admin Panel for ESP32 configurations" name="keywords">
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
+  <!-- Vendor CSS Files -->
+  <link href="assets/css/bootstrap.css" rel="stylesheet">
+  <link href="assets/css/icons.css" rel="stylesheet">
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+  <!-- =======================================================
+  * Template Name: ESP32 Admin Tool - v3.0.0
+  * Author: iothost.org
+  ======================================================== -->
+</head>
+
+<body>
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="/" class="logo d-flex align-items-center">
+        <img src="assets/img/logo.png" alt="">
+        <span class="d-none d-lg-block">ESP32Admin v3</span>
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div>
+    <!-- End Logo -->
+    <!-- End señal wifi -->
+    <nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center">
+        <li class="nav-item dropdown">
+          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+            <i class="bi bi-wifi text-success" data-bs-toggle="tooltip" data-bs-placement="bottom"
+              data-bs-original-title="Conexión WiFi" id="wifiStatus"></i>
+          </a><!-- End wifi Icon -->
+        </li><!-- End wifi Nav -->
+        <li class="nav-item dropdown">
+          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+            <i class="bi bi-reception-4 text-success" data-bs-toggle="tooltip" data-bs-placement="bottom"
+              data-bs-original-title="WIFI RSSI" id="rssiStatus"></i>
+          </a><!-- End signal Icon -->
+        </li><!-- End signal Nav -->
+        <li class="nav-item dropdown">
+          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+            <i class="bi bi-cloudy-fill text-success" data-bs-toggle="tooltip" data-bs-placement="bottom"
+              data-bs-original-title="Conexión MQTT" id="mqttStatus"></i>
+          </a><!-- End mqtt Icon -->
+        </li><!-- End mqtt Nav -->
+        <li class="nav-item dropdown pe-3">
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <span class="d-none d-md-block dropdown-toggle ps-2">Admin</span>
+          </a><!-- End Profile Iamge Icon -->
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li class="dropdown-header">
+              <h6>Admin</h6>
+              <span>Administrador del sistema</span>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="esp-admin">
+                <i class="bi bi-person"></i>
+                <span>Perfil</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="esp-device">
+                <i class="bi bi-gear"></i>
+                <span>Configuración</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="https://electroniciot.com" target="_blank">
+                <i class="bi bi-question-circle"></i>
+                <span>Ayuda?</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="esp-logout">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Salir</span>
+              </a>
+            </li>
+          </ul><!-- End Profile Dropdown Items -->
+        </li><!-- End Profile Nav -->
+      </ul>
+    </nav><!-- End Icons Navigation -->
+  </header>
+  <!-- End Header -->
+  <!-- ======= Sidebar ======= -->
+  <aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+      <!-- automatico -->
+      <li class="nav-item"><a class=""><a class="nav-link" href="/"><i
+              class="bi bi-grid"></i><span>Dashboard</span></a></a></li>
+      <li class="nav-item"><span class="nav-link collapsed" data-bs-target="#Conexiones-nav"
+          data-bs-toggle="collapse"><i class="bi bi-bar-chart"></i><span>Conexiones</span><i
+            class="bi bi-chevron-down ms-auto"></i></span>
+        <ul class="nav-content collapse" data-bs-parent="#sidebar-nav" id="Conexiones-nav">
+          <li><a href="esp-wifi"><i class="bi bi-circle"></i><span>WiFi</span></a></li>
+          <li><a href="esp-mqtt"><i class="bi bi-circle"></i><span>MQTT</span></a></li>
+        </ul>
+      </li>
+      <li class="nav-item"><span class="nav-link collapsed" data-bs-target="#Dispositivo-nav"
+          data-bs-toggle="collapse"><i class="bi bi-sliders"></i><span>Dispositivo</span><i
+            class="bi bi-chevron-down ms-auto"></i></span>
+        <ul class="nav-content collapse" data-bs-parent="#sidebar-nav" id="Dispositivo-nav">
+          <li><a href="esp-restore"><i class="bi bi-circle"></i><span>Restaurar a fabrica</span></a></li>
+          <li><a href="esp-restart"><i class="bi bi-circle"></i><span>Reiniciar</span></a></li>
+          <li><a href="esp-device"><i class="bi bi-circle"></i><span>Firmware</span></a></li>
+        </ul>
+      </li>
+      <li class="nav-item"><a class="collapsed"><a class="nav-link" href="esp-admin"><i
+              class="bi bi-person"></i><span>Perfil</span></a></a></li>
+    </ul>
+  </aside>
+  <!-- End Sidebar-->
+  <main id="main" class="main">
+    <div class="pagetitle">
+      <!-- automatico -->
+      <h1>Dashboard</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Inicio</a></li>
+          <li class="breadcrumb-item">Información</li>
+          <li class="breadcrumb-item active">Dashboard</li>
+        </ol>
+      </nav>
+    </div>
+    <!-- End Page Title -->
+    <section class="section dashboard">
+      <div class="row">
+        <!-- Left side columns -->
+        <div class="col-lg-12">
+          <div class="row">
+            <!-- Serial Card -->
+            <div class="col-xxl-3 col-md-6" id="serialCard">
+              <!-- card automatica -->
+              <div class="card info-card sales-card">
+                <div class="card-body">
+                  <h5 class="card-title text-start">Serial</h5>
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center"><i
+                        class="bi bi-cpu"></i></div>
+                    <div class="ps-1">
+                      <h6 id="serial" class="text-start ps-0">ESP32DC15B80C703E</h6><span
+                        class="text-muted small pt-2 ps-0">Número de serie del equipo</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div><!-- End serial Card -->
+            <!-- dispositivo Card -->
+            <div class="col-xxl-3 col-md-6" id="deviceCard">
+              <!-- card automatica -->
+              <div class="card info-card revenue-card">
+                <div class="card-body">
+                  <h5 class="card-title text-start">Dispositivo</h5>
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center"><i
+                        class="bi bi-info-circle"></i></div>
+                    <div class="ps-1">
+                      <h6 id="device" class="text-start ps-0">ESP32</h6><span
+                        class="text-muted small pt-2 ps-0">Identificación del dispositivo</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div><!-- End dispositivo Card -->
+            <!-- reinicios Card -->
+            <div class="col-xxl-3 col-md-6" id="rebootsCard">
+              <!-- card automatica -->
+              <div class="card info-card customers-card">
+                <div class="card-body">
+                  <h5 class="card-title text-start">Reinicios</h5>
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center"><i
+                        class="bi bi-arrow-clockwise"></i></div>
+                    <div class="ps-1">
+                      <h6 id="reboots" class="text-start ps-0">47</h6><span class="text-muted small pt-2 ps-0">Conteo de
+                        reinicios</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div><!-- End reinicios Card -->
+            <!-- activo Card -->
+            <div class="col-xxl-3 col-md-6" id="cardTimeActive">
+              <!-- card automatica -->
+              <div class="card info-card customers-card">
+                <div class="card-body">
+                  <h5 class="card-title text-start">Tiempo Activo</h5>
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center"><i
+                        class="bi bi-clock-history"></i></div>
+                    <div class="ps-1">
+                      <h6 id="activeTime" class="text-start ps-0">0:00:00:09</h6><span
+                        class="text-muted small pt-2 ps-0">Tiempo de actividad (D:H:M:S)</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div><!-- End activo Card -->
+            <!-- Inalambrico -->
+            <div class="col-lg-4 col-sm-12" id="wirelessCard">
+              <!-- Automatico -->
+              <div class="card">
+                <div class="filter"><a class="icon show" href="#" data-bs-toggle="dropdown"><i
+                      class="bi bi-three-dots"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>WIFI</h6>
+                    </li>
+                    <li class="dropdown-item"><a class="dropdown-item" href="esp-wifi">Configurar</a></li>
+                  </ul>
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">Inalámbrico<span> | Conexión</span></h5>
+                  <div class="table-responsive">
+                    <table class="table table-borderless datatable align-middle">
+                      <tbody id="wifiTable">
+                        <tr>
+                          <th scope="row">Estado WiFi:</th>
+                          <td>ONLINE</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">SSID WiFi:</th>
+                          <td>iotmaster</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">IPv4 WiFi:</th>
+                          <td>192.168.20.150</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">MAC WiFi:</th>
+                          <td>0C:B8:15:DC:3E:70</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div><!-- End Inalambrico -->
+            <!-- Broker mqtt -->
+            <div class="col-lg-4 col-sm-12" id="brokerCard">
+              <!-- Automatico -->
+              <div class="card">
+                <div class="filter"><a class="icon show" href="#" data-bs-toggle="dropdown"><i
+                      class="bi bi-three-dots"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>MQTT</h6>
+                    </li>
+                    <li class="dropdown-item"><a class="dropdown-item" href="esp-mqtt">Configurar</a></li>
+                  </ul>
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">Broker MQTT<span> | Conexión</span></h5>
+                  <div class="table-responsive">
+                    <table class="table table-borderless datatable align-middle">
+                      <tbody id="brokerTable">
+                        <tr>
+                          <th scope="row">Estado MQTT:</th>
+                          <td>ONLINE</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Servidor MQTT:</th>
+                          <td>iothost.org</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Usuario MQTT:</th>
+                          <td>emqx</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Cliente ID MQTT:</th>
+                          <td>ESP32DC15B80C703E</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div><!-- End Broker mqtt -->
+            <!-- Relays mqtt -->
+            <div class="col-lg-4 col-sm-12" id="relaysCard">
+              <!-- automatico -->
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Control de Relays <span>ON/OFF <i class="bi bi-toggles"></i></span></h5>
+                  <div class="row text-center">
+                    <div class="col-md-12 pb-2 mb-2">
+                      <li class="list-group-item d-flex align-items-center justify-content-between">
+                        <h4 class="mt-3"><span class="badge border-primary border-1 text-secondary">RELAY01 <i
+                              class="bi bi-alt"></i></span></h4>
+                        <div
+                          class="form-check form-switch card-icon rounded-circle d-flex align-items-center justify-content-center">
+                          <input id="RELAY01" class="form-check-input" type="checkbox" checked=""></div>
+                        <div class="card-icon rounded-circle d-flex align-items-center"><i id="RELAY01_Status"
+                            class="bi bi-lightbulb-fill text-warning"></i></div>
+                      </li>
+                    </div>
+                    <div class="col-md-12 pb-2 mb-2">
+                      <li class="list-group-item d-flex align-items-center justify-content-between">
+                        <h4 class="mt-3"><span class="badge border-primary border-1 text-secondary">SALIDA02 <i
+                              class="bi bi-option"></i></span></h4>
+                        <div
+                          class="form-check form-switch card-icon rounded-circle d-flex align-items-center justify-content-center">
+                          <input id="SALIDA02" class="form-check-input" type="checkbox"></div>
+                        <div class="card-icon rounded-circle d-flex align-items-center"><i id="SALIDA02_Status"
+                            class="bi bi-lightbulb-fill text-danger"></i></div>
+                      </li>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div><!-- End Relays mqtt -->
+            <!-- informacion general -->
+            <div class="col-lg-8 col-sm-12" id="infoCard">
+              <!-- Automatico -->
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Información General<span> | Dispositivo</span></h5>
+                  <div class="table-responsive">
+                    <table class="table table-borderless datatable align-middle">
+                      <tbody id="infoTable">
+                        <tr>
+                          <th scope="row">Identificación:</th>
+                          <td>espdcbce</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Número de Serie:</th>
+                          <td>ESP32DC15B80C703E</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">mDNS Url:</th>
+                          <td>http://espdcbce.local/</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Dirección IP del Cliente:</th>
+                          <td>192.168.20.170</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Navegador del Cliente:</th>
+                          <td>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)
+                            Chrome/110.0.0.0 Safari/537.36</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Versión del Firmware:</th>
+                          <td>ESP32_3.0.a0-Build-20230212</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Versión del Hardware:</th>
+                          <td>ADMINESP32 v1 00000000</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">CPU FREQ MHz:</th>
+                          <td>240</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">RAM SIZE KB:</th>
+                          <td>304</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">SPIFFS SIZE KB:</th>
+                          <td>14</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">FLASH SIZE MB:</th>
+                          <td>4</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Fabricante:</th>
+                          <td>IOTHOST</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Tiempo de Actividad del Sistema:</th>
+                          <td>0:00:00:09</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Cantidad de Reinicios:</th>
+                          <td>47</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div><!-- End informacion general -->
+            <!-- Estados -->
+            <div class="col-lg-4 col-sm-12">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Estados <span>| WIFI/SPIFFS/RAM/CPU</span></h5>
+                  <div class="row text-center">
+                    <div class="col-md-12 pb-2">
+                      <div class="card info-card revenue-card">
+                        <div class="card-body">
+                          <h5 class="card-title text-start">Calidad red WiFi:</h5>
+                          <li class="list-group-item align-items-center justify-content-between" id="liWiFi">
+                            <!-- progress automatico -->
+                            <div class="progress" style="height: 25px">
+                              <div id="wifiQuality" class="progress-bar bg-secondary" style="width: 100%"><strong><span
+                                    id="wifiQualitySpan" class="text-white" style="font-size: 20px">100%</span></strong>
+                              </div>
+                            </div>
+                          </li>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-12 pb-2">
+                      <div class="card info-card revenue-card">
+                        <div class="card-body">
+                          <h5 class="card-title text-start">SPIFFS Usada:</h5>
+                          <li class="list-group-item align-items-center justify-content-between" id="liSpiffs">
+                            <!-- progress automatico -->
+                            <div class="progress" style="height: 25px">
+                              <div id="spiffsUsed" class="progress-bar bg-primary" style="width: 7.14%"><strong><span
+                                    id="spiffsUsedSpan" class="text-white" style="font-size: 20px">7.14%</span></strong>
+                              </div>
+                            </div>
+                          </li>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-12 pb-2">
+                      <div class="card info-card revenue-card">
+                        <div class="card-body">
+                          <h5 class="card-title text-start">RAM Disponible:</h5>
+                          <li class="list-group-item align-items-center justify-content-between" id="liRam">
+                            <!-- progress automatico -->
+                            <div class="progress" style="height: 25px">
+                              <div id="ramAvailable" class="progress-bar bg-success" style="width: 60.53%"><strong><span
+                                    id="ramAvailableSpan" class="text-white"
+                                    style="font-size: 20px">60.53%</span></strong></div>
+                            </div>
+                          </li>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-12 pb-2" id="tempCard">
+                      <!-- card automatica -->
+                      <div class="card info-card revenue-card">
+                        <div class="card-body">
+                          <h5 class="card-title text-start">Temperatura del CPU</h5>
+                          <div class="d-flex align-items-center">
+                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center"><i
+                                class="bi bi-thermometer-half"></i></div>
+                            <div class="ps-1">
+                              <h6 id="cpuTemp" class="text-start ps-0">66.11</h6><span
+                                class="text-muted small pt-2 ps-0">Temperatura interna (°C)</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div><!-- End  estados -->
+          </div>
+        </div><!-- End Left side columns -->
+      </div>
+    </section>
+  </main>
+  <!-- End #main -->
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="copyright">
+      © Copyright <strong><span>iotmx.com</span></strong>. All Rights Reserved <strong><span>v1.0.0</span></strong>
+    </div>
+    <div class="credits">
+      Designed by <a href="https://iotmx.org/">IOTMX.COM</a>
+    </div>
+  </footer>
+  <!-- End Footer -->
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
+  <!-- Vendor JS Files -->
+  <script src="assets/js/bundle.min.js"></script>
+
+  <!-- Personal JS File -->
+  <script src="assets/js/app.js" type="module"></script>  
+</body>
+</html>
