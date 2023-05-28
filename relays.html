@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>RELAYS | ESP32 Admin Tool v3</title>
+  <meta content="ESP32 Admin tool v3.0" name="description">
+  <meta content="Html Admin Panel for ESP32 configurations" name="keywords">
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
+  <!-- Vendor CSS Files -->
+  <link href="assets/css/bootstrap.css" rel="stylesheet">
+  <link href="assets/css/icons.css" rel="stylesheet">
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/social.css" /> <!--Agregado-->
+  <!-- =======================================================
+  * Template Name: ESP32 Admin Tool - v3.0.0
+  * Author: iothost.org
+  * Modificado: povnurb@hotmail.com, iotmx.com
+  ======================================================== -->
+</head>
+
+<body>
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="/" class="logo d-flex align-items-center">
+        <img src="assets/img/logo.png" alt="">
+        <span class="d-none d-lg-block">ESP32Admin v3</span>
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div>
+    <!-- End Logo -->
+    <nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center">
+        <li class="nav-item dropdown">
+          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+            <i class="bi bi-wifi text-success" data-bs-toggle="tooltip" data-bs-placement="bottom"
+              data-bs-original-title="Conexión WiFi" id="wifiStatus"></i>
+          </a><!-- End wifi Icon -->
+        </li><!-- End wifi Nav -->
+        <li class="nav-item dropdown">
+          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+            <i class="bi bi-reception-4 text-success" data-bs-toggle="tooltip" data-bs-placement="bottom"
+              data-bs-original-title="WIFI RSSI" id="rssiStatus"></i>
+          </a><!-- End signal Icon -->
+        </li><!-- End signal Nav -->
+        <li class="nav-item dropdown">
+          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+            <i class="bi bi-cloudy-fill text-success" data-bs-toggle="tooltip" data-bs-placement="bottom"
+              data-bs-original-title="Conexión MQTT" id="mqttStatus"></i>
+          </a><!-- End mqtt Icon -->
+        </li><!-- End mqtt Nav -->
+        <li class="nav-item dropdown pe-3">
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <span class="d-none d-md-block dropdown-toggle ps-2">Admin</span>
+          </a><!-- End Profile Iamge Icon -->
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li class="dropdown-header">
+              <h6>Admin</h6>
+              <span>Administrador del sistema</span>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="esp-admin">
+                <i class="bi bi-person"></i>
+                <span>Perfil</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="esp-device">
+                <i class="bi bi-gear"></i>
+                <span>Configuración</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="https://electroniciot.com" target="_blank">
+                <i class="bi bi-question-circle"></i>
+                <span>Ayuda?</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="esp-logout">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Salir</span>
+              </a>
+            </li>
+          </ul><!-- End Profile Dropdown Items -->
+        </li><!-- End Profile Nav -->
+      </ul>
+    </nav><!-- End Icons Navigation -->
+  </header>
+  <!-- End Header -->
+  <!-- ======= Sidebar ======= -->
+  <aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+      <!-- automatico -->
+      <li class="nav-item"><a class=""><a class="nav-link" href="/"><i
+              class="bi bi-grid"></i><span>Dashboard</span></a></a></li>
+      <li class="nav-item"><span class="nav-link collapsed" data-bs-target="#Perifericos-nav"
+          data-bs-toggle="collapse"><i class="bi bi-bar-chart"></i><span>Perifericos</span><i
+            class="bi bi-chevron-down ms-auto"></i></span>
+        <ul class="nav-content collapse" data-bs-parent="#sidebar-nav" id="Perifericos-nav">
+          <li><a href="esp-alarmas"><i class="bi bi-circle"></i><span>ALARMAS</span></a></li>
+          <li><a href="esp-relays"><i class="bi bi-circle"></i><span>RELAYS</span></a></li>
+        </ul>
+      </li>
+      <li class="nav-item"><span class="nav-link collapsed" data-bs-target="#Conexiones-nav"
+          data-bs-toggle="collapse"><i class="bi bi-bar-chart"></i><span>Conexiones</span><i
+            class="bi bi-chevron-down ms-auto"></i></span>
+        <ul class="nav-content collapse" data-bs-parent="#sidebar-nav" id="Conexiones-nav">
+          <li><a href="esp-wifi"><i class="bi bi-circle"></i><span>WiFi</span></a></li>
+          <li><a href="esp-mqtt"><i class="bi bi-circle"></i><span>MQTT</span></a></li>
+        </ul>
+      </li>
+      <li class="nav-item"><span class="nav-link collapsed" data-bs-target="#Dispositivo-nav"
+          data-bs-toggle="collapse"><i class="bi bi-sliders"></i><span>Dispositivo</span><i
+            class="bi bi-chevron-down ms-auto"></i></span>
+        <ul class="nav-content collapse" data-bs-parent="#sidebar-nav" id="Dispositivo-nav">
+          <li><a href="esp-restore"><i class="bi bi-circle"></i><span>Restaurar a fabrica</span></a></li>
+          <li><a href="esp-restart"><i class="bi bi-circle"></i><span>Reiniciar</span></a></li>
+          <li><a href="esp-device"><i class="bi bi-circle"></i><span>Firmware</span></a></li>
+        </ul>
+      </li>
+      <li class="nav-item"><a class="collapsed"><a class="nav-link" href="esp-admin"><i
+              class="bi bi-person"></i><span>Perfil</span></a></a></li>
+    </ul>
+  </aside>
+  <!-- End Sidebar-->
+  <main id="main" class="main">
+  
+    <div class="pagetitle">
+        <!-- automatico -->
+        <h1>Configuración de los Relays</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Inicio</a></li>
+            <li class="breadcrumb-item">Perifericos</li>
+            <li class="breadcrumb-item active">Relays</li>
+          </ol>
+        </nav>
+      </div>
+      <!-- End Page Title -->
+      <section class="section">
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="card">
+              <div class="card-header">Configuración del Relay1 (D33) <i id="RELAY01_Status"
+                class="bi bi-lightbulb-fill text-warning"></i></div>
+              <div class="card-body">
+                <!-- General Form Elements -->
+                <!--
+                    strlcpy(R_NAME2, "RELAY2", sizeof(R_NAME2));  //variables de tipo char primero se define la variable (R_NAME2)
+                    R_STATUS1 = false; 
+                    R_STATUS2 = false; 
+                    R_LOGIC2 = true;   //verificar si no es true ------------------------------------------
+                    R_DESCRIPTION2 = "control D15";
+                    R_TIMERON2=false;         //indica si se activa el timer del relevador2
+                    R_TIMER2
+                    TEMPORIZADOR2=false;      //indica si hay un control por hirario
+                    TIMEONRELAY2="00:00";       //indica a que horas se prende
+                    TIMEOFFRELAY2="00:00";      //indica a que horas se apaga
+                  -->
+                <form id="form1">
+                  <div id="switchModeTimer1">
+                    <!-- auto - switch mode relay1 -->
+                    <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label" for="R_LOGIC1">Modo Relay1</label>
+                      <div class="col-sm-8 mt-2">
+                        <div class="form-check form-switch"><input class="form-check-input Relay1" type="checkbox"
+                            id="R_LOGIC1" name="R_LOGIC1" checked=""><label class="form-check-label switch_R_LOGIC1"
+                            for="R_LOGIC1">Logica {{positiva-negativa}}</label></div>
+                      </div>
+                    </div>
+                  </div>
+                  <hr>
+                  <div id="inputRelayName1">
+                    <!-- auto - input nombre -->
+                    <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label mt-2" for="R_NAME1">Nombre: </label>
+                      <div class="col-sm-8 mt-2"><input class="form-control Relay1 client" type="text"
+                          placeholder="Nombre del relay1" id="R_NAME1" name="R_NAME1" value="R_NAME1"></div>
+                    </div>
+                  </div>
+                  <div id="inputDescripcion1">
+                    <!-- auto - input descripción -->
+                    <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label mt-2" for="R_DESCRIPTION1">Descripcion:</label>
+                      <div class="col-sm-8 mt-2"><input class="form-control Relay1 client" type="text"
+                          placeholder="Ejemplo: Abre puerta principal" id="R_DESCRIPTION1" name="R_DESCRIPTION1" value="R_DESCRIPTION1"></div>
+                    </div>
+                  </div>
+                  <div class="row mb-3 mt-3">
+                    <!-- Accordion configuración  -->
+                    <div class="accordion accordion-flush" id="accordionCliente">
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="flush-Cliente">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapseCliente" aria-expanded="false"
+                            aria-controls="flush-collapseCliente">
+                            Opciones avanzadas 
+                          </button>
+                        </h2>
+                        <div id="flush-collapseCliente" class="accordion-collapse collapse"
+                          aria-labelledby="flush-Cliente" data-bs-parent="#accordionCliente">
+                          <div class="accordion-body">
+                            <div id="switchTimer1">
+                              <!-- auto - switch Timer -->
+                              <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label"
+                                  for="R_TIMERON1">Timer</label>
+                                <div class="col-sm-8 mt-2">
+                                  <div class="form-check form-switch"><input class="form-check-input Relay1 client"
+                                      type="checkbox" id="R_TIMERON1" name="R_TIMERON1"><label
+                                      class="form-check-label switch_R_TIMERON1" for="R_TIMERON1">{{Ativado-Desactivado}}</label></div>
+                                </div>
+                              </div>
+                            </div>
+                            <div id="inputR_TIMER1">
+                              <!-- Tiempo de duracion del relay -->
+                              <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label mt-2"
+                                  for="R_TIMER1">Tiempo en segundos</label>
+                                <div class="col-sm-8 mt-2"><input class="form-control Relay1 client ip" type="number"
+                                    placeholder="0" id="R_TIMER1" name="R_TIMER1" value="0" min="0"
+                                    disabled=""></div>
+                              </div>
+                            </div>
+                            <div id="switchTEMPORIZADOR1">
+                              <!-- auto - switch Temporizador -->
+                              <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label"
+                                  for="TEMPORIZADOR1">Temporizador</label>
+                                <div class="col-sm-8 mt-2">
+                                  <div class="form-check form-switch"><input class="form-check-input Relay1 client"
+                                      type="checkbox" id="TEMPORIZADOR1" name="TEMPORIZADOR1"><label
+                                      class="form-check-label switch_TEMPORIZADOR1" for="TEMPORIZADOR1">{{Ativado-Desactivado}}</label></div>
+                                </div>
+                              </div>
+                            </div>
+                            <div id="inputTIMEONRELAY1">
+                              <!-- Tiempo de duracion del relay -->
+                              <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label mt-2"
+                                  for="TIMEONRELAY1">Hr. de {{encendido-apagado}}</label>
+                                <div class="col-sm-8 mt-2"><input class="form-control Relay1 client ip" type="text"
+                                    placeholder="00:00" id="TIMEONRELAY1" name="TIMEONRELAY1" 
+                                    disabled=""></div>
+                              </div>
+                            </div>
+                            <div id="inputTIMEOFFRELAY1">
+                              <!-- Tiempo de duracion del relay -->
+                              <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label mt-2"
+                                  for="TIMEOFFRELAY1">Hr. de {{apagado-encendido}}</label>
+                                <div class="col-sm-8 mt-2"><input class="form-control Relay1 client ip" type="text"
+                                    placeholder="00:00" id="TIMEOFFRELAY1" name="TIMEOFFRELAY1" 
+                                    disabled=""></div>
+                              </div>
+                            </div>
+                            
+                          </div>
+                        </div>
+                      </div>
+                    </div><!-- End Accordion configuración  -->
+                  </div>
+                  
+                </form><!-- End General Form Elements -->
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="card">
+              <div class="card-header">Configuración del Relay2 (D15) <i id="RELAY02_Status"
+                class="bi bi-lightbulb-fill text-danger"></i></div>
+              <div class="card-body">
+                <!-- General Form Elements -->
+                <form id="form2">
+                    <div id="switchModeTimer2">
+                        <!-- auto - switch mode relay2 -->
+                        <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label" for="R_LOGIC2">Modo Relay2</label>
+                          <div class="col-sm-8 mt-2">
+                            <div class="form-check form-switch"><input class="form-check-input Relay2" type="checkbox"
+                                id="R_LOGIC2" name="R_LOGIC2" checked=""><label class="form-check-label switch_R_LOGIC2"
+                                for="R_LOGIC2">Logica {{positiva-negativa}}</label></div>
+                          </div>
+                        </div>
+                      </div>
+                      <hr>
+                      <div id="inputRelayName2">
+                        <!-- auto - input nombre -->
+                        <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label mt-2" for="R_NAME2">Nombre: </label>
+                          <div class="col-sm-8 mt-2"><input class="form-control Relay2 client" type="text"
+                              placeholder="Nombre del relay2" id="R_NAME2" name="R_NAME2" value="R_NAME2"></div>
+                        </div>
+                      </div>
+                      <div id="inputDescripcion2">
+                        <!-- auto - input descripción -->
+                        <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label mt-2" for="R_DESCRIPTION2">Descripcion:</label>
+                          <div class="col-sm-8 mt-2"><input class="form-control Relay2 client" type="text"
+                              placeholder="Ejemplo: Abre puerta principal" id="R_DESCRIPTION2" name="R_DESCRIPTION2" value="R_DESCRIPTION2"></div>
+                        </div>
+                      </div>
+                      <div class="row mb-3 mt-3">
+                        <!-- Accordion configuración  -->
+                        <div class="accordion accordion-flush" id="accordionCliente">
+                          <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-Cliente">
+                              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#flush-collapseCliente" aria-expanded="false"
+                                aria-controls="flush-collapseCliente">
+                                Opciones avanzadas 
+                              </button>
+                            </h2>
+                            <div id="flush-collapseCliente" class="accordion-collapse collapse"
+                              aria-labelledby="flush-Cliente" data-bs-parent="#accordionCliente">
+                              <div class="accordion-body">
+                                <div id="switchTimer2">
+                                  <!-- auto - switch Timer -->
+                                  <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label"
+                                      for="R_TIMERON2">Timer</label>
+                                    <div class="col-sm-8 mt-2">
+                                      <div class="form-check form-switch"><input class="form-check-input Relay2 client"
+                                          type="checkbox" id="R_TIMERON2" name="R_TIMERON2"><label
+                                          class="form-check-label switch_R_TIMERON2" for="R_TIMERON2">{{Ativado-Desactivado}}</label></div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div id="inputR_TIMER2">
+                                  <!-- Tiempo de duracion del relay -->
+                                  <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label mt-2"
+                                      for="R_TIMER2">Tiempo en segundos</label>
+                                    <div class="col-sm-8 mt-2"><input class="form-control Relay2 client ip" type="number"
+                                        placeholder="0" id="R_TIMER2" name="R_TIMER2" value="0" min="0"
+                                        disabled=""></div>
+                                  </div>
+                                </div>
+                                <div id="switchTEMPORIZADOR2">
+                                  <!-- auto - switch Temporizador -->
+                                  <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label"
+                                      for="TEMPORIZADOR2">Temporizador</label>
+                                    <div class="col-sm-8 mt-2">
+                                      <div class="form-check form-switch"><input class="form-check-input Relay2 client"
+                                          type="checkbox" id="TEMPORIZADOR2" name="TEMPORIZADOR2"><label
+                                          class="form-check-label switch_TEMPORIZADOR2" for="TEMPORIZADOR2">{{Ativado-Desactivado}}</label></div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div id="inputTIMEONRELAY2">
+                                  <!-- Tiempo de duracion del relay -->
+                                  <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label mt-2"
+                                      for="TIMEONRELAY2">Hr. de {{encendido-apagado}}</label>
+                                    <div class="col-sm-8 mt-2"><input class="form-control Relay2 client ip" type="text"
+                                        placeholder="00:00" id="TIMEONRELAY2" name="TIMEONRELAY2" 
+                                        disabled=""></div>
+                                  </div>
+                                </div>
+                                <div id="inputTIMEOFFRELAY2">
+                                  <!-- Tiempo de duracion del relay -->
+                                  <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label mt-2"
+                                      for="TIMEOFFRELAY2">Hr. de {{apagado-encendido}}</label>
+                                    <div class="col-sm-8 mt-2"><input class="form-control Relay2 client ip" type="text"
+                                        placeholder="00:00" id="TIMEOFFRELAY2" name="TIMEOFFRELAY2" 
+                                        disabled=""></div>
+                                  </div>
+                                </div>
+                                
+                              </div>
+                            </div>
+                          </div>
+                        </div><!-- End Accordion configuración  -->
+                      </div>
+
+                </form><!-- End General Form Elements -->
+                
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-6">
+            <p class="text-uppercase fs-sm fw-bold text-center mt-2 mb-4">
+                BUZZER
+            </p>
+            <a class="block block-rounded block-link-pop bg-xinspire-darker" href="">
+                <div class="block-content block-content-full d-flex align-items-center justify-content-between">
+                    <div class="me-3">
+                    <p class="text-white-75 mb-0">
+                        Activa el zumbador en la tarjeta
+                    </p>
+                    </div>
+                    <div class="item">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" v-model="action.RELAY_STATUS" @click="relayOnOff">
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="row mb-3" id="btnSendRelay1">
+  
+            <!-- <div class="col-sm-10">
+              <button type="submit" class="btn btn-primary">Enviar</button>
+            </div> -->
+
+            <div class="col-sm-10"><button class="btn btn-primary" id="submitRelay1" type="submit">Enviar</button>
+            </div>
+          </div>
+      </section>
+  </main>
+  <!-- End #main -->
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="copyright">
+      © Copyright <strong><span>iotmx.com</span></strong>. All Rights Reserved <strong><span>v1.0.0</span></strong>
+    </div>
+    <div class="credits">
+      Designed by <a href="https://iotmx.org/">IOTMX.COM</a>
+    </div>
+  </footer>
+  <!-- End Footer -->
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
+  <!-- Vendor JS Files -->
+  <script src="assets/js/bundle.min.js"></script>
+
+  <!-- Personal JS File -->
+  <script src="assets/js/app.js" type="module"></script>  
+</body>
+</html>

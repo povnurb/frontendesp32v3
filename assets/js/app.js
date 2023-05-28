@@ -1,3 +1,20 @@
+"use strict";
+
+import {url, createHeader} from './scripts.js'
+
+console.log(url);
+
+// 3:"/index.html" o '/'  'esp-admin'
+switch (url[3]) {
+    case '/':
+        createHeader();
+        break;
+    case '/index.html':
+        createHeader();
+        break;
+    default:
+        break;
+}
 
 
 
@@ -6,6 +23,33 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//-------------------------------------------------------------------------
 
 /**
  * Easy selector helper function

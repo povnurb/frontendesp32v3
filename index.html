@@ -28,93 +28,23 @@
 
 <body>
   <!-- ======= Header ======= -->
-  <header id="header" class="header fixed-top d-flex align-items-center">
-    <div class="d-flex align-items-center justify-content-between">
-      <a href="/" class="logo d-flex align-items-center">
-        <img src="assets/img/logo.png" alt="">
-        <span class="d-none d-lg-block">ESP32Admin v3</span>
-      </a>
-      <i class="bi bi-list toggle-sidebar-btn"></i>
-    </div>
-    <!-- End Logo -->
-    <!-- End señal wifi -->
-    <nav class="header-nav ms-auto">
-      <ul class="d-flex align-items-center">
-        <li class="nav-item dropdown">
-          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-            <i class="bi bi-wifi text-success" data-bs-toggle="tooltip" data-bs-placement="bottom"
-              data-bs-original-title="Conexión WiFi" id="wifiStatus"></i>
-          </a><!-- End wifi Icon -->
-        </li><!-- End wifi Nav -->
-        <li class="nav-item dropdown">
-          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-            <i class="bi bi-reception-4 text-success" data-bs-toggle="tooltip" data-bs-placement="bottom"
-              data-bs-original-title="WIFI RSSI" id="rssiStatus"></i>
-          </a><!-- End signal Icon -->
-        </li><!-- End signal Nav -->
-        <li class="nav-item dropdown">
-          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-            <i class="bi bi-cloudy-fill text-success" data-bs-toggle="tooltip" data-bs-placement="bottom"
-              data-bs-original-title="Conexión MQTT" id="mqttStatus"></i>
-          </a><!-- End mqtt Icon -->
-        </li><!-- End mqtt Nav -->
-        <li class="nav-item dropdown pe-3">
-          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <span class="d-none d-md-block dropdown-toggle ps-2">Admin</span>
-          </a><!-- End Profile Iamge Icon -->
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-            <li class="dropdown-header">
-              <h6>Admin</h6>
-              <span>Administrador del sistema</span>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="esp-admin">
-                <i class="bi bi-person"></i>
-                <span>Perfil</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="esp-device">
-                <i class="bi bi-gear"></i>
-                <span>Configuración</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="https://electroniciot.com" target="_blank">
-                <i class="bi bi-question-circle"></i>
-                <span>Ayuda?</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="esp-logout">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Salir</span>
-              </a>
-            </li>
-          </ul><!-- End Profile Dropdown Items -->
-        </li><!-- End Profile Nav -->
-      </ul>
-    </nav><!-- End Icons Navigation -->
-  </header>
+  <header id="header" class="header fixed-top d-flex align-items-center"><!--header automatico--></header>
   <!-- End Header -->
+  
   <!-- ======= Sidebar ======= -->
   <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
       <!-- automatico -->
       <li class="nav-item"><a class=""><a class="nav-link" href="/"><i
               class="bi bi-grid"></i><span>Dashboard</span></a></a></li>
+      <li class="nav-item"><span class="nav-link collapsed" data-bs-target="#Perifericos-nav"
+          data-bs-toggle="collapse"><i class="bi bi-bar-chart"></i><span>Perifericos</span><i
+            class="bi bi-chevron-down ms-auto"></i></span>
+        <ul class="nav-content collapse" data-bs-parent="#sidebar-nav" id="Perifericos-nav">
+          <li><a href="esp-alarmas"><i class="bi bi-circle"></i><span>ALARMAS</span></a></li>
+          <li><a href="esp-relays"><i class="bi bi-circle"></i><span>RELAYS</span></a></li>
+        </ul>
+      </li>
       <li class="nav-item"><span class="nav-link collapsed" data-bs-target="#Conexiones-nav"
           data-bs-toggle="collapse"><i class="bi bi-bar-chart"></i><span>Conexiones</span><i
             class="bi bi-chevron-down ms-auto"></i></span>
