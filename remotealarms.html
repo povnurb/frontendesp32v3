@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>ALARMAS REMOTAS | ESP32 Admin Tool v3</title>
+  <meta content="ESP32 Admin tool v3.0" name="description">
+  <meta content="Html Admin Panel for ESP32 configurations" name="keywords">
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
+  <!-- Vendor CSS Files -->
+  <link href="assets/css/bootstrap.css" rel="stylesheet">
+  <link href="assets/css/icons.css" rel="stylesheet">
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/social.css" /> <!--Agregado-->
+  <!-- =======================================================
+  * Template Name: ESP32 Admin Tool - v3.0.0
+  * Author: iothost.org
+  * Modificado: povnurb@hotmail.com, iotmx.com
+  ======================================================== -->
+</head>
+
+<body>
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center"><!--header automatico--></header>
+  <!-- End Header -->
+  
+  <!-- ======= Sidebar ======= -->
+  <aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+      <!-- automatico -->
+      <li class="nav-item"><a class=""><a class="nav-link" href="/"><i
+              class="bi bi-grid"></i><span>Dashboard</span></a></a></li>
+      <li class="nav-item"><span class="nav-link collapsed" data-bs-target="#Perifericos-nav"
+          data-bs-toggle="collapse"><i class="bi bi-bar-chart"></i><span>Periféricos</span><i
+            class="bi bi-chevron-down ms-auto"></i></span>
+        <ul class="nav-content collapse" data-bs-parent="#sidebar-nav" id="Perifericos-nav">
+          <li><a href="esp-alarmas"><i class="bi bi-circle"></i><span>ALARMAS</span></a></li>
+          <li><a href="esp-relays"><i class="bi bi-circle"></i><span>RELAYS</span></a></li>
+          <li><a href="esp-relays"><i class="bi bi-circle"></i><span>EXPANCIONES</span></a></li>
+        </ul>
+      </li>
+      <li class="nav-item"><span class="nav-link collapsed" data-bs-target="#Conexiones-nav"
+          data-bs-toggle="collapse"><i class="bi bi-bar-chart"></i><span>Conexiones</span><i
+            class="bi bi-chevron-down ms-auto"></i></span>
+        <ul class="nav-content collapse" data-bs-parent="#sidebar-nav" id="Conexiones-nav">
+          <li><a href="esp-wifi"><i class="bi bi-circle"></i><span>WiFi</span></a></li>
+          <li><a href="esp-mqtt"><i class="bi bi-circle"></i><span>MQTT</span></a></li>
+          <li><a href="esp-remotealarms"><i class="bi bi-circle"></i><span>Alarmas Remotas</span></a></li>
+        </ul>
+      </li>
+      <li class="nav-item"><span class="nav-link collapsed" data-bs-target="#Dispositivo-nav"
+          data-bs-toggle="collapse"><i class="bi bi-sliders"></i><span>Dispositivo</span><i
+            class="bi bi-chevron-down ms-auto"></i></span>
+        <ul class="nav-content collapse" data-bs-parent="#sidebar-nav" id="Dispositivo-nav">
+          <li><a href="esp-restore"><i class="bi bi-circle"></i><span>Restaurar a fabrica</span></a></li>
+          <li><a href="esp-restart"><i class="bi bi-circle"></i><span>Reiniciar</span></a></li>
+          <li><a href="esp-device"><i class="bi bi-circle"></i><span>Firmware</span></a></li>
+        </ul>
+      </li>
+      <li class="nav-item"><a class="collapsed"><a class="nav-link" href="esp-admin"><i
+              class="bi bi-person"></i><span>Perfil</span></a></a></li>
+    </ul>
+  </aside>
+  <!-- End Sidebar-->
+  <main id="main" class="main">
+    <div class="pagetitle">
+      <!-- automatico -->
+      <h1>ALARMAS REMOTAS</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Inicio</a></li>
+          <li class="breadcrumb-item">Información</li>
+          <li class="breadcrumb-item active">Alarmas Remotas</li>
+        </ol>
+      </nav>
+    </div>
+    <div class="container my-5">
+        <!-- Connection -->
+        <div class="card">
+          <h5 class="card-header">Configuration: <span class="badge text-info">{{connection.protocol+'://'+connection.host+':'+connection.port+connection.endpoint}}</span></h5>
+          <div class="card-body">
+            <form class="row g-3">
+              <div class="col-md-1">
+                <!--Definiremos el protocolo-->
+                <label for="protocol" class="form-label">Protocol</label>
+                <select id="protocol" class="form-select"
+                v-model="connection.protocol"
+                :disabled="client.connected"
+                @change="handleProtocolChange">
+                  <option label="ws://" value="ws"></option>
+                  <option label="wss://" value="wss"></option>
+                </select>
+              </div>
+    
+              <div class="col-md-3">
+                <label for="host" class="form-label">Host</label>
+                <input type="text" class="form-control" id="host"
+                v-model="connection.host" placeholder="iotmx.com"
+                :disabled="client.connected">
+              </div>
+    
+              <div class="col-md-2">
+                <label for="port" class="form-label">Port</label>
+                <input type="number" class="form-control" id="port" placeholder="7083/8074"
+                v-model="connection.port"
+                :disabled="client.connected">
+              </div>
+    
+              <div class="col-md-2">
+                <label for="endpoint" class="form-label">Mountpoint</label>
+                <input type="text" class="form-control" id="endpoint" placeholder="/mqtt"
+                v-model="connection.endpoint"
+                :disabled="client.connected">          
+              </div>
+    
+              <div class="col-md-4">
+                <label for="clientId" class="form-label">Client ID</label>
+                <input type="text" class="form-control" id="clientId"
+                v-model="connection.clientId"
+                :disabled="client.connected">  
+              </div>          
+                
+              <div class="col-md-4">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" id="username"
+                v-model="connection.username"
+                :disabled="client.connected"> 
+              </div>  
+                <!--<input type="password" id="wifi_password" class="form-control" placeholder="*****">-->
+              <div class="col-md-4">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password"
+                v-model="connection.password"
+                :disabled="client.connected">          
+              </div>
+    
+              <div class="col-md-4">
+                <label for="keepalive" class="form-label">Keep Alive</label>
+                <input type="number" class="form-control" id="keepalive" min="0"
+                v-model="connection.keepalive"
+                :disabled="client.connected">          
+              </div>
+    
+              <div class="col-4">
+                <div class="form-check">
+                    <input class="form-checkbox-input" type="checkbox" id="clean"
+                    v-model="connection.clean"
+                    :disabled="client.connected">
+                    <label for="clean" class="form-label"> Clean Session </label>
+                </div>
+              </div>
+    
+              <div class="col-md-4">
+                <button type="button" class="btn btn-primary btn-block"
+                :disabled="client.connected"
+                @click="createConnection"> 
+                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"
+                v-if="btnLoadingType === 'connect'"></span>
+                {{client.connected ? "Connected" : "Connect"}}
+                </button>             
+              </div>
+    
+              <div class="col-md-4">        
+                <button type="button" class="btn btn-danger btn-block" 
+                v-if="client.connected"
+                @click="destroyConnection">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                v-if="btnLoadingType === 'disconnect'"></span>
+                Disconnect
+                </button> 
+              </div>
+    
+            </form>
+          </div>
+        </div>
+        <!-- Susbcribe / Publish -->
+        <div class="row">
+          <div class="col-sm-12 col-lg-6">
+            <!-- Subscribe -->
+            <div class="card mt-4">
+              <h5 class="card-header">Subscribe</h5>
+              <div class="card-body">
+                <form class="row g-3">
+                  <div class="col-md-8">
+                    <label for="stopic" class="form-label">Topic</label>
+                    <input type="text" class="form-control" id="stopic"
+                    v-model="subscription.topic"
+                    :disabled="!client.connected || subscribeSuccess">
+                  </div>
+                  <div class="col-md-4">
+                    <label for="qos" class="form-label">QoS</label>
+                    <select id="qos" class="form-select"
+                    v-model="subscription.qos"
+                    :disabled="!client.connected || subscribeSuccess">
+                      <option v-for="qos in qosList" 
+                        :key="qos"
+                        :label="qos"  
+                        :value="qos">
+                      </option>
+                    </select>
+                  </div>
+                  <div class="col-12">
+                    <button type="button" class="btn btn-primary btn-block"
+                    :disabled="!client.connected || subscribeSuccess"
+                    @click="doSubscribe"> 
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" 
+                    v-if="btnLoadingType === 'subscribe'"></span>
+                    {{ subscribeSuccess ? "Subscribed" : "Subscribe" }}
+                  </button>             
+                  </div>
+                  <div class="col-12">        
+                    <button type="button" class="btn btn-warning btn-block"
+                    v-if="subscribeSuccess"
+                    :disabled="!client.connected"
+                    @click="doUnSubscribe"> 
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="btnLoadingType === 'unsubscribe'"></span>
+                    Unsubscribe
+                  </button> 
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-lg-6">
+            <!-- Publish -->
+            <div class="card mt-4">
+              <h5 class="card-header">Publish</h5>
+              <div class="card-body">
+                <form class="row g-3">
+                  <div class="col-md-12">
+                    <label for="ptopic" class="form-label">Topic</label>
+                    <input type="text" class="form-control" id="ptopic" 
+                    v-model="publish.topic"
+                    :disabled="!client.connected">
+                  </div>
+                  <div class="col-md-8">
+                    <label for="payload" class="form-label">Payload</label>
+                    <input type="text" class="form-control" id="payload"
+                    v-model="publish.payload"
+                    :disabled="!client.connected">
+                  </div>
+                  <div class="col-md-4">
+                    <label for="pqos" class="form-label">QoS</label>
+                    <select id="pqos" class="form-select"
+                    v-model="publish.qos"
+                    :disabled="!client.connected">
+                    <option v-for="qos in qosList" 
+                      :key="qos" 
+                      :label="qos" 
+                      :value="qos">
+                    </option>
+                    </select>
+                  </div>
+                  <div class="col-12">
+                    <button type="button" class="btn btn-primary btn-block"
+                    @click="doPublish"
+                    :disabled="!client.connected"> 
+                    Publish
+                    </button>             
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Receive -->
+        <div class="card mt-4">
+          <h5 class="card-header">Receive</h5>
+          <div class="card-body">
+            <div class="col-md-12 mb-3">
+                Message on topic: <span class="badge text-bg-primary"> {{receiveTopic}} </span>
+              </div>
+              <div class="col-md-12">
+                <textarea class="form-control" rows="10" cols="40" 
+                v-model="receiveNews"
+                :disabled="!client.connected"></textarea>
+              </div>
+          </div>
+        </div>
+      </div>
+    <!-- End Page Title -->
+    <section class="section dashboard" :hidden="!client.connected">
+      <!--Alarmas Inicio maquetado-->
+            <!--verde btn-success-->
+            <!--rojo btn-danger-->
+            <!--colores: bg-gd-sun, bg-gd-sea, bg-gd-aqua, bg-gd-fruit, bg-xeco-light, bg-xeco-dark, btn-success, bg-black-->
+            <div class="row items-push">
+                <div class="col-sm-4">
+                <div class="block block-rounded h-100 mb-0">
+                    <div class="block-header block-header-default">
+                    
+                    <div class="block-options">
+                        <div class="fs-1 fw-bold">50°C</div>
+                        <div class="text-muted mb-3">Temperatura CPU del dispositivo</div>
+                    </div>
+                    </div>
+                    
+                </div>
+                </div>
+                <div class="col-sm-4">
+                <div class="block block-rounded h-100 mb-0">
+                    <div class="block-header block-header-default">
+                    
+                    <div class="block-options">
+                        <div class="fs-1 fw-bold">24°C</div>
+                        <div class="text-muted mb-3">Temperatura Sala</div>
+                        Min. <span>21</span> ° C - <span class="text-danger">Max. </span><span class="text-danger">28</span><span class="text-danger">° C</span>
+                    </div>
+                    </div>
+                    
+                </div>
+                </div>
+                <div class="col-sm-4">
+                <div class="block block-rounded h-100 mb-0">
+                    <div class="block-header block-header-default">
+                    
+                    <div class="block-options">
+                        <div class="fs-1 fw-bold">68 %</div>
+                        <div class="text-muted mb-3">Humedad Sala</div>
+                    </div>
+                    </div>
+                    
+                </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div :class="alarm_class1" class="btn btn-block btn-social btn-success" id="ALARMA1" data-bs-toggle="modal" data-bs-target="#alarma1">
+                    <i>1</i>
+                    <div class=""id="na1">Nombre: {{ indicAlarm.ALARM_NAME1 }}</div>
+                    <div class="" id="ca1">Contador: {{ indicAlarm.ALARM_CONT1 }}</div> 
+                    <div class="" id="ta1_on" >Presente: {{ indicAlarmws.ALARM_TIMEON1 }}</div>
+                    <div class="" id="ta1_off">Clareada: {{ indicAlarmws.ALARM_TIMEOFF1 }}</div>
+                </div>
+                <div :class="alarm_class2" class="btn btn-block btn-social btn-success" id="ALARMA2" data-bs-toggle="modal" data-bs-target="#alarma2">
+                  <i>2</i>
+                  <div class=""id="na2">Nombre: {{ indicAlarm.ALARM_NAME2 }}</div>
+                  <div class="" id="ca2">Contador: {{ indicAlarm.ALARM_CONT2 }}</div> 
+                  <div class="" id="ta2_on" >Presente: {{ indicAlarmws.ALARM_TIMEON2 }}</div>
+                  <div class="" id="ta2_off">Clareada: {{ indicAlarmws.ALARM_TIMEOFF2 }}</div>
+                </div>
+                <div :class="alarm_class3" class="btn btn-block btn-social btn-success" id="ALARMA3" data-bs-toggle="modal" data-bs-target="#alarma3">
+                  <i>3</i>
+                  <div class=""id="na3">Nombre: {{ indicAlarm.ALARM_NAME3 }}</div>
+                  <div class="" id="ca3">Contador: {{ indicAlarm.ALARM_CONT3 }}</div> 
+                  <div class="" id="ta3_on" >Presente: {{ indicAlarmws.ALARM_TIMEON3 }}</div>
+                  <div class="" id="ta3_off">Clareada: {{ indicAlarmws.ALARM_TIMEOFF3 }}</div>
+                </div>
+                <div :class="alarm_class4" class="btn btn-block btn-social btn-success" id="ALARMA4" data-bs-toggle="modal" data-bs-target="#alarma4">
+                  <i>4</i>
+                  <div class=""id="na4">Nombre: {{ indicAlarm.ALARM_NAME4 }}</div>
+                  <div class="" id="ca4">Contador: {{ indicAlarm.ALARM_CONT4 }}</div> 
+                  <div class="" id="ta4_on" >Presente: {{ indicAlarmws.ALARM_TIMEON4 }}</div>
+                  <div class="" id="ta4_off">Clareada: {{ indicAlarmws.ALARM_TIMEOFF4 }}</div>
+                </div>
+                <div :class="alarm_class5" class="btn btn-block btn-social btn-success" id="ALARMA5" data-bs-toggle="modal" data-bs-target="#alarma5">
+                  <i>5</i>
+                  <div class=""id="na5">Nombre: {{ indicAlarm.ALARM_NAME5 }}</div>
+                  <div class="" id="ca5">Contador: {{ indicAlarm.ALARM_CONT5 }}</div> 
+                  <div class="" id="ta5_on" >Presente: {{ indicAlarmws.ALARM_TIMEON5 }}</div>
+                  <div class="" id="ta5_off">Clareada: {{ indicAlarmws.ALARM_TIMEOFF5 }}</div>
+                </div>
+                <div :class="alarm_class6" class="btn btn-block btn-social btn-success" id="ALARMA6" data-bs-toggle="modal" data-bs-target="#alarma6">
+                  <i>6</i>
+                  <div class=""id="na6">Nombre: {{ indicAlarm.ALARM_NAME6 }}</div>
+                  <div class="" id="ca6">Contador: {{ indicAlarm.ALARM_CONT6 }}</div> 
+                  <div class="" id="ta6_on" >Presente: {{ indicAlarmws.ALARM_TIMEON6 }}</div>
+                  <div class="" id="ta6_off">Clareada: {{ indicAlarmws.ALARM_TIMEOFF6 }}</div>
+                </div>
+                <div :class="alarm_class7" class="btn btn-block btn-social btn-success" id="ALARMA7" data-bs-toggle="modal" data-bs-target="#alarma7">
+                  <i>7</i>
+                  <div class=""id="na7">Nombre: {{ indicAlarm.ALARM_NAME7 }}</div>
+                  <div class="" id="ca7">Contador: {{ indicAlarm.ALARM_CONT7 }}</div> 
+                  <div class="" id="ta7_on" >Presente: {{ indicAlarmws.ALARM_TIMEON7 }}</div>
+                  <div class="" id="ta7_off">Clareada: {{ indicAlarmws.ALARM_TIMEOFF7 }}</div>
+                </div>
+               
+  
+                <!-- Pop Out Block Modal -->
+                <!--alarma1-->
+                <div class="modal fade" id="alarma1" tabindex="-1" role="dialog" aria-labelledby="alarma1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-popout modal-lg" role="document">
+                        <div class="modal-content">
+                        <div class="block block-rounded block-themed block-transparent mb-0">
+                            <div class="block-header bg-primary-dark">
+                            <h3 class="block-title">Alarma 1</h3>
+                            <div class="block-options">
+                                <button type="button" class="btn-block-option" data-bs-dismiss="modal" aria-label="Close">
+                                  <i class="bi bi-clipboard-x text-danger"></i>
+                                </button>
+                            </div>
+                            </div>
+                            <div class="block-content">
+                            <form class="form form-vertical" @submit.prevent="handleSubmit()">
+                                <div class="row push">
+                                    <div class="col-md-6 col-12 mb-2">
+                                        <div class="form-group">
+                                            <label class="form-label" for="ALARM_NAME1">Nombre</label>
+                                            <input data-bs-toggle="popover" data-bs-placement="left" title="Aviso:" data-bs-content="Indica el nuevo nombre de la Alarma" type="text" id="ALARM_NAME1" class="form-control" v-model.trim="indicAlarm.ALARM_NAME1">
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-6 mb-2">
+                                        <div class="form-group">
+                                            <label class="form-label" for="ALARM_LOGICA1">Lógica del PIN D5</label>
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" id="ALARM_LOGICA1" type="checkbox" v-model="indicAlarm.ALARM_LOGICA1" @click="logica1"/>
+                                                <label class="form-check-label">{{ alarm_text1 }}</label>
+                                            </div>
+                                        </div>
+                                    </div>                
+                                    <div class="mb-2 mt-2">
+                                        <button type="submit" class="btn btn-success me-1">
+                                            <i class="fa fa-fw fa-save opacity-50 me-1"></i> Guardar
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <!--alarma2-->
+                <div class="modal fade" id="alarma2" tabindex="-1" role="dialog" aria-labelledby="alarma2" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-popout modal-lg" role="document">
+                        <div class="modal-content">
+                        <div class="block block-rounded block-themed block-transparent mb-0">
+                            <div class="block-header bg-primary-dark">
+                            <h3 class="block-title">Alarma 2</h3>
+                            <div class="block-options">
+                                <button type="button" class="btn-block-option" data-bs-dismiss="modal" aria-label="Close">
+                                <i class="bi bi-clipboard-x text-danger"></i>
+                                </button>
+                            </div>
+                            </div>
+                            <div class="block-content">          
+                                <form class="form form-vertical" @submit.prevent="handleSubmit()">
+                                    <div class="row push">
+                                        <div class="col-md-6 col-12 mb-2">
+                                            <div class="form-group">
+                                                <label class="form-label" for="ALARM_NAME2">Nombre</label>
+                                                <input data-bs-toggle="popover" data-bs-placement="left" title="Aviso:" data-bs-content="Indica el nuevo nombre de la Alarma" type="text" id="ALARM_NAME2" class="form-control" v-model.trim="indicAlarm.ALARM_NAME2">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group col-md-6 mb-2">
+                                            <div class="form-group">
+                                                <label class="form-label" for="ALARM_LOGICA2">Lógica del PIN D14</label>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" id="ALARM_LOGICA2" type="checkbox" v-model="indicAlarm.ALARM_LOGICA2" @click="logica2"/>
+                                                    <label class="form-check-label">{{ alarm_text2 }}</label>
+                                                </div>
+                                            </div>
+                                        </div>                
+                                        <div class="mb-2 mt-2">
+                                            <button type="submit" class="btn btn-success me-1">
+                                                <i class="fa fa-fw fa-save opacity-50 me-1"></i> Guardar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <!--alarma3-->
+                <div class="modal fade" id="alarma3" tabindex="-1" role="dialog" aria-labelledby="alarma3" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-popout modal-lg" role="document">
+                        <div class="modal-content">
+                        <div class="block block-rounded block-themed block-transparent mb-0">
+                            <div class="block-header bg-primary-dark">
+                            <h3 class="block-title">Alarma 3</h3>
+                            <div class="block-options">
+                                <button type="button" class="btn-block-option" data-bs-dismiss="modal" aria-label="Close">
+                                <i class="bi bi-clipboard-x text-danger"></i>
+                                </button>
+                            </div>
+                            </div>
+                            <div class="block-content">
+                                <form class="form form-vertical" @submit.prevent="handleSubmit()">
+                                    <div class="row push">
+                                        <div class="col-md-6 col-12 mb-2">
+                                            <div class="form-group">
+                                                <label class="form-label" for="ALARM_NAME3">Nombre</label>
+                                                <input data-bs-toggle="popover" data-bs-placement="left" title="Aviso:" data-bs-content="Indica el nuevo nombre de la Alarma" type="text" id="ALARM_NAME3" class="form-control" v-model.trim="indicAlarm.ALARM_NAME3">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group col-md-6 mb-2">
+                                            <div class="form-group">
+                                                <label class="form-label" for="ALARM_LOGICA3">Lógica del PIN D16</label>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" id="ALARM_LOGICA3" type="checkbox" v-model="indicAlarm.ALARM_LOGICA3" @click="logica3"/>
+                                                    <label class="form-check-label">{{ alarm_text3 }}</label>
+                                                </div>
+                                            </div>
+                                        </div>                
+                                        <div class="mb-2 mt-2">
+                                            <button type="submit" class="btn btn-success me-1">
+                                                <i class="fa fa-fw fa-save opacity-50 me-1"></i> Guardar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <!--alarma4-->
+                <div class="modal fade" id="alarma4" tabindex="-1" role="dialog" aria-labelledby="alarma4" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-popout modal-lg" role="document">
+                        <div class="modal-content">
+                        <div class="block block-rounded block-themed block-transparent mb-0">
+                            <div class="block-header bg-primary-dark">
+                            <h3 class="block-title">Alarma 4</h3>
+                            <div class="block-options">
+                                <button type="button" class="btn-block-option" data-bs-dismiss="modal" aria-label="Close">
+                                <i class="bi bi-clipboard-x text-danger"></i>
+                                </button>
+                            </div>
+                            </div>
+                            <div class="block-content">
+                                <form class="form form-vertical" @submit.prevent="handleSubmit()">
+                                    <div class="row push">
+                                        <div class="col-md-6 col-12 mb-2">
+                                            <div class="form-group">
+                                                <label class="form-label" for="ALARM_NAME4">Nombre</label>
+                                                <input data-bs-toggle="popover" data-bs-placement="left" title="Aviso:" data-bs-content="Indica el nuevo nombre de la Alarma" type="text" id="ALARM_NAME4" class="form-control" v-model.trim="indicAlarm.ALARM_NAME4">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group col-md-6 mb-2">
+                                            <div class="form-group">
+                                                <label class="form-label" for="ALARM_LOGICA4">Lógica del PIN D17</label>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" id="ALARM_LOGICA4" type="checkbox" v-model="indicAlarm.ALARM_LOGICA4" @click="logica4"/>
+                                                    <label class="form-check-label">{{ alarm_text4 }}</label>
+                                                </div>
+                                            </div>
+                                        </div>                
+                                        <div class="mb-2 mt-2">
+                                            <button type="submit" class="btn btn-success me-1">
+                                                <i class="fa fa-fw fa-save opacity-50 me-1"></i> Guardar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <!--alarma5-->
+                <div class="modal fade" id="alarma5" tabindex="-1" role="dialog" aria-labelledby="alarma5" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-popout modal-lg" role="document">
+                        <div class="modal-content">
+                        <div class="block block-rounded block-themed block-transparent mb-0">
+                            <div class="block-header bg-primary-dark">
+                            <h3 class="block-title">Alarma 5</h3>
+                            <div class="block-options">
+                                <button type="button" class="btn-block-option" data-bs-dismiss="modal" aria-label="Close">
+                                <i class="bi bi-clipboard-x text-danger"></i>
+                                </button>
+                            </div>
+                            </div>
+                            <div class="block-content">                              
+                                <form class="form form-vertical" @submit.prevent="handleSubmit()">
+                                    <div class="row push">
+                                        <div class="col-md-6 col-12 mb-2">
+                                            <div class="form-group">
+                                                <label class="form-label" for="ALARM_NAME5">Nombre</label>
+                                                <input data-bs-toggle="popover" data-bs-placement="left" title="Aviso:" data-bs-content="Indica el nuevo nombre de la Alarma" type="text" id="ALARM_NAME5" class="form-control" v-model.trim="indicAlarm.ALARM_NAME5">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group col-md-6 mb-2">
+                                            <div class="form-group">
+                                                <label class="form-label" for="ALARM_LOGICA5">Lógica del PIN D18</label>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" id="ALARM_LOGICA5" type="checkbox" v-model="indicAlarm.ALARM_LOGICA5" @click="logica5"/>
+                                                    <label class="form-check-label">{{ alarm_text5 }}</label>
+                                                </div>
+                                            </div>
+                                        </div>                
+                                        <div class="mb-2 mt-2">
+                                            <button type="submit" class="btn btn-success me-1">
+                                                <i class="fa fa-fw fa-save opacity-50 me-1"></i> Guardar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <!--alarma6-->
+                <div class="modal fade" id="alarma6" tabindex="-1" role="dialog" aria-labelledby="alarma6" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-popout modal-lg" role="document">
+                        <div class="modal-content">
+                        <div class="block block-rounded block-themed block-transparent mb-0">
+                            <div class="block-header bg-primary-dark">
+                            <h3 class="block-title">Alarma 6</h3>
+                            <div class="block-options">
+                                <button type="button" class="btn-block-option" data-bs-dismiss="modal" aria-label="Close">
+                                <i class="bi bi-clipboard-x text-danger"></i>
+                                </button>
+                            </div>
+                            </div>
+                            <div class="block-content">
+                                <form class="form form-vertical" @submit.prevent="handleSubmit()">
+                                    <div class="row push">
+                                        <div class="col-md-6 col-12 mb-2">
+                                            <div class="form-group">
+                                                <label class="form-label" for="ALARM_NAME6">Nombre</label>
+                                                <input data-bs-toggle="popover" data-bs-placement="left" title="Aviso:" data-bs-content="Indica el nuevo nombre de la Alarma" type="text" id="ALARM_NAME6" class="form-control" v-model.trim="indicAlarm.ALARM_NAME6">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group col-md-6 mb-2">
+                                            <div class="form-group">
+                                                <label class="form-label" for="ALARM_LOGICA6">Lógica del PIN D25</label>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" id="ALARM_LOGICA6" type="checkbox" v-model="indicAlarm.ALARM_LOGICA6" @click="logica6"/>
+                                                    <label class="form-check-label">{{ alarm_text6 }}</label>
+                                                </div>
+                                            </div>
+                                        </div>                
+                                        <div class="mb-2 mt-2">
+                                            <button type="submit" class="btn btn-success me-1">
+                                                <i class="fa fa-fw fa-save opacity-50 me-1"></i> Guardar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <!--alarma7-->
+                <div class="modal fade" id="alarma7" tabindex="-1" role="dialog" aria-labelledby="alarma7" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-popout modal-lg" role="document">
+                        <div class="modal-content">
+                        <div class="block block-rounded block-themed block-transparent mb-0">
+                            <div class="block-header bg-primary-dark">
+                            <h3 class="block-title">Alarma 7</h3>
+                            <div class="block-options">
+                                <button type="button" class="btn-block-option" data-bs-dismiss="modal" aria-label="Close">
+                                <i class="bi bi-clipboard-x text-danger"></i>
+                                </button>
+                            </div>
+                            </div>
+                            <div class="block-content">
+                                <form class="form form-vertical" @submit.prevent="handleSubmit()">
+                                    <div class="row push">
+                                        <div class="col-md-6 col-12 mb-2">
+                                            <div class="form-group">
+                                                <label class="form-label" for="ALARM_NAME7">Nombre</label>
+                                                <input data-bs-toggle="popover" data-bs-placement="left" title="Aviso:" data-bs-content="Indica el nuevo nombre de la Alarma" type="text" id="ALARM_NAME7" class="form-control" v-model.trim="indicAlarm.ALARM_NAME7">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group col-md-6 mb-2">
+                                            <div class="form-group">
+                                                <label class="form-label" for="ALARM_LOGICA7">Lógica del PIN D26</label>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" id="ALARM_LOGICA7" type="checkbox" v-model="indicAlarm.ALARM_LOGICA7" @click="logica7"/>
+                                                    <label class="form-check-label">{{ alarm_text7 }}</label>
+                                                </div>
+                                            </div>
+                                        </div>                
+                                        <div class="mb-2 mt-2">
+                                            <button type="submit" class="btn btn-success me-1">
+                                                <i class="fa fa-fw fa-save opacity-50 me-1"></i> Guardar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="row">
+              <div class="col-md-6 col-xl-6">
+                <p class="text-uppercase fs-sm fw-bold text-center mt-2 mb-4">
+                    {{Nombre-relay1}}
+                </p>
+                <a class="block block-rounded block-link-pop bg-xinspire-darker" href="">
+                    <div class="block-content block-content-full d-flex align-items-center justify-content-between">
+                        <div class="me-3">
+                        <p class="text-white-75 mb-0">
+                            {{Descripcion-relay2}}
+                        </p>
+                        </div>
+                        <div class="item">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" v-model="action.RELAY_STATUS" @click="relayOnOff">
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-6 col-xl-6">
+              <p class="text-uppercase fs-sm fw-bold text-center mt-2 mb-4">
+                  {{Nombre-relay2}}
+              </p>
+              <a class="block block-rounded block-link-pop bg-xinspire-darker" href="">
+                  <div class="block-content block-content-full d-flex align-items-center justify-content-between">
+                      <div class="me-3">
+                      <p class="text-white-75 mb-0">
+                         {{Descripcion-relay1}}
+                      </p>
+                      </div>
+                      <div class="item">
+                          <div class="form-check form-switch">
+                              <input class="form-check-input" type="checkbox" v-model="action.RELAY_STATUS" @click="relayOnOff">
+                          </div>
+                      </div>
+                  </div>
+              </a>
+          </div>
+          </div>
+    </section>
+  </main>
+  <!-- End #main -->
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="copyright">
+      © Copyright <strong><span>iotmx.com</span></strong>. All Rights Reserved <strong><span>v1.0.0</span></strong>
+    </div>
+    <div class="credits">
+      Designed by <a href="https://iotmx.org/">IOTMX.COM</a>
+    </div>
+  </footer>
+  <!-- End Footer -->
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
+  <!-- Vendor JS Files -->
+  <script src="assets/js/bundle.min.js"></script>
+
+  <!-- Personal JS File -->
+  <script src="assets/js/app.js" type="module"></script>  
+</body>
+</html>

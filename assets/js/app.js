@@ -4,7 +4,7 @@ import {url, createHeader} from './scripts.js'
 
 console.log(url);
 
-// 3:"/index.html" o '/'  'esp-admin'
+// 3:"/index.html" o '/' o 'esp-admin'
 switch (url[3]) {
     case '/':
         createHeader();
@@ -25,32 +25,8 @@ switch (url[3]) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //-------------------------------------------------------------------------
-
+//Desde el archivo main.js
 /**
  * Easy selector helper function
  */
