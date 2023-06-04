@@ -1,16 +1,21 @@
 "use strict";
 
-import {url, createHeader} from './scripts.js'
-
-console.log(url);
+import { url, createHeader, createSidebarNav } from './scripts.js'
+import { sidebar } from './template.js';
+import { iniciarIndex } from './index.js';
 
 // 3:"/index.html" o '/' o 'esp-admin'
 switch (url[3]) {
     case '/':
         createHeader();
+        createSidebarNav(sidebar);
+        //cuando todo el documento se carge despues se ejecuta la funcion iniciarIndex
+        document.addEventListener('DOMContentLoaded', iniciarIndex);
         break;
     case '/index.html':
         createHeader();
+        createSidebarNav(sidebar);
+        document.addEventListener('DOMContentLoaded', iniciarIndex);
         break;
     default:
         break;
