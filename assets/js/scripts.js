@@ -1,6 +1,6 @@
 "use strict";
    
-const ipdevice ='192.168.1.66'; // o en mi casa 192.168.1.71 - 198 en el trabajo
+const ipdevice ='192.168.1.198'; // o en mi casa 192.168.1.71 -casa .66 - 198 en el trabajo
 const urlActual = window.location; //la url donde estamos la metemos en la constante
 
 //export es para exportar fuera de este archivo la siguiente expresion regular
@@ -736,8 +736,8 @@ export function createCardRelays(padre, data){
                                 {
                                     type:'i',
                                     props:{
-                                        id: data[0]['R_STATUS1']+'_Status',
-                                        class: data[0]['R_LOGIC1']? (data[0]['R_STATUS1']?'bi bi-lightbulb-fill text-warning':'bi bi-lightbulb-fill text-dark' ):(data[0]['R_STATUS1']?'bi bi-lightbulb-fill text-dark':'bi bi-lightbulb-fill text-warning')
+                                        id: data[0]['R_NAME1']+'_Status',
+                                        class: data[0]['R_LOGIC1']? (data[0]['R_STATUS1']?'bi bi-lightbulb-fill text-warning':'bi bi-lightbulb-fill text-dark' ):(data[0]['R_STATUS1']?'bi bi-lightbulb-fill text-danger':'bi bi-lightbulb-fill text-dark')
                                     }
                                 }
                             ]
@@ -824,8 +824,8 @@ export function createCardRelays(padre, data){
                                 {
                                     type:'i',
                                     props:{
-                                        id: data[1]['R_STATUS2']+'_Status',
-                                        class: data[1]['R_LOGIC2']? (data[1]['R_STATUS2']?'bi bi-lightbulb-fill text-warning':'bi bi-lightbulb-fill text-dark' ):(data[1]['R_STATUS2']?'bi bi-lightbulb-fill text-dark':'bi bi-lightbulb-fill text-warning')
+                                        id: data[1]['R_NAME2']+'_Status',
+                                        class: data[1]['R_LOGIC2']? (data[1]['R_STATUS2']?'bi bi-lightbulb-fill text-warning':'bi bi-lightbulb-fill text-dark' ):(data[1]['R_STATUS2']?'bi bi-lightbulb-fill text-danger':'bi bi-lightbulb-fill text-dark')
                                     }
                                 }
                             ]
@@ -869,9 +869,19 @@ export function createCardRelays(padre, data){
 //funcion para ejecutar los controles a los relays
 const switchRelay = (name1,logic1,name2,logic2) =>{
     //capturar el estado del relay hay que hacer una igual para capturar la lógica de los relay
-    const status1 = document.querySelector(`#${name1}`).checked;
-    const status2 = document.querySelector(`#${name2}`).checked;
-    console.log("name1: " +`#${name1}` +' '+ status1)
+    let status1
+    let status2 
+    //console.log("name1: " +`#${name1}` +' '+ status1)
+    if(logic1){
+        status1 = document.querySelector(`#${name1}`).checked;
+    }else{
+        status1 = !document.querySelector(`#${name1}`).checked;
+    }
+    if(logic2){
+        status2 = document.querySelector(`#${name2}`).checked;
+    }else{
+        status2 = !document.querySelector(`#${name2}`).checked;
+    }
     const toSend = {
         protocol: 'API',
         //output: name,
@@ -879,14 +889,14 @@ const switchRelay = (name1,logic1,name2,logic2) =>{
         R_DESCRIPTION1: "",
         R_NAME1: "",
         R_STATUS1: status1,
-        R_LOGIC1: logic1,
+        R_LOGIC1: "",
         R_TIMER1: "",
         TIMEOFFRELAY1: "",
         TIMEONRELAY1: "",
         R_DESCRIPTION2: "",
         R_NAME2: "",
         R_STATUS2: status2,
-        R_LOGIC2: logic2,
+        R_LOGIC2: "",
         R_TIMER2: "",
         TIMEOFFRELAY2: "",
         TIMEONRELAY2: ""
@@ -895,18 +905,66 @@ const switchRelay = (name1,logic1,name2,logic2) =>{
     const path =  'relays'; //de la api en el curso 'device/relays' en mi proyecto relays
     //funcion para ejecutar los POST
     ejecutarPost(path, toSend);
-    let sti = JSON.stringify(toSend)//me falta a que relay se va a enviar
-    console.log(path+' '+sti)
+    //let sti = JSON.stringify(toSend)//me falta a que relay se va a enviar
+    //console.log(path+' '+sti)
 }
 //ejecutar POST a la API
 export async function ejecutarPost(path, data){
-    const postAPI = new ApiService(path,data);
-    const resp = await postAPI.postApiData();
-    console.log(resp)
-    if( resp.relay){
-        console.log(resp)
+    const postAPI = new ApiService(path,data);//instancia del servicio de la API
+    const resp = await postAPI.postApiData();//lo que responde el await del post API
+    const relayStatus1 = document.querySelector(`#${resp["RELAY1"].R_NAME1}_Status`);//es el foco
+    const relayIcon1= document.querySelector(`#${resp["RELAY1"].R_NAME1}_Icon`);//es el icono
+    const relayStatus2 = document.querySelector(`#${resp["RELAY2"].R_NAME2}_Status`);//es el foco
+    const relayIcon2= document.querySelector(`#${resp["RELAY2"].R_NAME2}_Icon`);//es el icono    
+    if(resp["RELAY1"].R_LOGIC1){
+        
+        //funcion para cambiar los estados de los relay en la pantalla html
+        relaysStatusChange(relayStatus1,relayIcon1,resp["RELAY1"].R_STATUS1)
+    }else{
+        relaysStatusChangeNeg(relayStatus1,relayIcon1,resp["RELAY1"].R_STATUS1)
+    }
+    if(resp["RELAY2"].R_LOGIC2){
+        
+        //funcion para cambiar los estados de los relay en la pantalla html
+
+        relaysStatusChange(relayStatus2,relayIcon2,resp["RELAY2"].R_STATUS2)
+    }else{
+        relaysStatusChangeNeg(relayStatus2,relayIcon2,resp["RELAY2"].R_STATUS2)
+    }
+
+    
+}
+
+//funcion de cambio de estado de los relay en el html
+const relaysStatusChange=(relayStatus,relayIcon,stado)=>{
+    if (stado){
+        relayStatus.classList.remove('text-dark');
+        relayStatus.classList.add('text-warning');
+        relayIcon.classList.remove('bi-option');
+        relayIcon.classList.add('bi-alt');
+    }else{
+        relayStatus.classList.remove('bi', 'bi-lightbulb-fill', 'text-warning');
+        relayStatus.classList.add('bi', 'bi-lightbulb-fill', 'text-dark');
+        relayIcon.classList.remove('bi-alt');
+        relayIcon.classList.add('bi-option');
     }
 }
+const relaysStatusChangeNeg=(relayStatus,relayIcon,stado)=>{
+    console.log("logica negativa")
+    if (stado){
+        relayStatus.classList.remove('text-dark');
+        relayStatus.classList.add('text-danger');
+        relayIcon.classList.remove('bi-option');
+        relayIcon.classList.add('bi-alt');
+        
+    }else{
+        relayStatus.classList.remove('bi', 'bi-lightbulb-fill', 'text-danger');
+        relayStatus.classList.add('bi', 'bi-lightbulb-fill', 'text-dark');
+        relayIcon.classList.remove('bi-alt');
+        relayIcon.classList.add('bi-option');
+    }
+}
+
 
 /*
 export class card{
