@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>WIFI | ESP32 Admin Tool v3</title>
+  <title></title>
   <meta content="ESP32 Admin tool v3.0" name="description">
   <meta content="Html Admin Panel for ESP32 configurations" name="keywords">
   <!-- Favicons -->
@@ -32,111 +32,12 @@
 <body>
   <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
-    <div class="d-flex align-items-center justify-content-between">
-      <a href="/" class="logo d-flex align-items-center">
-        <img src="assets/img/logo.png" alt="">
-        <span class="d-none d-lg-block">ESP32Admin v3</span>
-      </a>
-      <i class="bi bi-list toggle-sidebar-btn"></i>
-    </div>
-    <!-- End Logo -->
-    <!-- End señal wifi -->
-    <nav class="header-nav ms-auto">
-      <ul class="d-flex align-items-center">
-        <li class="nav-item dropdown">
-          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-            <i class="bi bi-wifi text-success" data-bs-toggle="tooltip" data-bs-placement="bottom"
-              data-bs-original-title="Conexión WiFi" id="wifiStatus"></i>
-          </a><!-- End wifi Icon -->
-        </li><!-- End wifi Nav -->
-        <li class="nav-item dropdown">
-          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-            <i class="bi bi-reception-4 text-success" data-bs-toggle="tooltip" data-bs-placement="bottom"
-              data-bs-original-title="WIFI RSSI" id="rssiStatus"></i>
-          </a><!-- End signal Icon -->
-        </li><!-- End signal Nav -->
-        <li class="nav-item dropdown">
-          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-            <i class="bi bi-cloudy-fill text-success" data-bs-toggle="tooltip" data-bs-placement="bottom"
-              data-bs-original-title="Conexión MQTT" id="mqttStatus"></i>
-          </a><!-- End mqtt Icon -->
-        </li><!-- End mqtt Nav -->
-        <li class="nav-item dropdown pe-3">
-          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <span class="d-none d-md-block dropdown-toggle ps-2">Admin</span>
-          </a><!-- End Profile Iamge Icon -->
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-            <li class="dropdown-header">
-              <h6>Admin</h6>
-              <span>Administrador del sistema</span>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="esp-admin">
-                <i class="bi bi-person"></i>
-                <span>Perfil</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="esp-device">
-                <i class="bi bi-gear"></i>
-                <span>Configuración</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="https://electroniciot.com" target="_blank">
-                <i class="bi bi-question-circle"></i>
-                <span>Ayuda?</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="esp-logout">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Salir</span>
-              </a>
-            </li>
-          </ul><!-- End Profile Dropdown Items -->
-        </li><!-- End Profile Nav -->
-      </ul>
-    </nav><!-- End Icons Navigation -->
   </header>
   <!-- End Header -->
   <!-- ======= Sidebar ======= -->
   <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
       <!-- automatico -->
-      <li class="nav-item"><a class="collapsed"><a class="nav-link" href="/"><i
-              class="bi bi-grid"></i><span>Dashboard</span></a></a></li>
-      <li class="nav-item"><span class="nav-link collapsed" data-bs-target="#Conexiones-nav"
-          data-bs-toggle="collapse"><i class="bi bi-bar-chart"></i><span>Conexiones</span><i
-            class="bi bi-chevron-down ms-auto"></i></span>
-        <ul class="nav-content collapse" data-bs-parent="#sidebar-nav" id="Conexiones-nav">
-          <li><a href="esp-wifi"><i class="bi bi-circle"></i><span>WiFi</span></a></li>
-          <li><a href="esp-mqtt"><i class="bi bi-circle"></i><span>MQTT</span></a></li>
-        </ul>
-      </li>
-      <li class="nav-item"><span class="nav-link collapsed" data-bs-target="#Dispositivo-nav"
-          data-bs-toggle="collapse"><i class="bi bi-sliders"></i><span>Dispositivo</span><i
-            class="bi bi-chevron-down ms-auto"></i></span>
-        <ul class="nav-content collapse" data-bs-parent="#sidebar-nav" id="Dispositivo-nav">
-          <li><a href="esp-restore"><i class="bi bi-circle"></i><span>Restaurar a fabrica</span></a></li>
-          <li><a href="esp-restart"><i class="bi bi-circle"></i><span>Reiniciar</span></a></li>
-          <li><a href="esp-device"><i class="bi bi-circle"></i><span>Firmware</span></a></li>
-        </ul>
-      </li>
-      <li class="nav-item"><a class="collapsed"><a class="nav-link" href="esp-admin"><i
-              class="bi bi-person"></i><span>Perfil</span></a></a></li>
     </ul>
   </aside>
   <!-- End Sidebar-->
@@ -150,14 +51,6 @@
 
     <div class="pagetitle">
       <!-- automatico -->
-      <h1>Configuración del WiFi</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="/">Inicio</a></li>
-          <li class="breadcrumb-item">Conexiones</li>
-          <li class="breadcrumb-item active">WiFi</li>
-        </ol>
-      </nav>
     </div>
     <!-- End Page Title -->
     <section class="section">
@@ -170,30 +63,19 @@
               <form id="form">
                 <div id="switchMode">
                   <!-- auto - switch mode -->
-                  <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label" for="wifi_mode">Modo WiFi</label>
-                    <div class="col-sm-8 mt-2">
-                      <div class="form-check form-switch"><input class="form-check-input wifi" type="checkbox"
-                          id="wifi_mode" name="wifi_mode" checked=""><label class="form-check-label switch_wifi_mode"
-                          for="wifi_mode">Cliente</label></div>
-                    </div>
-                  </div>
                 </div>
                 <hr>
                 <div id="inputSSID">
                   <!-- auto - input ssid -->
-                  <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label mt-2" for="wifi_ssid">SSID
-                      Estación</label>
-                    <div class="col-sm-8 mt-2"><input class="form-control wifi client" type="text"
-                        placeholder="Nombre de la red" id="wifi_ssid" name="wifi_ssid" value="iotmaster"></div>
-                  </div>
                 </div>
                 <div id="inputPassword">
                   <!-- auto - input password -->
-                  <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label mt-2" for="wifi_password">Contraseña
-                      Estación</label>
-                    <div class="col-sm-8 mt-2"><input class="form-control wifi client" type="password"
-                        placeholder="Contraseña de la red" id="wifi_password" name="wifi_password" value=""></div>
-                  </div>
+                </div>
+                <div id="inputSSID2">
+                  <!-- auto - input ssid -->
+                </div>
+                <div id="inputPassword2">
+                  <!-- auto - input password -->
                 </div>
                 <div class="row mb-3 mt-3">
                   <!-- Accordion configuración modo cliente -->
@@ -211,59 +93,21 @@
                         <div class="accordion-body">
                           <div id="switchDHCP">
                             <!-- auto - switch DHCP -->
-                            <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label"
-                                for="wifi_ip_static">DHCP</label>
-                              <div class="col-sm-8 mt-2">
-                                <div class="form-check form-switch"><input class="form-check-input wifi client"
-                                    type="checkbox" id="wifi_ip_static" name="wifi_ip_static"><label
-                                    class="form-check-label switch_wifi_ip_static" for="wifi_ip_static">NO</label></div>
-                              </div>
-                            </div>
                           </div>
                           <div id="inputIpv4">
                             <!-- auto - input ipv4 -->
-                            <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label mt-2"
-                                for="wifi_ipv4">Dirección IPv4</label>
-                              <div class="col-sm-8 mt-2"><input class="form-control wifi client ip" type="text"
-                                  placeholder="192.168.0.10" id="wifi_ipv4" name="wifi_ipv4" value="192.168.20.150"
-                                  disabled=""></div>
-                            </div>
                           </div>
                           <div id="inputSubnet">
                             <!-- auto - input Subnet -->
-                            <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label mt-2"
-                                for="wifi_subnet">Máscara de subred</label>
-                              <div class="col-sm-8 mt-2"><input class="form-control wifi client ip" type="text"
-                                  placeholder="255.255.255.240" id="wifi_subnet" name="wifi_subnet"
-                                  value="255.255.255.0" disabled=""></div>
-                            </div>
                           </div>
                           <div id="inputGateway">
                             <!-- auto - input Gateway -->
-                            <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label mt-2"
-                                for="wifi_gateway">Puerta de enlace</label>
-                              <div class="col-sm-8 mt-2"><input class="form-control wifi client ip" type="text"
-                                  placeholder="192.168.0.1" id="wifi_gateway" name="wifi_gateway" value="192.168.20.1"
-                                  disabled=""></div>
-                            </div>
                           </div>
                           <div id="inputDnsPrimary">
                             <!-- auto - input dns_primary -->
-                            <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label mt-2"
-                                for="wifi_dns_primary">DNS primario</label>
-                              <div class="col-sm-8 mt-2"><input class="form-control wifi client ip" type="text"
-                                  placeholder="192.168.0.1" id="wifi_dns_primary" name="wifi_dns_primary"
-                                  value="8.8.8.8" disabled=""></div>
-                            </div>
                           </div>
                           <div id="inputDnsSecondary">
                             <!-- auto - input dns_Secondary -->
-                            <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label mt-2"
-                                for="wifi_dns_secondary">DNS secundario</label>
-                              <div class="col-sm-8 mt-2"><input class="form-control wifi client ip" type="text"
-                                  placeholder="8.8.8.8" id="wifi_dns_secondary" name="wifi_dns_secondary"
-                                  value="8.8.4.4" disabled=""></div>
-                            </div>
                           </div>
                         </div>
                       </div>
@@ -273,21 +117,9 @@
                 <hr>
                 <div id="inputApSsid">
                   <!-- auto - input Ap Ssid -->
-                  <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label mt-2" for="ap_ssid">SSID punto de
-                      acceso</label>
-                    <div class="col-sm-8 mt-2"><input class="form-control wifi ap" type="text"
-                        placeholder="Nombre del punto de acceso" id="ap_ssid" name="ap_ssid" value="ESP32DC15B80C703E"
-                        disabled=""></div>
-                  </div>
                 </div>
                 <div id="inputApPassword">
                   <!-- auto - input Ap Password -->
-                  <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label mt-2" for="ap_password">Contraseña
-                      punto de acceso</label>
-                    <div class="col-sm-8 mt-2"><input class="form-control wifi ap" type="password"
-                        placeholder="Contraseña del punto de acceso" id="ap_password" name="ap_password" value=""
-                        disabled=""></div>
-                  </div>
                 </div>
                 <div class="row mb-3">
                   <!-- Accordion configuración modo punto de acceso -->
@@ -304,36 +136,16 @@
                         <div class="accordion-body">
                           <div id="switchVisibility">
                             <!-- auto - switch ap visibility -->
-                            <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label"
-                                for="ap_visibility">Visibilidad</label>
-                              <div class="col-sm-8 mt-2">
-                                <div class="form-check form-switch"><input class="form-check-input wifi ap"
-                                    type="checkbox" id="ap_visibility" name="ap_visibility" checked=""
-                                    disabled=""><label class="form-check-label switch_ap_visibility"
-                                    for="ap_visibility">SI</label></div>
-                              </div>
-                            </div>
                           </div>
                           <div id="inputApChanel">
                             <!-- auto - input Ap chanel -->
-                            <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label mt-2" for="ap_chanel">Canal
-                                de radio</label>
-                              <div class="col-sm-8 mt-2"><input class="form-control wifi ap" type="number"
-                                  placeholder="Permitido del 1 al 13" id="ap_chanel" name="ap_chanel" value="9"
-                                  disabled=""></div>
-                            </div>
                           </div>
                           <div id="inputApChanel">
                             <!-- auto - input Ap chanel -->
                           </div>
                           <div id="inputApConnect">
                             <!-- auto - input Ap connect -->
-                            <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label mt-2"
-                                for="ap_connect">Conexiones permitidas</label>
-                              <div class="col-sm-8 mt-2"><input class="form-control wifi ap" type="number"
-                                  placeholder="Valores Min: 0 - Máx: 8" id="ap_connect" name="ap_connect" value="4"
-                                  disabled=""></div>
-                            </div>
+                            
                           </div>
                         </div>
                       </div>
@@ -385,8 +197,6 @@
       class="bi bi-arrow-up-short"></i></a>
   <!-- Vendor JS Files -->
   <script src="assets/js/bundle.min.js"></script>
-  <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
   <!-- Other JS File -->
   <script src="assets/js/sweetalert.js"></script>
   <!-- Personal JS File -->

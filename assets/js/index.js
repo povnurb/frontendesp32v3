@@ -1,5 +1,5 @@
 "use strict";
-import { ApiService, createBreadCrumb, createCard, createCardTable, builder, createCardRelays } from "./scripts.js";
+import { ApiService, createBreadCrumb, createCard, createCardTable, builder, createCardRelays, createProgressBar, createCardTemp, headerIconsStatus, createCardBuzzer } from "./scripts.js";
 
 //para pasar la informacion que traigo de la api /api/index
 let index = {};
@@ -47,12 +47,39 @@ export async function iniciarIndex(){
     // crear broker + tabla
     createCardTable("#brokerCard", true, "MQTT", "esp-mqtt","Configurar","Broker MQTT", "| Conexión", "brokerTable", index.mqtt);
     //crear los relays
-    createCardRelays('#relaysCard', index.relays);
+    createCardRelays('#relaysCard', index.relays); //se entrega la informacion de los relays en index.relays
+    //create card del buzzer
+    createCardBuzzer('#relaysCard', index);
+    //crear card del info
+    createCardTable("#infoCard", false, "", "", "", "Información General", " | Dispositivo", "infoTable", index.info);
 
+    //crear los progressbar
+    // WiFi
+    createProgressBar("#liWiFi","bg-warning","wifiQuality", "wifiQualitySpan",index.wifiQuality);
+    //SPIFFS
+    const spiffsUsed = () =>{
+        let usado = parseInt(index.spiffsUsed);
+        let total = parseInt(index.info.SPIFFS_SIZE_KB);
+        return Math.round(usado*100/total*100)/100;
+    }
+    createProgressBar("#liSpiffs","bg-secondary","spiffsUsed", "spiffsUsedSpan",spiffsUsed());
+    //RAM
+    const ramAvailable = () =>{
+        let disponible = parseInt(index.ramAvailable);
+        let total = parseInt(index.info.RAM_SIZE_KB);
+        return Math.round(disponible*100/total*100)/100;
+    }
+    createProgressBar("#liRam","bg-danger","ramAvailable", "ramAvailableSpan",ramAvailable());
 
+    //crear card temperatura del dispositivo
+    createCard("#tempCpuCard", "revenue-card", "Temperatura Interna:", "thermometer-half", "salaTemp", index.cpuTemp, "Temp. del dispositivo (°C)");
+    //crear card Humedad en sala 
+    createCard("#tempHum", "revenue-card", "Humedad en Sala:", "water", "salaTemp", index.hum, "Humedad Relativa (%)");
+    //crear card temperatura de la sala
+    createCardTemp("#tempCard", "revenue-card", "Temperatura de la Sala:", "thermometer-half", "salaTemp", index.tC, index.tmin, index.tmax);
 
-
-
+    //pasar valores a los iconos del header
+    headerIconsStatus(resp.wifiStatus, resp.rssiStatus, resp.mqttStatus);
 
 
 

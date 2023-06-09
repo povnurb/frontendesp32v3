@@ -1,6 +1,15 @@
+"use strict";
+import { ApiService, createBreadCrumb, headerIconsStatus } from "./scripts.js";
 
+export async function iniciarEspNow(){
+  console.log('espnow')
+
+
+
+
+  
   var tmp1,tmp2,tmp3,tmp4;
-if (!!window.EventSource) {
+if (window.EventSource) {
  var source = new EventSource('/events');
  
  source.addEventListener('open', function(e) {
@@ -53,6 +62,8 @@ if (!!window.EventSource) {
   document.getElementById('a8'+obj.id).style.display = obj.va8?'block': 'none';
  
  }, false);
+}else{
+  console.log("sin eventos")
 }  
 
 
@@ -74,3 +85,8 @@ setInterval(function aumentar(){ // se crean la funcion y se agrega al evento on
     document.getElementById("cont4").innerHTML = tmp4;
   },1000);
   
+
+}
+
+
+

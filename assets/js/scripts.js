@@ -549,6 +549,65 @@ export function createCard(padre, classCard, title, icon ='cpu', id, value, titl
     });
     contenedor.appendChild(card);
 }
+//crear card para la temperatura
+export function createCardTemp(padre, classCard, title, icon ='cpu', id, value, valuemin, valuemax){
+    const contenedor = document.querySelector(padre);
+    const card = builder({
+        type: 'div',
+        props: {class: `card info-card ${classCard}`},
+        children:[
+            {
+                type: 'div',
+                props: {class: 'card-body'},
+                children: [
+                    {
+                        type: 'h5',
+                        props: {class: 'card-title text-start'},
+                        children : [`${title}`]
+                    },
+                    {
+                        type: 'div',
+                        props: {class: 'd-flex align-items-center'},
+                        children:[
+                            {
+                                type: 'div',
+                                props: {class: 'card-icon rounded-circle d-flex align-items-center justify-content-center'},
+                                children:[
+                                    {
+                                        type: 'i',
+                                        props:{class: `bi bi-${icon}`}
+                                    }
+                                ]
+                            },
+                            {
+                                type: 'div',
+                                props: {class: 'ps-1'},
+                                children: [
+                                    {
+                                        type:'h6',
+                                        props:{ id: `${id}`, class: 'text-start ps-0'},
+                                        children: [`${value} °C`]
+                                    },
+                                    {
+                                        type: 'span',
+                                        props: {class: 'text-muted pt-2 ps-0'},
+                                        children: [`Min. ${valuemin} - `]
+                                    },
+                                    {
+                                        type: 'span',
+                                        props: {class: 'text-danger pt-2 ps-0'},
+                                        children: [`Max. ${valuemax}`]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    });
+    contenedor.appendChild(card);
+}
 //Crear card para tablas wifi, mqtt, info - con opcion de filtro o sin filtro
 export function createCardTable(padre, filter, filterText, filterHref, filterHrefText, cardBodyH5Text, cardBodySpanText = " | Conexión", tableID, data){
     const entriesData = Object.entries(data);
@@ -802,7 +861,7 @@ export function createCardRelays(padre, data){
                                             id: data[1]['R_NAME2'],
                                             class: 'form-check-input',
                                             type: 'checkbox',
-                                            onchange:()=>{switchRelay(data[0]['R_NAME1'],data[0]['R_LOGIC1'],data[1]['R_NAME2'],data[1]['R_LOGIC2'])}//TODO: definir la función   ----------------------------------------------------
+                                            onchange:()=>{switchRelay(data[0]['R_NAME1'],data[0]['R_LOGIC1'],data[1]['R_NAME2'],data[1]['R_LOGIC2'])}
                                         }:
                                         {
                                             //si es falso
@@ -810,7 +869,7 @@ export function createCardRelays(padre, data){
                                             class: 'form-check-input',
                                             type: 'checkbox',
                                             checked: '',
-                                            onchange:()=>{switchRelay(data[0]['R_NAME1'],data[0]['R_LOGIC1'],data[1]['R_NAME2'],data[1]['R_LOGIC2'])}//TODO: definir la función   ----------------------------------------------------
+                                            onchange:()=>{switchRelay(data[0]['R_NAME1'],data[0]['R_LOGIC1'],data[1]['R_NAME2'],data[1]['R_LOGIC2'])}
                                         }
                                     )
                                     
@@ -854,7 +913,7 @@ export function createCardRelays(padre, data){
                         type: 'h5',
                         props: {class: 'card-title'},
                         children: [
-                            'Control de relays ',
+                            'Control de Relays ',
                             { type: 'span', children:['ON/OFF ', {type: 'i', props:{class: 'bi bi-toggles'} } ] }
                         ]
                     },
@@ -865,6 +924,8 @@ export function createCardRelays(padre, data){
     });
     contenedor.appendChild(card);
 }
+
+
 
 //funcion para ejecutar los controles a los relays
 const switchRelay = (name1,logic1,name2,logic2) =>{
@@ -965,7 +1026,362 @@ const relaysStatusChangeNeg=(relayStatus,relayIcon,stado)=>{
     }
 }
 
+//función card de los progressbar
+export function createProgressBar(padre, type, idProgress, idSpan, value){
+    const contenedor = document.querySelector(padre);
+    const progress = builder({
+        type: 'div',
+        props:{class: 'progress', style: 'height: 25px'},
+        children:[
+            {
+                type: 'div',
+                props:{
+                    id:idProgress,
+                    class: `progress-bar ${type}`,
+                    style: `width: ${value}%`
+                },
+                children:[
+                    {
+                        type: 'strong',
+                        children:[
+                            {
+                                type:'span',
+                                props:{
+                                    id:idSpan,
+                                    class: 'text-white',
+                                    style: 'font-size: 20px'
+                                },
+                                children:[`${value}%`]  
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    });
+    contenedor.appendChild(progress);
+}
 
+//actualizar los estado de los iconoes del header
+export function headerIconsStatus(wifiStatus, rssiStatus, mqttStatus){
+    //capturar los contenedores por id
+    let elementWifi = document.getElementById('wifiStatus');
+    let elementRssi = document.getElementById('rssiStatus');
+    let elementMQTT = document.getElementById('mqttStatus');
+    // estado del wifi
+    if(wifiStatus){
+        elementWifi.className = ''; //elimina las clases
+        elementWifi.classList.add('bi','bi-wifi','text-success');
+    }else{
+        elementWifi.className = ''; //elimina las clases
+        elementWifi.classList.add('bi','bi-wifi-odd','text-dark');
+        rssiStatus = -200;
+        mqttStatus = false
+    }
+    //Estado del rssi
+    if(rssiStatus >= -55){ //esta es una calidad de señal buena
+        elementRssi.className = '';
+        elementRssi.classList.add('bi', 'bi-reception-4', 'text-success')
+    }else if(rssiStatus <= -56 && rssiStatus > -89){
+        elementRssi.className = '';
+        elementRssi.classList.add('bi', 'bi-reception-3', 'text-success')
+    }else if(rssiStatus <= -90 && rssiStatus > -97){
+        elementRssi.className = '';
+        elementRssi.classList.add('bi', 'bi-reception-2', 'text-warning')
+    }else if(rssiStatus <= -98 && rssiStatus > -103){
+        elementRssi.className = '';
+        elementRssi.classList.add('bi', 'bi-reception-1', 'text-warning')
+    }else{
+        elementRssi.className = '';//quita todas las clases
+        elementRssi.classList.add('bi', 'bi-reception-0', 'text-danger')
+    }
+
+    //estados para el mqtt
+    if(mqttStatus){
+        elementMQTT.className = '';
+        elementMQTT.classList.add('bi', 'bi-cloud-fill', 'text-primary');
+    }else{
+        elementMQTT.className = '';
+        elementMQTT.classList.add('bi', 'bi-cloud-slash-fill', 'text-dark');
+    }
+}
+
+//crear input segun el tipo
+export function createInputType(padre, id, type, label, placeholder, value, classe){
+    const contenedor = document.querySelector(padre);
+    const divRow = builder({
+        type:'div',
+        props:{class: 'row mb-3 mt-3'},
+        children:[
+            {
+                type: 'label',
+                props:{class: 'col-sm-4 col-form-label mt-2', for: id},
+                children: [label]
+            },
+            {
+                type:'div',
+                props: {class: 'col-sm-8 mt-2'},//columna pequena de 8 y margin top de 2
+                children: [
+                    {
+                        type: 'input',
+                        props:{
+                            class:`form-control ${classe}`, 
+                            type: type,
+                            placeholder: placeholder,
+                            id:id,
+                            name:id,
+                            value:value
+                        },
+                        children:[]
+                    }
+                ]
+            }
+        ]
+    });
+    contenedor.appendChild(divRow);
+}
+
+export function createInputTypeNum(padre, id, type, label, placeholder, value, classe, min, max){
+    const contenedor = document.querySelector(padre);
+    const divRow = builder({
+        type:'div',
+        props:{class: 'row mb-3 mt-3'},
+        children:[
+            {
+                type: 'label',
+                props:{class: 'col-sm-4 col-form-label mt-2', for: id},
+                children: [label]
+            },
+            {
+                type:'div',
+                props: {class: 'col-sm-8 mt-2'},//columna pequena de 8 y margin top de 2
+                children: [
+                    {
+                        type: 'input',
+                        props:{
+                            class:`form-control ${classe}`, 
+                            type: type,
+                            placeholder: placeholder,
+                            id:id,
+                            name:id,
+                            value:value,
+                            Min: min,
+                            Max: max
+                        },
+                        children:[]
+                    }
+                ]
+            }
+        ]
+    });
+    contenedor.appendChild(divRow);
+}
+
+// crear funcion si es un switch
+export function createSwitch(padre, id, type, label1, label2, value, classe){
+    const contenedor = document.querySelector(padre);
+    const divRow =  builder({
+        type: 'div', 
+        props: {class: 'row mb-3 mt-3'}, 
+        children:[
+            {
+                type: 'label',
+                props: {class: 'col-sm-4 col-form-label', for: id},
+                children: [label1]
+            },
+            {
+                type: 'div',
+                props: {class: 'col-sm-8 mt-2'},
+                children: [
+                    {
+                        type: 'div',
+                        props: {class: 'form-check form-switch'},
+                        children: [
+                            { 
+                                type: 'input', 
+                                props: value ? { // si value es true
+                                    class: `form-check-input ${classe}`, 
+                                    type: type, 
+                                    id: id, 
+                                    name: id,
+                                    checked: '',
+                                    onchange:()=>{ switchChange( id ) } // funcion para bloquear los switch si estoy en cliente => bloquea ap,  ap => bloquea cliente TODO: implementar
+                                } : { // si value es false
+                                    class: `form-check-input ${classe}`, 
+                                    type: type, 
+                                    id: id, 
+                                    name: id,
+                                    onchange:()=>{ switchChange( id ) }
+                                }, 
+                                children: []
+                            },
+                            { type: 'label', props: {class: `form-check-label switch_${id}`, for: id }, children: [label2]} // SI / NO
+                        ]
+                    }
+                ]
+            }
+        ]
+    });
+    contenedor.appendChild(divRow);
+    // Todo: llamar la función 
+    //switchChange( id );
+}
+
+// crear funcion create cardBuzzer
+export function createCardBuzzer(padre, data){
+    let relaysContainer = {
+        type: 'div',
+        props: { class: 'row text-center'},
+        children: [
+        {
+            type: 'div',
+            props: {class: 'col-md-12 pb-2 mb-2'},
+            children: [
+                //buzzer
+                {   
+                    type: 'li',
+                    props: {class: 'list-group-item d-flex align-items-center justify-content-between'},
+                    children:[
+                        {
+                            type: 'h4',
+                            props:{class: 'mt-3'},
+                            children:[
+                                {
+                                    type: 'span',
+                                    props:{class: 'badge border-primary border-1 text-secondary'},
+                                    children: [
+                                        'BUZZER',
+                                        {
+                                            type:'i',
+                                            props:{
+                                                //class: relay.R_LOGIC2? (relay.R_STATUS2?'bi bi-alt':'bi bi-option' ):(relay.R_STATUS2?'bi bi-option':'bi bi-alt'),
+                                                class: data['BUZZER_STATUS']?'bi bi-alt':'bi bi-option' ,
+                                                //id: relay.R_NAME2+'_Icon' //esto seria  RELAY12_Icon
+                                                id: 'BUZZER_STATUS_Icon'
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            type: 'div',
+                            props: {class: 'form-check form-switch card-icon rounded-circle d-flex align-items-center justify-content-center'},
+                            children: [
+                                {
+                                    type: 'input',
+                                    children:[],
+                                    props: 
+                                        data['BUZZER_STATUS']?{
+                                            //si es verdadero
+                                            id: 'BUZZER_STATUS',
+                                            class: 'form-check-input',
+                                            type: 'checkbox',
+                                            checked: '',
+                                            onchange:()=>{switchBuzzer()}
+                                        }:
+                                        {
+                                            //si es falso
+                                            id: 'BUZZER_STATUS',
+                                            class: 'form-check-input',
+                                            type: 'checkbox',
+                                            onchange:()=>{switchBuzzer()}
+                                        }
+ 
+                                }
+                            ]
+                        },
+                        {
+                            type:'div',
+                            props: {class: 'card-icon rounded-circle d-flex align-items-center'},
+                            children: [
+                                {
+                                    type:'i',
+                                    props:{
+                                        id: 'Buzzer_Status', //fa-solid fa-bell fa-shake //fa-solid fa-bell fa-shake
+                                        //class: data['BUZZER_STATUS']?'fa-solid fa-bell fa-shake text-danger':'fa-solid fa-bell fa-shake text-dark'
+                                        class: data['BUZZER_STATUS']?'bi bi-bell-fill text-danger':'bi bi-bell-fill text-dark'
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }]
+    }
+    //console.log(data)
+
+  
+    // contenedor padre
+    const contenedor = document.querySelector(padre);
+
+    const card = builder({
+        type: 'div',
+        props: {class: 'card'},
+        children:[
+            {
+                type: 'div',
+                props: {class: 'card-body'},
+                children: [
+                    {
+                        type: 'h5',
+                        props: {class: 'card-title'},
+                        children: [
+                            'Control del Buzzer ',
+                            { type: 'span', children:['ON/OFF ', {type: 'i', props:{class: 'bi bi-toggles'} } ] }
+                        ]
+                    },
+                    relaysContainer
+                ]
+            }
+        ]
+    });
+    contenedor.appendChild(card);
+}
+
+
+//crear funcion del buzzer
+const switchBuzzer = () =>{
+    //capturar el estado del relay hay que hacer una igual para capturar la lógica de los relay
+    let status1= document.querySelector('#BUZZER_STATUS').checked;
+    
+    const toSend = {
+        protocol: 'API',
+        output: 'buzzer',
+        value: status1,
+    }
+    //console.log(toSend)
+    const path =  'device/buzzer'; //de la api en el curso 'device/relays' en mi proyecto relays
+    //funcion para ejecutar los POST
+    ejecutarPostBuzzer(path, toSend);
+    //let sti = JSON.stringify(toSend)
+    //console.log(path+' '+sti)
+}
+
+export async function ejecutarPostBuzzer(path, data){
+    console.log(data)
+    const postAPI = new ApiService(path,data);//instancia del servicio de la API
+    const resp = await postAPI.postApiData();//lo que responde el await del post API
+    const buzzerStatus = document.querySelector('#Buzzer_Status');//es el foco
+    const buzzerIcon= document.querySelector(`#BUZZER_STATUS_Icon`);//es el icono
+    buzzerStatusChange(buzzerStatus,buzzerIcon,data.value)
+
+}
+
+const buzzerStatusChange=(buzzerStatus,buzzerIcon,stado)=>{
+    if (stado){
+        buzzerStatus.classList.remove('text-dark');
+        buzzerStatus.classList.add('text-danger');
+        buzzerIcon.classList.remove('bi-option');
+        buzzerIcon.classList.add('bi-alt');
+    }else{
+        buzzerStatus.classList.remove('bi', 'bi-bell-fill', 'text-danger');
+        buzzerStatus.classList.add('bi', 'bi-bell-fill', 'text-dark');
+        buzzerIcon.classList.remove('bi-alt');
+        buzzerIcon.classList.add('bi-option');
+    }
+}
 /*
 export class card{
     constructor(textHeaer, body){

@@ -3,6 +3,14 @@
 import { url, createHeader, createSidebarNav } from './scripts.js'
 import { sidebar } from './template.js';
 import { iniciarIndex } from './index.js';
+import { iniciarWifi } from './wifi.js';
+import { iniciarAlarmas } from './alarmas.js';
+import { iniciarDeviceRemote } from './deviceremote.js';
+
+import { iniciarRelays } from './relays.js';
+import { iniciarTime } from './time.js';
+
+import { iniciarEspNow } from './espnow.js';
 
 // 3:"/index.html" o '/' o 'esp-admin'
 switch (url[3]) {
@@ -16,6 +24,78 @@ switch (url[3]) {
         createHeader();
         createSidebarNav(sidebar);
         document.addEventListener('DOMContentLoaded', iniciarIndex);
+        break;
+    case '/wifi.html': //para modo desarrollo
+        createHeader();
+        createSidebarNav(sidebar);
+        //cuando todo el documento se carge despues se ejecuta la funcion iniciarIndex
+        document.addEventListener('DOMContentLoaded', iniciarWifi);
+        break;
+    case '/esp-wifi': //para producción
+        createHeader();
+        createSidebarNav(sidebar);
+        //cuando todo el documento se carge despues se ejecuta la funcion iniciarIndex
+        document.addEventListener('DOMContentLoaded', iniciarWifi);
+        break;
+    case '/alarmas.html': //para modo desarrollo
+        createHeader();
+        createSidebarNav(sidebar);
+        //cuando todo el documento se carge despues se ejecuta la funcion iniciarIndex
+        document.addEventListener('DOMContentLoaded', iniciarAlarmas);
+        break;
+    case '/esp-alarmas': //para producción
+        createHeader();
+        createSidebarNav(sidebar);
+        //cuando todo el documento se carge despues se ejecuta la funcion iniciarIndex
+        document.addEventListener('DOMContentLoaded', iniciarAlarmas);
+        break;
+    case '/deviceremote.html': //para modo desarrollo
+        createHeader();
+        createSidebarNav(sidebar);
+        //cuando todo el documento se carge despues se ejecuta la funcion iniciarIndex
+        document.addEventListener('DOMContentLoaded', iniciarDeviceRemote);
+        break;
+    case '/esp-deviceremote': //para producción
+        createHeader();
+        createSidebarNav(sidebar);
+        //cuando todo el documento se carge despues se ejecuta la funcion iniciarIndex
+        document.addEventListener('DOMContentLoaded', iniciarDeviceRemote);
+        break;
+    case '/espnow.html': //para modo desarrollo
+        createHeader();
+        createSidebarNav(sidebar);
+        //cuando todo el documento se carge despues se ejecuta la funcion iniciarIndex
+        document.addEventListener('DOMContentLoaded', iniciarEspNow);
+        break;
+    case '/esp-espnow': //para producción
+        createHeader();
+        createSidebarNav(sidebar);
+        //cuando todo el documento se carge despues se ejecuta la funcion iniciarIndex
+        document.addEventListener('DOMContentLoaded', iniciarEspNow);
+        break;
+    case '/relays.html': //para modo desarrollo
+        createHeader();
+        createSidebarNav(sidebar);
+        //cuando todo el documento se carge despues se ejecuta la funcion iniciarIndex
+        document.addEventListener('DOMContentLoaded', iniciarRelays);
+        break;
+    case '/esp-relays': //para producción
+        createHeader();
+        createSidebarNav(sidebar);
+        //cuando todo el documento se carge despues se ejecuta la funcion iniciarIndex
+        document.addEventListener('DOMContentLoaded', iniciarRelays);
+        break;
+    case '/time.html': //para modo desarrollo
+        createHeader();
+        createSidebarNav(sidebar);
+        //cuando todo el documento se carge despues se ejecuta la funcion iniciarIndex
+        document.addEventListener('DOMContentLoaded', iniciarTime);
+        break;
+    case '/esp-time': //para producción
+        createHeader();
+        createSidebarNav(sidebar);
+        //cuando todo el documento se carge despues se ejecuta la funcion iniciarIndex
+        document.addEventListener('DOMContentLoaded', iniciarTime);
         break;
     default:
         break;

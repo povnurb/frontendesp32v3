@@ -31,120 +31,12 @@
 <body>
   <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
-    <div class="d-flex align-items-center justify-content-between">
-      <a href="/" class="logo d-flex align-items-center">
-        <img src="assets/img/logo.png" alt="">
-        <span class="d-none d-lg-block">ESP32Admin v3</span>
-      </a>
-      <i class="bi bi-list toggle-sidebar-btn"></i>
-    </div>
-    <!-- End Logo -->
-    <nav class="header-nav ms-auto">
-      <ul class="d-flex align-items-center">
-        <li class="nav-item dropdown">
-          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-            <i class="bi bi-wifi text-success" data-bs-toggle="tooltip" data-bs-placement="bottom"
-              data-bs-original-title="Conexión WiFi" id="wifiStatus"></i>
-          </a><!-- End wifi Icon -->
-        </li><!-- End wifi Nav -->
-        <li class="nav-item dropdown">
-          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-            <i class="bi bi-reception-4 text-success" data-bs-toggle="tooltip" data-bs-placement="bottom"
-              data-bs-original-title="WIFI RSSI" id="rssiStatus"></i>
-          </a><!-- End signal Icon -->
-        </li><!-- End signal Nav -->
-        <li class="nav-item dropdown">
-          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-            <i class="bi bi-cloudy-fill text-success" data-bs-toggle="tooltip" data-bs-placement="bottom"
-              data-bs-original-title="Conexión MQTT" id="mqttStatus"></i>
-          </a><!-- End mqtt Icon -->
-        </li><!-- End mqtt Nav -->
-        <li class="nav-item dropdown pe-3">
-          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <span class="d-none d-md-block dropdown-toggle ps-2">Admin</span>
-          </a><!-- End Profile Iamge Icon -->
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-            <li class="dropdown-header">
-              <h6>Admin</h6>
-              <span>Administrador del sistema</span>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="esp-admin">
-                <i class="bi bi-person"></i>
-                <span>Perfil</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="esp-device">
-                <i class="bi bi-gear"></i>
-                <span>Configuración</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="https://electroniciot.com" target="_blank">
-                <i class="bi bi-question-circle"></i>
-                <span>Ayuda?</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="esp-logout">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Salir</span>
-              </a>
-            </li>
-          </ul><!-- End Profile Dropdown Items -->
-        </li><!-- End Profile Nav -->
-      </ul>
-    </nav><!-- End Icons Navigation -->
   </header>
   <!-- End Header -->
   <!-- ======= Sidebar ======= -->
   <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
       <!-- automatico -->
-      <li class="nav-item"><a class=""><a class="nav-link" href="/"><i
-              class="bi bi-grid"></i><span>Dashboard</span></a></a></li>
-      <li class="nav-item"><span class="nav-link collapsed" data-bs-target="#Perifericos-nav"
-          data-bs-toggle="collapse"><i class="bi bi-bar-chart"></i><span>Periféricos</span><i
-            class="bi bi-chevron-down ms-auto"></i></span>
-        <ul class="nav-content collapse" data-bs-parent="#sidebar-nav" id="Perifericos-nav">
-          <li><a href="esp-alarmas"><i class="bi bi-circle"></i><span>ALARMAS</span></a></li>
-          <li><a href="esp-relays"><i class="bi bi-circle"></i><span>RELAYS</span></a></li>
-          <li><a href="esp-relays"><i class="bi bi-circle"></i><span>EXPANCIONES</span></a></li>
-        </ul>
-      </li>
-      <li class="nav-item"><span class="nav-link collapsed" data-bs-target="#Conexiones-nav"
-          data-bs-toggle="collapse"><i class="bi bi-bar-chart"></i><span>Conexiones</span><i
-            class="bi bi-chevron-down ms-auto"></i></span>
-        <ul class="nav-content collapse" data-bs-parent="#sidebar-nav" id="Conexiones-nav">
-          <li><a href="esp-wifi"><i class="bi bi-circle"></i><span>WiFi</span></a></li>
-          <li><a href="esp-mqtt"><i class="bi bi-circle"></i><span>MQTT</span></a></li>
-          <li><a href="esp-remotealarms"><i class="bi bi-circle"></i><span>Alarmas Remotas</span></a></li>
-        </ul>
-      </li>
-      <li class="nav-item"><span class="nav-link collapsed" data-bs-target="#Dispositivo-nav"
-          data-bs-toggle="collapse"><i class="bi bi-sliders"></i><span>Dispositivo</span><i
-            class="bi bi-chevron-down ms-auto"></i></span>
-        <ul class="nav-content collapse" data-bs-parent="#sidebar-nav" id="Dispositivo-nav">
-          <li><a href="esp-restore"><i class="bi bi-circle"></i><span>Restaurar a fabrica</span></a></li>
-          <li><a href="esp-restart"><i class="bi bi-circle"></i><span>Reiniciar</span></a></li>
-          <li><a href="esp-device"><i class="bi bi-circle"></i><span>Firmware</span></a></li>
-        </ul>
-      </li>
-      <li class="nav-item"><a class="collapsed"><a class="nav-link" href="esp-admin"><i
-              class="bi bi-person"></i><span>Perfil</span></a></a></li>
     </ul>
   </aside>
   <!-- End Sidebar-->
@@ -152,14 +44,6 @@
   
     <div class="pagetitle">
         <!-- automatico -->
-        <h1>Configuración de los Relays</h1>
-        <nav>
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/">Inicio</a></li>
-            <li class="breadcrumb-item">Perifericos</li>
-            <li class="breadcrumb-item active">Relays</li>
-          </ol>
-        </nav>
       </div>
       <!-- End Page Title -->
       <section class="section">
@@ -183,7 +67,7 @@
                     TIMEOFFRELAY2="00:00";      //indica a que horas se apaga
                   -->
                 <form id="form1">
-                  <div id="switchModeTimer1">
+                  <div id="switchModeLogic1">
                     <!-- auto - switch mode relay1 -->
                     <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label" for="R_LOGIC1">Modo Relay1</label>
                       <div class="col-sm-8 mt-2">
@@ -195,7 +79,7 @@
                   </div>
                   <hr>
                   <div id="inputRelayName1">
-                    <!-- auto - input nombre -->
+                    <!-- auto - input nombre Nota: No PUEDEN LLEVAR punto-->
                     <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label mt-2" for="R_NAME1">Nombre: </label>
                       <div class="col-sm-8 mt-2"><input class="form-control Relay1 client" type="text"
                           placeholder="Nombre del relay1" id="R_NAME1" name="R_NAME1" value="R_NAME1"></div>
@@ -210,18 +94,7 @@
                   </div>
                   <div class="row mb-3 mt-3">
                     <!-- Accordion configuración  -->
-                    <div class="accordion accordion-flush" id="accordionCliente">
-                      <div class="accordion-item">
-                        <h2 class="accordion-header" id="flush-Cliente">
-                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#flush-collapseCliente" aria-expanded="false"
-                            aria-controls="flush-collapseCliente">
-                            Opciones avanzadas 
-                          </button>
-                        </h2>
-                        <div id="flush-collapseCliente" class="accordion-collapse collapse"
-                          aria-labelledby="flush-Cliente" data-bs-parent="#accordionCliente">
-                          <div class="accordion-body">
+                    
                             <div id="switchTimer1">
                               <!-- auto - switch Timer -->
                               <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label"
@@ -272,10 +145,7 @@
                               </div>
                             </div>
                             
-                          </div>
-                        </div>
-                      </div>
-                    </div><!-- End Accordion configuración  -->
+                       
                   </div>
                   
                 </form><!-- End General Form Elements -->
@@ -289,7 +159,7 @@
               <div class="card-body">
                 <!-- General Form Elements -->
                 <form id="form2">
-                    <div id="switchModeTimer2">
+                    <div id="switchModeLogic2">
                         <!-- auto - switch mode relay2 -->
                         <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label" for="R_LOGIC2">Modo Relay2</label>
                           <div class="col-sm-8 mt-2">
@@ -301,7 +171,7 @@
                       </div>
                       <hr>
                       <div id="inputRelayName2">
-                        <!-- auto - input nombre -->
+                        <!-- auto - input nombre Nota: No PUEDEN LLEVAR punto-->
                         <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label mt-2" for="R_NAME2">Nombre: </label>
                           <div class="col-sm-8 mt-2"><input class="form-control Relay2 client" type="text"
                               placeholder="Nombre del relay2" id="R_NAME2" name="R_NAME2" value="R_NAME2"></div>
@@ -316,18 +186,7 @@
                       </div>
                       <div class="row mb-3 mt-3">
                         <!-- Accordion configuración  -->
-                        <div class="accordion accordion-flush" id="accordionCliente">
-                          <div class="accordion-item">
-                            <h2 class="accordion-header" id="flush-Cliente">
-                              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#flush-collapseCliente" aria-expanded="false"
-                                aria-controls="flush-collapseCliente">
-                                Opciones avanzadas 
-                              </button>
-                            </h2>
-                            <div id="flush-collapseCliente" class="accordion-collapse collapse"
-                              aria-labelledby="flush-Cliente" data-bs-parent="#accordionCliente">
-                              <div class="accordion-body">
+                        
                                 <div id="switchTimer2">
                                   <!-- auto - switch Timer -->
                                   <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label"
@@ -378,10 +237,7 @@
                                   </div>
                                 </div>
                                 
-                              </div>
-                            </div>
-                          </div>
-                        </div><!-- End Accordion configuración  -->
+                          
                       </div>
 
                 </form><!-- End General Form Elements -->
@@ -390,25 +246,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6 col-xl-6">
-            <p class="text-uppercase fs-sm fw-bold text-center mt-2 mb-4">
-                BUZZER
-            </p>
-            <a class="block block-rounded block-link-pop bg-xinspire-darker" href="">
-                <div class="block-content block-content-full d-flex align-items-center justify-content-between">
-                    <div class="me-3">
-                    <p class="text-white-75 mb-0">
-                        Activa el zumbador en la tarjeta
-                    </p>
-                    </div>
-                    <div class="item">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" v-model="action.RELAY_STATUS" @click="relayOnOff">
-                        </div>
-                    </div>
-                </div>
-            </a>
-        </div>
+        
         <div class="row mb-3" id="btnSendRelay1">
   
             <!-- <div class="col-sm-10">

@@ -49,20 +49,29 @@
         <!-- Left side columns -->
         <div class="col-lg-12">
           <div class="row">
+            <div class="col-md-4 pb-2" id="tempCard">
+              <!-- card automatica -->                      
+            </div>
+            <div class="col-md-4 pb-2" id="tempHum">
+              <!-- card automatica -->                      
+            </div>
+            <div class="col-md-4 pb-2" id="tempCpuCard">
+              <!-- card automatica -->
+            </div>
             <!-- Serial Card -->
-            <div class="col-xxl-3 col-md-6" id="serialCard">
+            <div class="col-xxl-3 col-md-8" id="serialCard">
               <!-- card automatica -->
             </div><!-- End serial Card -->
             <!-- dispositivo Card -->
-            <div class="col-xxl-3 col-md-6" id="deviceCard">
+            <div class="col-xxl-3 col-md-4" id="deviceCard">
               <!-- card automatica -->
             </div><!-- End dispositivo Card -->
             <!-- reinicios Card -->
-            <div class="col-xxl-3 col-md-6" id="rebootsCard">
+            <div class="col-xxl-3 col-md-4" id="rebootsCard">
               <!-- card automatica -->
             </div><!-- End reinicios Card -->
             <!-- activo Card -->
-            <div class="col-xxl-3 col-md-6" id="cardTimeActive">
+            <div class="col-xxl-3 col-md-8" id="cardTimeActive">
               <!-- card automatica -->
             </div><!-- End activo Card -->
             <!-- Gráfica de linea -->
@@ -88,75 +97,8 @@
             <!-- informacion general -->
             <div class="col-lg-8 col-sm-12" id="infoCard">
               <!-- Automatico -->
-              <div class="card">
-                <div class="card-body">
-                  <h5 class="card-title">Información General<span> | Dispositivo</span></h5>
-                  <div class="table-responsive">
-                    <table class="table table-borderless datatable align-middle">
-                      <tbody id="infoTable">
-                        <tr>
-                          <th scope="row">Identificación:</th>
-                          <td>espdcbce</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">Número de Serie:</th>
-                          <td>ESP32DC15B80C703E</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">mDNS Url:</th>
-                          <td>http://espdcbce.local/</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">Dirección IP del Cliente:</th>
-                          <td>192.168.20.170</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">Navegador del Cliente:</th>
-                          <td>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)
-                            Chrome/110.0.0.0 Safari/537.36</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">Versión del Firmware:</th>
-                          <td>ESP32_3.0.a0-Build-20230212</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">Versión del Hardware:</th>
-                          <td>ADMINESP32 v1 00000000</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">CPU FREQ MHz:</th>
-                          <td>240</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">RAM SIZE KB:</th>
-                          <td>304</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">SPIFFS SIZE KB:</th>
-                          <td>14</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">FLASH SIZE MB:</th>
-                          <td>4</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">Fabricante:</th>
-                          <td>IOTHOST</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">Tiempo de Actividad del Sistema:</th>
-                          <td>0:00:00:09</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">Cantidad de Reinicios:</th>
-                          <td>47</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
             </div><!-- End informacion general -->
+
             <!-- Estados -->
             <div class="col-lg-4 col-sm-12">
               <div class="card">
@@ -169,11 +111,6 @@
                           <h5 class="card-title text-start">Calidad red WiFi:</h5>
                           <li class="list-group-item align-items-center justify-content-between" id="liWiFi">
                             <!-- progress automatico -->
-                            <div class="progress" style="height: 25px">
-                              <div id="wifiQuality" class="progress-bar bg-secondary" style="width: 100%"><strong><span
-                                    id="wifiQualitySpan" class="text-white" style="font-size: 20px">100%</span></strong>
-                              </div>
-                            </div>
                           </li>
                         </div>
                       </div>
@@ -184,11 +121,6 @@
                           <h5 class="card-title text-start">SPIFFS Usada:</h5>
                           <li class="list-group-item align-items-center justify-content-between" id="liSpiffs">
                             <!-- progress automatico -->
-                            <div class="progress" style="height: 25px">
-                              <div id="spiffsUsed" class="progress-bar bg-primary" style="width: 7.14%"><strong><span
-                                    id="spiffsUsedSpan" class="text-white" style="font-size: 20px">7.14%</span></strong>
-                              </div>
-                            </div>
                           </li>
                         </div>
                       </div>
@@ -199,28 +131,7 @@
                           <h5 class="card-title text-start">RAM Disponible:</h5>
                           <li class="list-group-item align-items-center justify-content-between" id="liRam">
                             <!-- progress automatico -->
-                            <div class="progress" style="height: 25px">
-                              <div id="ramAvailable" class="progress-bar bg-success" style="width: 60.53%"><strong><span
-                                    id="ramAvailableSpan" class="text-white"
-                                    style="font-size: 20px">60.53%</span></strong></div>
-                            </div>
                           </li>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-12 pb-2" id="tempCard">
-                      <!-- card automatica -->
-                      <div class="card info-card revenue-card">
-                        <div class="card-body">
-                          <h5 class="card-title text-start">Temperatura del CPU</h5>
-                          <div class="d-flex align-items-center">
-                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center"><i
-                                class="bi bi-thermometer-half"></i></div>
-                            <div class="ps-1">
-                              <h6 id="cpuTemp" class="text-start ps-0">66.11</h6><span
-                                class="text-muted small pt-2 ps-0">Temperatura interna (°C)</span>
-                            </div>
-                          </div>
                         </div>
                       </div>
                     </div>
