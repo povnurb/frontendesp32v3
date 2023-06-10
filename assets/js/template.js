@@ -278,7 +278,7 @@ export const relayMainInput1 = [
         parentId: '#switchModeLogic1',
         inputId:'R_LOGIC1',
         type: 'checkbox',
-        label1: 'Logica Relay1:',
+        label1: 'Relay1:',
         label2: '', //placeholder 
         value: true,
         classe: 'RELAY1'
@@ -317,18 +317,20 @@ export const relayMainInput1 = [
         switch: false,
         parentId: '#inputR_TIMER1',
         inputId:'R_TIMER1',
-        type: 'text',
+        type: 'number',
         label1: 'Tiempo en Segundos: ',
         label2: '0', //placeholder 
         value: '0',
-        classe: 'RELAY1'
+        classe: 'TRELAY1',
+        min: 0,
+        max: 3600,
     },
     {
         switch: true,
         parentId: '#switchTEMPORIZADOR1',
         inputId:'TEMPORIZADOR1',
         type: 'checkbox',
-        label1: 'TEMPORIZADOR1 ',
+        label1: 'TEMPORIZADOR ',
         label2: '', //placeholder 
         value: false,
         classe: 'RELAY1'
@@ -341,7 +343,7 @@ export const relayMainInput1 = [
         label1: 'Hr. de Encendido ',
         label2: '', //placeholder 
         value: '00:00',
-        classe: 'RELAY1'
+        classe: 'TEMPRELAY1'
     },
     {
         switch: false,
@@ -351,7 +353,7 @@ export const relayMainInput1 = [
         label1: 'Hr. de Apagado ',
         label2: '', //placeholder 
         value: '00:00',
-        classe: 'RELAY1'
+        classe: 'TEMPRELAY1'
     }
 ]
 
@@ -362,7 +364,7 @@ export const relayMainInput2 = [
         parentId: '#switchModeLogic2',
         inputId:'R_LOGIC2',
         type: 'checkbox',
-        label1: 'Logica Relay2:',
+        label1: 'Relay2:',
         label2: '', //placeholder 
         value: true,
         classe: 'RELAY2'
@@ -401,18 +403,20 @@ export const relayMainInput2 = [
         switch: false,
         parentId: '#inputR_TIMER2',
         inputId:'R_TIMER2',
-        type: 'text',
+        type: 'number',
         label1: 'Tiempo en Segundos: ',
         label2: '0', //placeholder 
         value: '0',
-        classe: 'RELAY2'
+        classe: 'TRELAY2',
+        min: 0,
+        max: 3600
     },
     {
         switch: true,
         parentId: '#switchTEMPORIZADOR2',
         inputId:'TEMPORIZADOR2',
         type: 'checkbox',
-        label1: 'TEMPORIZADOR2 ',
+        label1: 'TEMPORIZADOR',
         label2: '', //placeholder 
         value: false,
         classe: 'RELAY2'
@@ -425,7 +429,7 @@ export const relayMainInput2 = [
         label1: 'Hr. de Encendido ',
         label2: '', //placeholder 
         value: '00:00',
-        classe: 'RELAY2'
+        classe: 'TEMPRELAY2'
     },
     {
         switch: false,
@@ -435,6 +439,6 @@ export const relayMainInput2 = [
         label1: 'Hr. de Apagado ',
         label2: '', //placeholder 
         value: '00:00',
-        classe: 'RELAY2'
+        classe: 'TEMPRELAY2'
     }
 ]

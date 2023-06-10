@@ -69,83 +69,34 @@
                 <form id="form1">
                   <div id="switchModeLogic1">
                     <!-- auto - switch mode relay1 -->
-                    <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label" for="R_LOGIC1">Modo Relay1</label>
-                      <div class="col-sm-8 mt-2">
-                        <div class="form-check form-switch"><input class="form-check-input Relay1" type="checkbox"
-                            id="R_LOGIC1" name="R_LOGIC1" checked=""><label class="form-check-label switch_R_LOGIC1"
-                            for="R_LOGIC1">Logica {{positiva-negativa}}</label></div>
-                      </div>
-                    </div>
                   </div>
                   <hr>
                   <div id="inputRelayName1">
                     <!-- auto - input nombre Nota: No PUEDEN LLEVAR punto-->
-                    <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label mt-2" for="R_NAME1">Nombre: </label>
-                      <div class="col-sm-8 mt-2"><input class="form-control Relay1 client" type="text"
-                          placeholder="Nombre del relay1" id="R_NAME1" name="R_NAME1" value="R_NAME1"></div>
-                    </div>
+                    
                   </div>
                   <div id="inputDescripcion1">
                     <!-- auto - input descripción -->
-                    <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label mt-2" for="R_DESCRIPTION1">Descripcion:</label>
-                      <div class="col-sm-8 mt-2"><input class="form-control Relay1 client" type="text"
-                          placeholder="Ejemplo: Abre puerta principal" id="R_DESCRIPTION1" name="R_DESCRIPTION1" value="R_DESCRIPTION1"></div>
-                    </div>
                   </div>
+                  <hr>
                   <div class="row mb-3 mt-3">
-                    <!-- Accordion configuración  -->
-                    
-                            <div id="switchTimer1">
-                              <!-- auto - switch Timer -->
-                              <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label"
-                                  for="R_TIMERON1">Timer</label>
-                                <div class="col-sm-8 mt-2">
-                                  <div class="form-check form-switch"><input class="form-check-input Relay1 client"
-                                      type="checkbox" id="R_TIMERON1" name="R_TIMERON1"><label
-                                      class="form-check-label switch_R_TIMERON1" for="R_TIMERON1">{{Ativado-Desactivado}}</label></div>
-                                </div>
-                              </div>
-                            </div>
-                            <div id="inputR_TIMER1">
-                              <!-- Tiempo de duracion del relay -->
-                              <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label mt-2"
-                                  for="R_TIMER1">Tiempo en segundos</label>
-                                <div class="col-sm-8 mt-2"><input class="form-control Relay1 client ip" type="number"
-                                    placeholder="0" id="R_TIMER1" name="R_TIMER1" value="0" min="0"
-                                    disabled=""></div>
-                              </div>
-                            </div>
-                            <div id="switchTEMPORIZADOR1">
-                              <!-- auto - switch Temporizador -->
-                              <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label"
-                                  for="TEMPORIZADOR1">Temporizador</label>
-                                <div class="col-sm-8 mt-2">
-                                  <div class="form-check form-switch"><input class="form-check-input Relay1 client"
-                                      type="checkbox" id="TEMPORIZADOR1" name="TEMPORIZADOR1"><label
-                                      class="form-check-label switch_TEMPORIZADOR1" for="TEMPORIZADOR1">{{Ativado-Desactivado}}</label></div>
-                                </div>
-                              </div>
-                            </div>
-                            <div id="inputTIMEONRELAY1">
-                              <!-- Tiempo de duracion del relay -->
-                              <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label mt-2"
-                                  for="TIMEONRELAY1">Hr. de {{encendido-apagado}}</label>
-                                <div class="col-sm-8 mt-2"><input class="form-control Relay1 client ip" type="text"
-                                    placeholder="00:00" id="TIMEONRELAY1" name="TIMEONRELAY1" 
-                                    disabled=""></div>
-                              </div>
-                            </div>
-                            <div id="inputTIMEOFFRELAY1">
-                              <!-- Tiempo de duracion del relay -->
-                              <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label mt-2"
-                                  for="TIMEOFFRELAY1">Hr. de {{apagado-encendido}}</label>
-                                <div class="col-sm-8 mt-2"><input class="form-control Relay1 client ip" type="text"
-                                    placeholder="00:00" id="TIMEOFFRELAY1" name="TIMEOFFRELAY1" 
-                                    disabled=""></div>
-                              </div>
-                            </div>
-                            
-                       
+                  <!-- Accordion configuración  -->                   
+                    <div style="background-color: rgb(173, 231, 197);" id="switchTimer1">
+                      <!-- auto - switch Timer -->                             
+                    </div>
+                    <div id="inputR_TIMER1">
+                      <!-- Tiempo de duracion del relay -->                             
+                    </div>
+                    <hr>
+                    <div style="background-color: rgb(173, 231, 197);" id="switchTEMPORIZADOR1">
+                      <!-- auto - switch Temporizador -->                             
+                    </div>
+                    <div id="inputTIMEONRELAY1">
+                      <!-- Tiempo de duracion del relay -->                             
+                    </div>
+                    <div id="inputTIMEOFFRELAY1">
+                      <!-- Tiempo de duracion del relay -->
+                    </div>  
                   </div>
                   
                 </form><!-- End General Form Elements -->
@@ -161,87 +112,36 @@
                 <form id="form2">
                     <div id="switchModeLogic2">
                         <!-- auto - switch mode relay2 -->
-                        <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label" for="R_LOGIC2">Modo Relay2</label>
-                          <div class="col-sm-8 mt-2">
-                            <div class="form-check form-switch"><input class="form-check-input Relay2" type="checkbox"
-                                id="R_LOGIC2" name="R_LOGIC2" checked=""><label class="form-check-label switch_R_LOGIC2"
-                                for="R_LOGIC2">Logica {{positiva-negativa}}</label></div>
-                          </div>
-                        </div>
                       </div>
                       <hr>
                       <div id="inputRelayName2">
                         <!-- auto - input nombre Nota: No PUEDEN LLEVAR punto-->
-                        <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label mt-2" for="R_NAME2">Nombre: </label>
-                          <div class="col-sm-8 mt-2"><input class="form-control Relay2 client" type="text"
-                              placeholder="Nombre del relay2" id="R_NAME2" name="R_NAME2" value="R_NAME2"></div>
-                        </div>
+                        
                       </div>
                       <div id="inputDescripcion2">
                         <!-- auto - input descripción -->
-                        <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label mt-2" for="R_DESCRIPTION2">Descripcion:</label>
-                          <div class="col-sm-8 mt-2"><input class="form-control Relay2 client" type="text"
-                              placeholder="Ejemplo: Abre puerta principal" id="R_DESCRIPTION2" name="R_DESCRIPTION2" value="R_DESCRIPTION2"></div>
-                        </div>
                       </div>
                       <div class="row mb-3 mt-3">
                         <!-- Accordion configuración  -->
-                        
-                                <div id="switchTimer2">
-                                  <!-- auto - switch Timer -->
-                                  <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label"
-                                      for="R_TIMERON2">Timer</label>
-                                    <div class="col-sm-8 mt-2">
-                                      <div class="form-check form-switch"><input class="form-check-input Relay2 client"
-                                          type="checkbox" id="R_TIMERON2" name="R_TIMERON2"><label
-                                          class="form-check-label switch_R_TIMERON2" for="R_TIMERON2">{{Ativado-Desactivado}}</label></div>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div id="inputR_TIMER2">
-                                  <!-- Tiempo de duracion del relay -->
-                                  <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label mt-2"
-                                      for="R_TIMER2">Tiempo en segundos</label>
-                                    <div class="col-sm-8 mt-2"><input class="form-control Relay2 client ip" type="number"
-                                        placeholder="0" id="R_TIMER2" name="R_TIMER2" value="0" min="0"
-                                        disabled=""></div>
-                                  </div>
-                                </div>
-                                <div id="switchTEMPORIZADOR2">
-                                  <!-- auto - switch Temporizador -->
-                                  <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label"
-                                      for="TEMPORIZADOR2">Temporizador</label>
-                                    <div class="col-sm-8 mt-2">
-                                      <div class="form-check form-switch"><input class="form-check-input Relay2 client"
-                                          type="checkbox" id="TEMPORIZADOR2" name="TEMPORIZADOR2"><label
-                                          class="form-check-label switch_TEMPORIZADOR2" for="TEMPORIZADOR2">{{Ativado-Desactivado}}</label></div>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div id="inputTIMEONRELAY2">
-                                  <!-- Tiempo de duracion del relay -->
-                                  <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label mt-2"
-                                      for="TIMEONRELAY2">Hr. de {{encendido-apagado}}</label>
-                                    <div class="col-sm-8 mt-2"><input class="form-control Relay2 client ip" type="text"
-                                        placeholder="00:00" id="TIMEONRELAY2" name="TIMEONRELAY2" 
-                                        disabled=""></div>
-                                  </div>
-                                </div>
-                                <div id="inputTIMEOFFRELAY2">
-                                  <!-- Tiempo de duracion del relay -->
-                                  <div class="row mb-3 mt-3"><label class="col-sm-4 col-form-label mt-2"
-                                      for="TIMEOFFRELAY2">Hr. de {{apagado-encendido}}</label>
-                                    <div class="col-sm-8 mt-2"><input class="form-control Relay2 client ip" type="text"
-                                        placeholder="00:00" id="TIMEOFFRELAY2" name="TIMEOFFRELAY2" 
-                                        disabled=""></div>
-                                  </div>
-                                </div>
-                                
-                          
+                        <hr>
+                        <div style="background-color: rgb(173, 231, 197);" id="switchTimer2">
+                          <!-- auto - switch Timer -->
+                        </div>
+                        <div id="inputR_TIMER2">
+                          <!-- Tiempo de duracion del relay -->
+                        </div>
+                        <hr>
+                        <div style="background-color: rgb(173, 231, 197);" id="switchTEMPORIZADOR2">
+                          <!-- auto - switch Temporizador -->
+                        </div>
+                        <div id="inputTIMEONRELAY2">
+                          <!-- Tiempo de duracion del relay -->
+                        </div>
+                        <div id="inputTIMEOFFRELAY2">
+                          <!-- Tiempo de duracion del relay -->                                  
+                        </div>                                                      
                       </div>
-
-                </form><!-- End General Form Elements -->
-                
+                </form><!-- End General Form Elements -->                
               </div>
             </div>
           </div>

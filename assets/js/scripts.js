@@ -1,6 +1,6 @@
 "use strict";
    
-const ipdevice ='192.168.1.198'; // o en mi casa 192.168.1.71 -casa .66 - 198 en el trabajo
+const ipdevice ='192.168.1.70'; // o en mi casa 192.168.1.71 -casa .66 - 198 en el trabajo
 const urlActual = window.location; //la url donde estamos la metemos en la constante
 
 //export es para exportar fuera de este archivo la siguiente expresion regular
@@ -1224,8 +1224,102 @@ export function createSwitch(padre, id, type, label1, label2, value, classe){
     });
     contenedor.appendChild(divRow);
     // Todo: llamar la función 
-    //switchChange( id );
+    /*if(document.querySelector('.switch_wifi_mode').checked){
+        formDisable("ap", false);
+        formDisable("client", true);
+    }else{
+        formDisable("ap",true);
+        formDisable("client", false);
+    }*/
+    switchChange( id );
 }
+
+
+
+//switchChange manipular los switch
+const switchChange =(id)=>{
+    if(document.querySelector(`#${id}`).checked){
+        if(id === 'wifi_mode'){
+            //document.querySelector(`.switch_${id}`).innerHTML = id === 'wifi_mode'?'Cliente': 'SI';
+            document.querySelector('.switch_wifi_mode').innerHTML = 'Cliente';
+            //console.log("wifimode");
+
+            formDisable("ap", true);
+            formDisable("client", false);
+        }else if(id === 'wifi_ip_static'){
+            document.querySelector('.switch_wifi_ip_static').innerHTML = 'IP Estática';
+            formDisable('ip',false);
+        }else if(id === 'mqtt_enable'){
+            document.querySelector('.switch_mqtt_enable').innerHTML = 'Habilitado';
+            formDisable('mq',false);
+        }else if(id === 'ap_visibility'){
+            document.querySelector('.switch_ap_visibility').innerHTML = 'Visible';
+        }else if(id === 'R_LOGIC1'){
+            document.querySelector('.switch_R_LOGIC1').innerHTML = 'Logica Positiva';
+        }else if(id === 'R_LOGIC2'){            
+            document.querySelector('.switch_R_LOGIC2').innerHTML = 'Logica Positiva';
+        }else if(id === 'R_TIMERON1'){
+            document.querySelector('.switch_R_TIMERON1').innerHTML = 'Activado';
+            formDisable("TRELAY1", false);
+        }else if(id === 'R_TIMERON2'){
+            document.querySelector('.switch_R_TIMERON2').innerHTML = 'Activado';
+            formDisable("TRELAY2", false);
+        }else if(id === 'TEMPORIZADOR1'){
+            document.querySelector('.switch_TEMPORIZADOR1').innerHTML = 'Activado';
+            formDisable("TEMPRELAY1", false);
+        }else if(id === 'TEMPORIZADOR2'){
+            document.querySelector('.switch_TEMPORIZADOR2').innerHTML = 'Activado';
+            formDisable("TEMPRELAY2", false);
+        }else{
+            console.log(id);
+        }
+    }else{
+        if(id === 'wifi_mode'){
+            document.querySelector('.switch_wifi_mode').innerHTML = 'AP';
+            formDisable("ap",false);
+            formDisable("client", true);
+        }else if(id === 'wifi_ip_static'){
+            //document.querySelector(`.switch_${id}`).innerHTML = id === 'wifi_ip_static'?'AP': 'NO';
+            document.querySelector('.switch_wifi_ip_static').innerHTML = 'IP Estática';
+            formDisable("ip", true);
+        }else if(id === 'mqtt_enable'){
+            document.querySelector('.switch_mqtt_enable').innerHTML = 'Deshabilitado';
+            formDisable("mq",true);
+        }else if(id === 'ap_visibility'){
+            document.querySelector('.switch_ap_visibility').innerHTML = 'Dispositivo Oculto';
+        }else if(id === 'R_LOGIC1'){
+            document.querySelector('.switch_R_LOGIC1').innerHTML = 'Logica Negativa';
+        }else if(id === 'R_LOGIC2'){
+            document.querySelector('.switch_R_LOGIC2').innerHTML = 'Logica Negativa';
+        }else if(id === 'R_TIMERON1'){
+            document.querySelector('.switch_R_TIMERON1').innerHTML = 'Desactivado';
+            formDisable("TRELAY1", true);
+        }else if(id === 'R_TIMERON2'){
+            document.querySelector('.switch_R_TIMERON2').innerHTML = 'Desactivado';
+            formDisable("TRELAY2", true);
+        }else if(id === 'TEMPORIZADOR1'){
+            document.querySelector('.switch_TEMPORIZADOR1').innerHTML = 'Desactivado';
+            formDisable("TEMPRELAY1", true);
+        }else if(id === 'TEMPORIZADOR2'){
+            document.querySelector('.switch_TEMPORIZADOR2').innerHTML = 'Desactivado';
+            formDisable("TEMPRELAY2", true);
+        }else{
+            console.log(id);
+        }
+    }
+}
+
+//habilitar o quitar el disable de los inputs
+export function formDisable(clase, boolean){
+    //console.log(clase, boolean);
+    const formElement = document.querySelectorAll(`.${clase}`);
+    //console.log(formElement);
+    for(let i = 0; i < formElement.length; i++){
+        formElement[i].disabled = boolean;
+        //console.log(formElement[i])
+    }
+}
+
 
 // crear funcion create cardBuzzer
 export function createCardBuzzer(padre, data){
@@ -1360,7 +1454,7 @@ const switchBuzzer = () =>{
 }
 
 export async function ejecutarPostBuzzer(path, data){
-    console.log(data)
+    //console.log(data)
     const postAPI = new ApiService(path,data);//instancia del servicio de la API
     const resp = await postAPI.postApiData();//lo que responde el await del post API
     const buzzerStatus = document.querySelector('#Buzzer_Status');//es el foco
