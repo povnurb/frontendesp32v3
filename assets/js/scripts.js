@@ -1,8 +1,10 @@
 "use strict";
    
-const ipdevice ='192.168.1.70'; // o en mi casa 192.168.1.71 -casa .66 - 198 en el trabajo
-const urlActual = window.location; //la url donde estamos la metemos en la constante
-
+const ipdevice ='192.168.1.198'; // o en mi casa 192.168.1.71 -casa .66 - 198 en el trabajo
+const urlActual = window.location; //la url donde estamos la metemos en la constante 
+const evitarpaginarelay = 'http://127.0.0.1:5501/relays.html';
+const evitarpaginawifi='http://127.0.0.1:5501/wifi.html';
+const evitarPagIndex = 'http://127.0.0.1:5501/';
 //export es para exportar fuera de este archivo la siguiente expresion regular
 export const url =  /^(\w+):\/\/([^\/]+)([^]+)$/.exec(urlActual);//mostrando un array con posiciones
 /**
@@ -314,6 +316,8 @@ export function createHeader() {
        ]
    });
    contenedor.appendChild(nav);
+   //iniciar los toolstips
+   initTooltips();
 }
 //definir la funcion de crear el sidebar
 export function createSidebarNav(list) {
@@ -973,56 +977,77 @@ const switchRelay = (name1,logic1,name2,logic2) =>{
 export async function ejecutarPost(path, data){
     const postAPI = new ApiService(path,data);//instancia del servicio de la API
     const resp = await postAPI.postApiData();//lo que responde el await del post API
-    const relayStatus1 = document.querySelector(`#${resp["RELAY1"].R_NAME1}_Status`);//es el foco
-    const relayIcon1= document.querySelector(`#${resp["RELAY1"].R_NAME1}_Icon`);//es el icono
-    const relayStatus2 = document.querySelector(`#${resp["RELAY2"].R_NAME2}_Status`);//es el foco
-    const relayIcon2= document.querySelector(`#${resp["RELAY2"].R_NAME2}_Icon`);//es el icono    
-    if(resp["RELAY1"].R_LOGIC1){
-        
-        //funcion para cambiar los estados de los relay en la pantalla html
-        relaysStatusChange(relayStatus1,relayIcon1,resp["RELAY1"].R_STATUS1)
-    }else{
-        relaysStatusChangeNeg(relayStatus1,relayIcon1,resp["RELAY1"].R_STATUS1)
-    }
-    if(resp["RELAY2"].R_LOGIC2){
-        
-        //funcion para cambiar los estados de los relay en la pantalla html
+    if (urlActual!=evitarpaginawifi){//para evitar un error en la pagina de wifi    
+        const relayStatus1 = document.querySelector(`#${resp["RELAY1"].R_NAME1}_Status`);//es el foco
+        const relayIcon1= document.querySelector(`#${resp["RELAY1"].R_NAME1}_Icon`);//es el icono
+        const relayStatus2 = document.querySelector(`#${resp["RELAY2"].R_NAME2}_Status`);//es el foco
+        const relayIcon2= document.querySelector(`#${resp["RELAY2"].R_NAME2}_Icon`);//es el icono    
+        if(resp["RELAY1"].R_LOGIC1){ //sustituye a resp.relay
+            
+            //funcion para cambiar los estados de los relay en la pantalla html
+            relaysStatusChange(relayStatus1,relayIcon1,resp["RELAY1"].R_STATUS1)
+        }else{
+            relaysStatusChangeNeg(relayStatus1,relayIcon1,resp["RELAY1"].R_STATUS1)
+        }
+        if(resp["RELAY2"].R_LOGIC2){
+            
+            //funcion para cambiar los estados de los relay en la pantalla html
 
-        relaysStatusChange(relayStatus2,relayIcon2,resp["RELAY2"].R_STATUS2)
-    }else{
-        relaysStatusChangeNeg(relayStatus2,relayIcon2,resp["RELAY2"].R_STATUS2)
+            relaysStatusChange(relayStatus2,relayIcon2,resp["RELAY2"].R_STATUS2)
+        }else{
+            relaysStatusChangeNeg(relayStatus2,relayIcon2,resp["RELAY2"].R_STATUS2)
+        }
     }
-
+    if(resp["save"]){//solo para la pagina de los relay
+        SweetAlertMsg('top-end','success','¡Configuracion guardada correctamente!',3000);
+        //crear alert y salvar en local storage si no está guardado
+        if(!localStorage.getItem('save')){
+            //el siguiente metodo
+            alertMsg('danger','¡Se han realizado cambios en la configuración es necesario reiniciar el equipo para guardar estos los cambios!')
+        }
+    }else if(resp.save){
+        SweetAlertMsg('top-end', 'success', '¡Configuración guardada correctamente!', 3000);
+        // crear el alert y salvar en localstorage si no está guardado
+        if(!localStorage.getItem('save')){
+            alertMsg('danger', '¡Se han realizado cambios en la configuración, es necesario reiniciar el equipo!');
+        }
+    }
     
 }
 
-//funcion de cambio de estado de los relay en el html
+//funcion de cambio de estado de los relay en el html en el dashboard
 const relaysStatusChange=(relayStatus,relayIcon,stado)=>{
-    if (stado){
-        relayStatus.classList.remove('text-dark');
-        relayStatus.classList.add('text-warning');
-        relayIcon.classList.remove('bi-option');
-        relayIcon.classList.add('bi-alt');
-    }else{
-        relayStatus.classList.remove('bi', 'bi-lightbulb-fill', 'text-warning');
-        relayStatus.classList.add('bi', 'bi-lightbulb-fill', 'text-dark');
-        relayIcon.classList.remove('bi-alt');
-        relayIcon.classList.add('bi-option');
+    //esas funciones solo se deben ejecutar si estoy en el dashboard
+    if (urlActual!=evitarpaginarelay){//para evitar un error en la pagina de relays
+        if (stado){
+            relayStatus.classList.remove('text-dark');
+            relayStatus.classList.add('text-warning');
+            relayIcon.classList.remove('bi-option');
+            relayIcon.classList.add('bi-alt');
+        }else{
+            relayStatus.classList.remove('text-warning');
+            relayStatus.classList.add('text-dark');
+            relayIcon.classList.remove('bi-alt');
+            relayIcon.classList.add('bi-option');
+        }
     }
 }
 const relaysStatusChangeNeg=(relayStatus,relayIcon,stado)=>{
-    console.log("logica negativa")
-    if (stado){
-        relayStatus.classList.remove('text-dark');
-        relayStatus.classList.add('text-danger');
-        relayIcon.classList.remove('bi-option');
-        relayIcon.classList.add('bi-alt');
-        
-    }else{
-        relayStatus.classList.remove('bi', 'bi-lightbulb-fill', 'text-danger');
-        relayStatus.classList.add('bi', 'bi-lightbulb-fill', 'text-dark');
-        relayIcon.classList.remove('bi-alt');
-        relayIcon.classList.add('bi-option');
+    //console.log("logica negativa del relay1");
+    //esas funciones solo se deben ejecutar si estoy en el dashboard
+    if (urlActual!=evitarpagina){//para evitar un error en la pagina de realys
+        if (stado){
+            relayStatus.classList.remove('text-dark');
+            relayStatus.classList.add('text-danger');
+            relayIcon.classList.remove('bi-option');
+            relayIcon.classList.add('bi-alt');
+            
+        }else{
+            relayStatus.classList.remove('text-danger');
+            relayStatus.classList.add('text-dark');
+            relayIcon.classList.remove('bi-alt');
+            relayIcon.classList.add('bi-option');
+        }
     }
 }
 
@@ -1256,8 +1281,12 @@ const switchChange =(id)=>{
             document.querySelector('.switch_ap_visibility').innerHTML = 'Visible';
         }else if(id === 'R_LOGIC1'){
             document.querySelector('.switch_R_LOGIC1').innerHTML = 'Logica Positiva';
+            document.querySelector('#RELAY01_Status').classList.remove('text-danger');
+            document.querySelector('#RELAY01_Status').classList.add('text-warning');
         }else if(id === 'R_LOGIC2'){            
             document.querySelector('.switch_R_LOGIC2').innerHTML = 'Logica Positiva';
+            document.querySelector('#RELAY02_Status').classList.remove('text-danger');
+            document.querySelector('#RELAY02_Status').classList.add('text-warning');
         }else if(id === 'R_TIMERON1'){
             document.querySelector('.switch_R_TIMERON1').innerHTML = 'Activado';
             formDisable("TRELAY1", false);
@@ -1289,8 +1318,12 @@ const switchChange =(id)=>{
             document.querySelector('.switch_ap_visibility').innerHTML = 'Dispositivo Oculto';
         }else if(id === 'R_LOGIC1'){
             document.querySelector('.switch_R_LOGIC1').innerHTML = 'Logica Negativa';
+            document.querySelector('#RELAY01_Status').classList.remove('text-warning');
+            document.querySelector('#RELAY01_Status').classList.add('text-danger');
         }else if(id === 'R_LOGIC2'){
             document.querySelector('.switch_R_LOGIC2').innerHTML = 'Logica Negativa';
+            document.querySelector('#RELAY02_Status').classList.remove('text-warning');
+            document.querySelector('#RELAY02_Status').classList.add('text-danger');
         }else if(id === 'R_TIMERON1'){
             document.querySelector('.switch_R_TIMERON1').innerHTML = 'Desactivado';
             formDisable("TRELAY1", true);
@@ -1476,6 +1509,79 @@ const buzzerStatusChange=(buzzerStatus,buzzerIcon,stado)=>{
         buzzerIcon.classList.add('bi-option');
     }
 }
+
+/**
+ * Initiate tooltips
+ */
+export const initTooltips=()=>{
+    
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+}
+
+//crear SweetAlert
+export function SweetAlert(title, text, icon, path, data){
+    Swal.fire({
+        title: title,
+        text: text,
+        icon: icon,
+        showCancelButton: true,
+        confirmButtonColor: 'rgb(65,184,130)',
+        cancelButtonColor: 'rgb(255,118,116)',
+        confirmButtonText: 'Aceptar',
+        cancelButtonText: 'Cancelar',
+        reverseButtons:true
+    }).then((result)=>{
+        if(result.isConfirmed){
+            ejecutarPost(path, data);
+        }else if(result.dismiss === Swal.DismissReason.cancel){
+            history.go(0);
+        }
+    })
+}
+//crear un sweete alert de mensaje
+export const SweetAlertMsg = (position, icon, title, timer) => {
+    if (urlActual!=evitarPagIndex){//ya que hay un error 
+        Swal.fire({
+            position:position,
+            icon:icon,
+            title: title,
+            showConfirmButton:false,
+            timer:timer
+        });
+    }
+};
+
+//crear el alert desde localstorage
+export const alertMsg = (type, amsg) =>{
+    const msg = builder({ //se crea un builder
+        type:'div',
+        props: {class: `alert alert-${type} alert-dismissible fade show`, role:'alert'},
+        children:[
+            {type: 'i', props: { class: 'bi bi-exclamation-octagon me-1'}, children:[]},
+            `${amsg}`,
+            {type: 'button', props:{
+                class:'btn-close',
+                type: 'button',
+                bsDismiss: 'alert',
+                onclick:()=>{clearLocalStorage('save');},
+            },children:[]},
+        ]
+    });
+    //inserta el alert en la posicion #1 del contenedor id= 'main'
+    const contenedor = document.querySelector('#main');
+    contenedor.insertBefore(msg, contenedor.children[0]);//para que lo ponga en un inicio
+    //salvar en localstorage
+    localStorage.setItem('save', true);
+}
+//limpiar el local storage
+const clearLocalStorage = (variable) => {
+    localStorage.removeItem(variable)
+}
+
+
 /*
 export class card{
     constructor(textHeaer, body){

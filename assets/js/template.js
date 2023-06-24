@@ -281,7 +281,7 @@ export const relayMainInput1 = [
         label1: 'Relay1:',
         label2: '', //placeholder 
         value: true,
-        classe: 'RELAY1'
+        classe: 'RELAYS'
     },
     {
         switch: false,
@@ -291,7 +291,7 @@ export const relayMainInput1 = [
         label1: 'Nombre: ',
         label2: 'Nombre del Relay1', //placeholder 
         value: '',
-        classe: 'RELAY1'
+        classe: 'RELAYS'
     },
     {
         switch: false,
@@ -301,7 +301,7 @@ export const relayMainInput1 = [
         label1: 'Descripción: ',
         label2: 'Ejemplo: Abre Puerta', //placeholder 
         value: '',
-        classe: 'RELAY1'
+        classe: 'RELAYS'
     },
     {
         switch: true,
@@ -311,7 +311,7 @@ export const relayMainInput1 = [
         label1: 'Timer: ',
         label2: '', //placeholder 
         value: false,
-        classe: 'RELAY1'
+        classe: 'RELAYS'
     },
     {
         switch: false,
@@ -321,7 +321,7 @@ export const relayMainInput1 = [
         label1: 'Tiempo en Segundos: ',
         label2: '0', //placeholder 
         value: '0',
-        classe: 'TRELAY1',
+        classe: 'RELAYS TRELAY1',
         min: 0,
         max: 3600,
     },
@@ -333,7 +333,7 @@ export const relayMainInput1 = [
         label1: 'TEMPORIZADOR ',
         label2: '', //placeholder 
         value: false,
-        classe: 'RELAY1'
+        classe: 'RELAYS'
     },
     {
         switch: false,
@@ -343,7 +343,7 @@ export const relayMainInput1 = [
         label1: 'Hr. de Encendido ',
         label2: '', //placeholder 
         value: '00:00',
-        classe: 'TEMPRELAY1'
+        classe: 'RELAYS TEMPRELAY1'
     },
     {
         switch: false,
@@ -353,7 +353,7 @@ export const relayMainInput1 = [
         label1: 'Hr. de Apagado ',
         label2: '', //placeholder 
         value: '00:00',
-        classe: 'TEMPRELAY1'
+        classe: 'RELAYS TEMPRELAY1'
     }
 ]
 
@@ -367,7 +367,7 @@ export const relayMainInput2 = [
         label1: 'Relay2:',
         label2: '', //placeholder 
         value: true,
-        classe: 'RELAY2'
+        classe: 'RELAYS'
     },
     {
         switch: false,
@@ -377,7 +377,7 @@ export const relayMainInput2 = [
         label1: 'Nombre: ',
         label2: 'Nombre del Relay2', //placeholder 
         value: '',
-        classe: 'RELAY1'
+        classe: 'RELAYS'
     },
     {
         switch: false,
@@ -387,7 +387,7 @@ export const relayMainInput2 = [
         label1: 'Descripción: ',
         label2: 'Ejemplo: Abre Puerta', //placeholder 
         value: '',
-        classe: 'RELAY2'
+        classe: 'RELAYS'
     },
     {
         switch: true,
@@ -397,7 +397,7 @@ export const relayMainInput2 = [
         label1: 'Timer: ',
         label2: '', //placeholder 
         value: false,
-        classe: 'RELAY2'
+        classe: 'RELAYS'
     },
     {
         switch: false,
@@ -407,7 +407,7 @@ export const relayMainInput2 = [
         label1: 'Tiempo en Segundos: ',
         label2: '0', //placeholder 
         value: '0',
-        classe: 'TRELAY2',
+        classe: 'RELAYS TRELAY2',
         min: 0,
         max: 3600
     },
@@ -419,7 +419,7 @@ export const relayMainInput2 = [
         label1: 'TEMPORIZADOR',
         label2: '', //placeholder 
         value: false,
-        classe: 'RELAY2'
+        classe: 'RELAYS'
     },
     {
         switch: false,
@@ -429,7 +429,7 @@ export const relayMainInput2 = [
         label1: 'Hr. de Encendido ',
         label2: '', //placeholder 
         value: '00:00',
-        classe: 'TEMPRELAY2'
+        classe: 'RELAYS TEMPRELAY2'
     },
     {
         switch: false,
@@ -439,6 +439,6 @@ export const relayMainInput2 = [
         label1: 'Hr. de Apagado ',
         label2: '', //placeholder 
         value: '00:00',
-        classe: 'TEMPRELAY2'
+        classe: 'RELAYS TEMPRELAY2'
     }
 ]

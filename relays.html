@@ -21,6 +21,8 @@
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/social.css" /> <!--Agregado-->
+  <!-- Other CSS File -->
+  <link href="assets/css/sweetalert.css" rel="stylesheet">
   <!-- =======================================================
   * Template Name: ESP32 Admin Tool - v3.0.0
   * Author: iothost.org
@@ -99,6 +101,7 @@
                     </div>  
                   </div>
                   
+                  
                 </form><!-- End General Form Elements -->
               </div>
             </div>
@@ -141,21 +144,14 @@
                           <!-- Tiempo de duracion del relay -->                                  
                         </div>                                                      
                       </div>
+                      <div class="row mb-3" id="btnSendRelays2">
+  
+                      </div>
                 </form><!-- End General Form Elements -->                
               </div>
             </div>
           </div>
         </div>
-        
-        <div class="row mb-3" id="btnSendRelay1">
-  
-            <!-- <div class="col-sm-10">
-              <button type="submit" class="btn btn-primary">Enviar</button>
-            </div> -->
-
-            <div class="col-sm-10"><button class="btn btn-primary" id="submitRelay1" type="submit">Enviar</button>
-            </div>
-          </div>
       </section>
   </main>
   <!-- End #main -->
@@ -173,7 +169,8 @@
       class="bi bi-arrow-up-short"></i></a>
   <!-- Vendor JS Files -->
   <script src="assets/js/bundle.min.js"></script>
-
+  <!-- Other JS File -->
+  <script src="assets/js/sweetalert.js"></script>
   <!-- Personal JS File -->
   <script src="assets/js/app.js" type="module"></script>  
 </body>

@@ -1,5 +1,5 @@
 "use strict";
-import { ApiService, createBreadCrumb, createCard, createCardTable, builder, createCardRelays, createProgressBar, createCardTemp, headerIconsStatus, createCardBuzzer } from "./scripts.js";
+import { ApiService, createBreadCrumb, createCard, createCardTable, builder, createCardRelays, createProgressBar, createCardTemp, headerIconsStatus, createCardBuzzer,alertMsg } from "./scripts.js";
 
 //para pasar la informacion que traigo de la api /api/index
 let index = {};
@@ -80,8 +80,10 @@ export async function iniciarIndex(){
 
     //pasar valores a los iconos del header
     headerIconsStatus(resp.wifiStatus, resp.rssiStatus, resp.mqttStatus);
-
-
+    //sacar alert superior de la pagina segun el valor en el local storage
+    if(localStorage.getItem('save')){
+        alertMsg('danger','¡Se han realizado cambios en la configuracion, es necesario reiniciar el equipo');
+    }
 
 
 
