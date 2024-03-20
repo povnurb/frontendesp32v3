@@ -6,6 +6,7 @@ import { iniciarIndex } from './index.js';
 import { iniciarWifi } from './wifi.js';
 import { iniciarAlarmas } from './alarmas.js';
 import { iniciarDeviceRemote } from './deviceremote.js';
+import { iniciarMqtt } from './mqtt.js'
 
 import { iniciarRelays } from './relays.js';
 import { iniciarTime } from './time.js';
@@ -97,6 +98,20 @@ switch (url[3]) {
         //cuando todo el documento se carge despues se ejecuta la funcion iniciarIndex
         document.addEventListener('DOMContentLoaded', iniciarTime);
         break;
+
+    case '/mqtt.html': //para modo desarrollo
+        createHeader();
+        createSidebarNav(sidebar);
+        //cuando todo el documento se carge despues se ejecuta la funcion iniciarIndex
+        document.addEventListener('DOMContentLoaded', iniciarMqtt);
+        break;
+    case '/esp-mqtt': //para producción
+        createHeader();
+        createSidebarNav(sidebar);
+        //cuando todo el documento se carge despues se ejecuta la funcion iniciarIndex
+        document.addEventListener('DOMContentLoaded', iniciarMqtt);
+        break;
+    
     default:
         break;
 }

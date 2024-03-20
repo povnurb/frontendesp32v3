@@ -1,6 +1,6 @@
 "use strict";
    
-const ipdevice ='192.168.1.198'; // o en mi casa 192.168.1.71 -casa .66 - 198 en el trabajo
+const ipdevice ='192.168.1.68'; // o en mi casa 192.168.1.68 -casa .66 - 198 en el trabajo
 const urlActual = window.location; //la url donde estamos la metemos en la constante 
 const evitarpaginarelay = 'http://127.0.0.1:5501/relays.html';
 const evitarpaginawifi='http://127.0.0.1:5501/wifi.html';
@@ -1258,7 +1258,34 @@ export function createSwitch(padre, id, type, label1, label2, value, classe){
     }*/
     switchChange( id );
 }
+//crear input tipo select
+export function createSelectType(padre, id, type, label1, label2, value, classe){
+    const contenedor = document.querySelector(padre);
 
+    let select = {
+        type: type,
+        props: {class: `form-select ${classe}`, id:id, name:id},
+        children: []
+    }
+    options.forEach(option =>{
+        const opt = {
+            type: 'option',
+            props: option === value ? { value : option, select: ''}:{value: option},
+            children: [`QoS ${options}`]
+        }
+        select.children.push( opt );
+    });
+    //const divRow = builder({
+    //    type: 'div',
+    //    props: {class: 'col-sm-4 col-form-label', for: id},
+    //    children:[
+    //        {
+    //            type: 'label',
+    //            props: {class:}
+    //        }
+    //    ]
+    //})
+}
 
 
 //switchChange manipular los switch

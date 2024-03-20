@@ -1,5 +1,5 @@
 "use strict";
-
+//template del sidebar
 export const sidebar=[
     /**
      * <li class="nav-item"><a class=""><a class="nav-link" href="/"><i
@@ -102,7 +102,7 @@ export const sidebar=[
         link:[]
     }
 ]
-
+//template del wifi
 export const wifiMainInput = [
     //aqui se definen lo imputs
     {
@@ -270,7 +270,7 @@ export const wifiMainInput = [
         max:8
     }
 ]
-
+//template de relays1
 export const relayMainInput1 = [
     //aqui se definen lo imputs
     {
@@ -356,7 +356,7 @@ export const relayMainInput1 = [
         classe: 'RELAYS TEMPRELAY1'
     }
 ]
-
+//template de relays2
 export const relayMainInput2 = [
     //aqui se definen lo imputs
     {
@@ -441,4 +441,129 @@ export const relayMainInput2 = [
         value: '00:00',
         classe: 'RELAYS TEMPRELAY2'
     }
+]
+//template de MQTT
+export const mqttMainInput = [
+    {
+        switch : true,
+        parentId: '#switchMqtt',
+        inputId: 'mqtt_enable',
+        type: 'checkbox',
+        label1: 'Habilitar el MQTT',
+        label2: '',
+        value: false,
+        classe: 'mqtt'
+    },
+    {
+        switch : false,
+        parentId: '#inputServer',
+        inputId: 'mqtt_server',
+        type: 'text',
+        label1: 'Sevidor MQTT',
+        label2: 'Dirección del servidor',
+        value: '',
+        classe: 'mqtt mq'
+    },
+    {
+        switch : false,
+        parentId: '#inputPort',
+        inputId: 'mqtt_port',
+        type: 'number',
+        label1: 'Puerto MQTT',
+        label2: 'Puerto de acceso',
+        value: '',
+        classe: 'mqtt mq'
+    },
+    {
+        switch : true,
+        parentId: '#switchRetain',
+        inputId: 'mqtt_retin',
+        type: 'checkbox',
+        label1: 'Mensajes retenidos',
+        label2: '',
+        value: 'false',
+        classe: 'mqtt mq'
+    },
+    {
+        switch : false,
+        parentId: '#selectQos',
+        inputId: 'mqtt_qos',
+        type: 'select',
+        label1: 'Calidad del servicio',
+        label2: 'QOS',
+        option: [0,1,2],
+        value: '',
+        classe: 'mqtt mq'
+    },
+    {
+        switch : false,
+        parentId: '#inputClientId',
+        inputId: 'mqtt_id',
+        type: 'text',
+        label1: 'Client Id',
+        label2: 'Client Id MQTT',
+        value: '',
+        classe: 'mqtt mq'
+    },
+    {
+        switch : false,
+        parentId: '#inputServer',
+        inputId: 'mqtt_user',
+        type: 'text',
+        label1: 'Usuario',
+        label2: 'Usuario MQTT',
+        value: '',
+        classe: 'mqtt mq'
+    },
+    {
+        switch : false,
+        parentId: '#inputPassword',
+        inputId: 'mqtt_password',
+        type: 'password',
+        label1: 'Contraseña',
+        label2: 'Contraseña MQTT',
+        value: '',
+        classe: 'mqtt mq'
+    },
+    {
+        switch : true,
+        parentId: '#switchClean',
+        inputId: 'mqtt_clean_sessions',
+        type: 'checkbox',
+        label1: 'Sesiones limpias',
+        label2: '',
+        value: 'false',
+        classe: 'mqtt mq'
+    },
+    {
+        switch : true,
+        parentId: '#switchSend',
+        inputId: 'mqtt_time_send',
+        type: 'checkbox',
+        label1: 'Enviar datos del dispositivo',
+        label2: '',
+        value: 'false',
+        classe: 'mqtt mq'
+    },
+    {
+        switch : false,
+        parentId: '#inputInterval',
+        inputId: 'mqtt_time_interval',
+        type: 'number',
+        label1: 'Intervalo en segundos(s)',
+        label2: '60',
+        value: '',
+        classe: 'mqtt mq'
+    },
+    {
+        switch : true,
+        parentId: '#switchSendStatus',
+        inputId: 'mqtt_status_send',
+        type: 'checkbox',
+        label1: 'Enviar estados',
+        label2: '',
+        value: 'false',
+        classe: 'mqtt mq'
+    }
+
 ]
