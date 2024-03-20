@@ -3,7 +3,7 @@ import { ApiService, createBreadCrumb, headerIconsStatus } from "./scripts.js";
 
 export async function iniciarAlarmas(){
     //Cambiamos la etiqueta de titulo
-    document.title = "ALARMAS | ESP32 Admin Tool v3";
+    document.title = "ALARMAS";
     //creamos el breadcrum
     createBreadCrumb('Configuración y visualización de Alarmas', 'Periféricos', 'Alarmas');
     //peticion a la api para el alarmas

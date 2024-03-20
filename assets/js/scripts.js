@@ -76,7 +76,7 @@ export function createHeader() {
                    {
                        type: 'span',
                        props: { class: 'd-none d-lg-block' },
-                       children: ['ESP32Tools v3'] //aqui se modifica el nombre del titulo de la pagina del dispositivo 
+                       children: ['Monitor'] //aqui se modifica el nombre del titulo de la pagina del dispositivo 
                    }
                ]
            },

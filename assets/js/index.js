@@ -37,7 +37,7 @@ export async function iniciarIndex(){
     //crear la tarjeta para el serial
     createCard('#serialCard', 'sales-card','Serial', 'cpu','serial', index.serial, 'Numero de serie del equipo');
     //crear la tarjeta para el device
-    createCard('#deviceCard', 'revenue-card','Dispositivo', 'info-circle','device', index.device, 'Identificación del dispositivo');
+    createCard('#deviceCard', 'revenue-card','Dispositivo', 'info-circle','device', index.LUGAR, 'Ubicación del dispositivo');
     //crear la tarjeta reinicios
     createCard('#rebootsCard', 'customers-card','Reinicios', 'arrow-clockwise','reboots', index.reboots, 'Conteo de reinicios');
     //crear la tarjeta tiempo activo

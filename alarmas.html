@@ -86,20 +86,7 @@
                 <div class="" id="ta5_on" >Presente: {{ indicAlarmws.ALARM_TIMEON5 }}</div>
                 <div class="" id="ta5_off">Clareada: {{ indicAlarmws.ALARM_TIMEOFF5 }}</div>
               </div>
-              <div :class="alarm_class6" class="btn btn-block btn-social btn-success" id="ALARMA6" data-bs-toggle="modal" data-bs-target="#alarma6">
-                <i>6</i>
-                <div class="" id="na6">Nombre: {{ indicAlarm.ALARM_NAME6 }}</div>
-                <div class="" id="ca6">Contador: {{ indicAlarm.ALARM_CONT6 }}</div> 
-                <div class="" id="ta6_on" >Presente: {{ indicAlarmws.ALARM_TIMEON6 }}</div>
-                <div class="" id="ta6_off">Clareada: {{ indicAlarmws.ALARM_TIMEOFF6 }}</div>
-              </div>
-              <div :class="alarm_class7" class="btn btn-block btn-social btn-success" id="ALARMA7" data-bs-toggle="modal" data-bs-target="#alarma7">
-                <i>7</i>
-                <div class="" id="na7">Nombre: {{ indicAlarm.ALARM_NAME7 }}</div>
-                <div class="" id="ca7">Contador: {{ indicAlarm.ALARM_CONT7 }}</div> 
-                <div class="" id="ta7_on" >Presente: {{ indicAlarmws.ALARM_TIMEON7 }}</div>
-                <div class="" id="ta7_off">Clareada: {{ indicAlarmws.ALARM_TIMEOFF7 }}</div>
-              </div>
+              
              
 
               <!-- Pop Out Block Modal -->
@@ -307,94 +294,6 @@
                                               <div class="form-check form-switch">
                                                   <input class="form-check-input" id="ALARM_LOGICA5" type="checkbox" v-model="indicAlarm.ALARM_LOGICA5" @click="logica5"/>
                                                   <label class="form-check-label">{{ alarm_text5 }}</label>
-                                              </div>
-                                          </div>
-                                      </div>                
-                                      <div class="mb-2 mt-2">
-                                          <button type="submit" class="btn btn-success me-1">
-                                              <i class="fa fa-fw fa-save opacity-50 me-1"></i> Guardar
-                                          </button>
-                                      </div>
-                                  </div>
-                              </form>
-                          </div>
-                      </div>
-                      </div>
-                  </div>
-              </div>
-              <!--alarma6-->
-              <div class="modal fade" id="alarma6" tabindex="-1" role="dialog" aria-labelledby="alarma6" aria-hidden="true">
-                  <div class="modal-dialog modal-dialog-popout modal-lg" role="document">
-                      <div class="modal-content">
-                      <div class="block block-rounded block-themed block-transparent mb-0">
-                          <div class="block-header bg-primary-dark">
-                          <h3 class="block-title">Alarma 6</h3>
-                          <div class="block-options">
-                              <button type="button" class="btn-block-option" data-bs-dismiss="modal" aria-label="Close">
-                              <i class="bi bi-clipboard-x text-danger"></i>
-                              </button>
-                          </div>
-                          </div>
-                          <div class="block-content">
-                              <form class="form form-vertical" @submit.prevent="handleSubmit()">
-                                  <div class="row push">
-                                      <div class="col-md-6 col-12 mb-2">
-                                          <div class="form-group">
-                                              <label class="form-label" for="ALARM_NAME6">Nombre</label>
-                                              <input data-bs-toggle="popover" data-bs-placement="left" title="Aviso:" data-bs-content="Indica el nuevo nombre de la Alarma" type="text" id="ALARM_NAME6" class="form-control" v-model.trim="indicAlarm.ALARM_NAME6">
-                                          </div>
-                                      </div>
-                                      
-                                      <div class="form-group col-md-6 mb-2">
-                                          <div class="form-group">
-                                              <label class="form-label" for="ALARM_LOGICA6">Lógica del PIN D25</label>
-                                              <div class="form-check form-switch">
-                                                  <input class="form-check-input" id="ALARM_LOGICA6" type="checkbox" v-model="indicAlarm.ALARM_LOGICA6" @click="logica6"/>
-                                                  <label class="form-check-label">{{ alarm_text6 }}</label>
-                                              </div>
-                                          </div>
-                                      </div>                
-                                      <div class="mb-2 mt-2">
-                                          <button type="submit" class="btn btn-success me-1">
-                                              <i class="fa fa-fw fa-save opacity-50 me-1"></i> Guardar
-                                          </button>
-                                      </div>
-                                  </div>
-                              </form>
-                          </div>
-                      </div>
-                      </div>
-                  </div>
-              </div>
-              <!--alarma7-->
-              <div class="modal fade" id="alarma7" tabindex="-1" role="dialog" aria-labelledby="alarma7" aria-hidden="true">
-                  <div class="modal-dialog modal-dialog-popout modal-lg" role="document">
-                      <div class="modal-content">
-                      <div class="block block-rounded block-themed block-transparent mb-0">
-                          <div class="block-header bg-primary-dark">
-                          <h3 class="block-title">Alarma 7</h3>
-                          <div class="block-options">
-                              <button type="button" class="btn-block-option" data-bs-dismiss="modal" aria-label="Close">
-                              <i class="bi bi-clipboard-x text-danger"></i>
-                              </button>
-                          </div>
-                          </div>
-                          <div class="block-content">
-                              <form class="form form-vertical" @submit.prevent="handleSubmit()">
-                                  <div class="row push">
-                                      <div class="col-md-6 col-12 mb-2">
-                                          <div class="form-group">
-                                              <label class="form-label" for="ALARM_NAME7">Nombre</label>
-                                              <input data-bs-toggle="popover" data-bs-placement="left" title="Aviso:" data-bs-content="Indica el nuevo nombre de la Alarma" type="text" id="ALARM_NAME7" class="form-control" v-model.trim="indicAlarm.ALARM_NAME7">
-                                          </div>
-                                      </div>
-                                      
-                                      <div class="form-group col-md-6 mb-2">
-                                          <div class="form-group">
-                                              <label class="form-label" for="ALARM_LOGICA7">Lógica del PIN D26</label>
-                                              <div class="form-check form-switch">
-                                                  <input class="form-check-input" id="ALARM_LOGICA7" type="checkbox" v-model="indicAlarm.ALARM_LOGICA7" @click="logica7"/>
-                                                  <label class="form-check-label">{{ alarm_text7 }}</label>
                                               </div>
                                           </div>
                                       </div>                
