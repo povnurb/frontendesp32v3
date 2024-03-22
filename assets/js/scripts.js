@@ -1,6 +1,6 @@
 "use strict";
    
-const ipdevice ='192.168.1.68'; // o en mi casa 192.168.1.68 -casa .66 - 198 en el trabajo
+const ipdevice ='192.168.1.207'; // o en mi casa 192.168.1.68 -casa  - .207 en el trabajo
 const urlActual = window.location; //la url donde estamos la metemos en la constante 
 const evitarpaginarelay = 'http://127.0.0.1:5501/relays.html';
 const evitarpaginawifi='http://127.0.0.1:5501/wifi.html';
@@ -69,14 +69,15 @@ export function createHeader() {
                type: 'a',
                props: { class: 'logo d-flex align-items-center', href: '/' },
                children: [
-                   {
-                       type: 'img',
-                       props: { src: 'assets/img/logo.png', alt: 'logo' },
-                   },
+                   //{
+                   //    type: 'img',
+                   //    props: { src: 'assets/img/logo.png', alt: 'logo' },
+                   //},
+                   //--------------------------------------------------
                    {
                        type: 'span',
                        props: { class: 'd-none d-lg-block' },
-                       children: ['Monitor'] //aqui se modifica el nombre del titulo de la pagina del dispositivo 
+                       children: ['Control AC Remoto'] //aqui se modifica el nombre del titulo de la pagina del dispositivo 
                    }
                ]
            },
@@ -928,8 +929,128 @@ export function createCardRelays(padre, data){
     });
     contenedor.appendChild(card);
 }
-
-
+//Crear tarjeta de alarma de temperatura y falla de compresor
+export function createCardA1(padre, title, data, ton, toff){
+    const contenedor = document.querySelector(padre);
+    const card = builder({
+        type: 'div',
+        props: {
+            //class: relay.R_LOGIC1? (relay.R_STATUS1?'bi bi-alt':'bi bi-option' ):(relay.R_STATUS1?'bi bi-option':'bi bi-alt'),
+            //class: data['ALRMS']['ALRM_STATUS1']?`btn btn-danger`:`btn btn-outline-primary`
+            //class: `btn btn-primary`
+            class: data?`bg-danger card info-card-danger`:`bg-primary card info-card-primary`
+            //class: data?`btn btn-danger`:`btn btn-primary`
+            //class: `bg-danger card info-card ${classCard}`
+        },
+        children:[
+            {
+                type: 'div',
+                props: {class: 'card-body'},
+                children: [
+                    {
+                        type: 'h5',
+                        props: {class: 'card-title'},
+                        children : [
+                            {
+                                type: 'strong',
+                                children : [`${title}`]
+                            }
+                        ]//temp. alta
+                    },
+                    {
+                        type: 'div',
+                        props: {class: 'center'},
+                        children:[
+                            
+                            {
+                                type: 'div',
+                                //props: {class: 'ps-1'},
+                                props: {class: 'h3'},
+                                children: [
+                                    {
+                                        type: 'span',
+                                        props: {class: 'badge bg-warning card '},
+                                        children: [`Alarma presente:  ${ton}`]
+                                    },
+                                    {
+                                        type: 'span',
+                                        
+                                        //props: {class: 'badge bg-success card '},
+                                        props: {class: data?` badge bg-danger card `:`badge bg-success card`},
+                                        //
+                                        children: [`Alarma Clareada:  ${toff}`]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    });
+    contenedor.appendChild(card);
+}
+//Crear tarjeta de alarma de climas operando
+export function createCardAB(padre, title, data, ton, toff){
+    const contenedor = document.querySelector(padre);
+    const card = builder({
+        type: 'div',
+        props: {
+            //class: relay.R_LOGIC1? (relay.R_STATUS1?'bi bi-alt':'bi bi-option' ):(relay.R_STATUS1?'bi bi-option':'bi bi-alt'),
+            //class: data['ALRMS']['ALRM_STATUS1']?`btn btn-danger`:`btn btn-outline-primary`
+            //class: `btn btn-primary`
+            class: data?`bg-primary card info-card-primary`:`bg-body card info-card-body`
+            //class: data?`btn btn-danger`:`btn btn-primary`
+            //class: `bg-danger card info-card ${classCard}`
+        },
+        children:[
+            {
+                type: 'div',
+                props: {class: 'card-body'},
+                children: [
+                    {
+                        type: 'h5',
+                        props: {class: 'card-title'},
+                        children : [
+                            {
+                                type: 'strong',
+                                children : [`${title}`]
+                            }
+                        ]//temp. alta
+                    },
+                    {
+                        type: 'div',
+                        props: {class: 'center'},
+                        children:[
+                            
+                            {
+                                type: 'div',
+                                //props: {class: 'ps-1'},
+                                props: {class: 'h3'},
+                                children: [
+                                    {
+                                        type: 'span',
+                                        props: {class: 'badge bg-info card '},
+                                        children: [`Operando desde:  ${ton}`]
+                                    },
+                                    {
+                                        type: 'span',
+                                        
+                                        //props: {class: 'badge bg-success card '},
+                                        props: {class: data?` badge bg-danger card `:`badge bg-success card`},
+                                        //
+                                        children: [`Desoperado desde el:  ${toff}`]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    });
+    contenedor.appendChild(card);
+}
 
 //funcion para ejecutar los controles a los relays
 const switchRelay = (name1,logic1,name2,logic2) =>{
