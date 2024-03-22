@@ -417,7 +417,6 @@ export function createSidebarNav(list) {
 }
 // función para crear el breadcrum
 export function createBreadCrumb(title, funcion, link){
-    
     const contenedor = document.querySelector('.pagetitle');
     // H1
     const h1 = builder({
@@ -455,6 +454,7 @@ export function createBreadCrumb(title, funcion, link){
 }
 //POO para la api service
 export class ApiService{
+
     constructor(path, data){
         this.path = path;
         this.data = data;
@@ -498,10 +498,57 @@ export class ApiService{
             console.log(error);
         }
     }
+    /*/ post firmware, Método para subir el firmware o el spiffs
+    async postFirmware(){
+        try {
+            const post = `http://${host}/api/${this.path}`;
+            const myHeaders = new Headers();
+            myHeaders.append(
+                "Accept", "application/json",
+                "Content-Type", "application/octet-stream"
+            )
+            const formdata = new FormData();
+            formdata.append("", this.data, this.data.name);
+            const requestOptions = {
+                method: "POST",
+                headers: myHeaders,
+                body: formdata
+            }
+            const response = await fetch(post,requestOptions);
+            const json = await response.json();
+            return await json;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    // post subir archivos json
+    async postFileApi(){
+        try {
+            const post = `http://${host}/api/${this.path}`;
+            const myHeaders = new Headers();
+            myHeaders.append(
+                "Accept", "application/json",
+                "Content-Type", "application/json"
+            )
+            const formdata = new FormData();
+            formdata.append("", this.data, this.data.name);
+            const requestOptions = {
+                method: "POST",
+                headers: myHeaders,
+                body: formdata
+            }
+            const response = await fetch(post,requestOptions);
+            const json = await response.json();
+            return await json;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+*/
 }
 
 //crear card para el index
-export function createCard(padre, classCard, title, icon ='cpu', id, value, titleSmal){
+export function createCard(padre, classCard, title, icon ='cpu', id, value, titleSmall){
     const contenedor = document.querySelector(padre);
     const card = builder({
         type: 'div',
@@ -542,7 +589,7 @@ export function createCard(padre, classCard, title, icon ='cpu', id, value, titl
                                     {
                                         type: 'span',
                                         props: {class: 'text-muted small pt-2 ps-0'},
-                                        children: [`${titleSmal}`]
+                                        children: [`${titleSmall}`]
                                     }
                                 ]
                             }
@@ -709,8 +756,9 @@ export function createCardTable(padre, filter, filterText, filterHref, filterHre
     contenedor.appendChild(card);
 
 }
-//Crear relays desde la API
+//Crear relays desde la API en el index
 export function createCardRelays(padre, data){
+
     let relaysContainer = {
         type: 'div',
         props: { class: 'row text-center'},
@@ -927,6 +975,7 @@ export function createCardRelays(padre, data){
             }
         ]
     });
+
     contenedor.appendChild(card);
 }
 //Crear tarjeta de alarma de temperatura y falla de compresor
@@ -970,7 +1019,7 @@ export function createCardA1(padre, title, data, ton, toff){
                                     {
                                         type: 'span',
                                         props: {class: 'badge bg-warning card '},
-                                        children: [`Alarma presente:  ${ton}`]
+                                        children: [toff?data?`Alarma presente:  ${ton}`:`La alarma se presentó: ${ton}`:data?`Alarma presente:  ${ton}`:``]
                                     },
                                     {
                                         type: 'span',
@@ -978,7 +1027,7 @@ export function createCardA1(padre, title, data, ton, toff){
                                         //props: {class: 'badge bg-success card '},
                                         props: {class: data?` badge bg-danger card `:`badge bg-success card`},
                                         //
-                                        children: [`Alarma Clareada:  ${toff}`]
+                                        children: [!toff?``:`Alarma Clareada:  ${toff}`]
                                     }
                                 ]
                             }
@@ -1014,7 +1063,7 @@ export function createCardAB(padre, title, data, ton, toff){
                         children : [
                             {
                                 type: 'strong',
-                                children : [`${title}`]
+                                children : [data?`${title} ENERGIZADO`:`${title} DESENERGIZADO`]
                             }
                         ]//temp. alta
                     },
@@ -1031,7 +1080,9 @@ export function createCardAB(padre, title, data, ton, toff){
                                     {
                                         type: 'span',
                                         props: {class: 'badge bg-info card '},
-                                        children: [`Operando desde:  ${ton}`]
+                                        //children: [ton?`Operando desde:  ${ton}`:``]
+                                        //children: [!toff?ton?`Inició operación el:  ${ton}`:``:ton?`Operando desde:  ${ton}`:``]
+                                        children: [!toff?ton?`Operando desde:  ${ton}`:``:ton?`Inició operación el:  ${ton}`:``]
                                     },
                                     {
                                         type: 'span',
@@ -1039,7 +1090,7 @@ export function createCardAB(padre, title, data, ton, toff){
                                         //props: {class: 'badge bg-success card '},
                                         props: {class: data?` badge bg-danger card `:`badge bg-success card`},
                                         //
-                                        children: [`Desoperado desde el:  ${toff}`]
+                                        children: [toff?`Desenergizado desde el: ${toff}`:``]
                                     }
                                 ]
                             }
@@ -1132,8 +1183,29 @@ export async function ejecutarPost(path, data){
         if(!localStorage.getItem('save')){
             alertMsg('danger', '¡Se han realizado cambios en la configuración, es necesario reiniciar el equipo!');
         }
-    }
-    
+    }/*else if(resp.restore){
+        SweetAlertMsg('top-end', 'success', '¡Dispositivo restablecido!', 5000);
+        const div = document.querySelector('.restoreLoading');
+        const time = new RestoreRestart(10);
+        time.runTime('#progressRestore', div);
+        // función para recargar la pagina
+        reloadPage('', 10000);
+    }else if(resp.restart){
+        SweetAlertMsg('top-end', 'success', '¡Dispositivo reiniciado!', 5000);
+        const div = document.querySelector('.restartLoading');
+        const time = new RestoreRestart(10);
+        time.runTime('#progressRestart', div);
+        // función para recargar la pagina
+        reloadPage('', 10000);
+    }else if( !resp.session ){ 
+        // manejo  de la respuesta de la sesión | mensaje superior y recargar pagina en 5s
+        SweetAlertMsg('top-end', 'warning', `${resp.msg}` , 5000);
+        // Recargar la pagina
+        reloadPage('', 6000);
+    }else{
+        // Alert superior de error solo para el cambio de la contraseña
+        SweetAlertMsg('top-end', 'error', `${resp.msg}` , 5000);
+    }*/
 }
 
 //funcion de cambio de estado de los relay en el html en el dashboard
@@ -1205,11 +1277,12 @@ export function createProgressBar(padre, type, idProgress, idSpan, value){
             }
         ]
     });
+
     contenedor.appendChild(progress);
 }
-
 //actualizar los estado de los iconoes del header
 export function headerIconsStatus(wifiStatus, rssiStatus, mqttStatus){
+
     //capturar los contenedores por id
     let elementWifi = document.getElementById('wifiStatus');
     let elementRssi = document.getElementById('rssiStatus');
@@ -1224,6 +1297,7 @@ export function headerIconsStatus(wifiStatus, rssiStatus, mqttStatus){
         rssiStatus = -200;
         mqttStatus = false
     }
+
     //Estado del rssi
     if(rssiStatus >= -55){ //esta es una calidad de señal buena
         elementRssi.className = '';
@@ -1250,6 +1324,7 @@ export function headerIconsStatus(wifiStatus, rssiStatus, mqttStatus){
         elementMQTT.className = '';
         elementMQTT.classList.add('bi', 'bi-cloud-slash-fill', 'text-dark');
     }
+
 }
 
 //crear input segun el tipo
@@ -1322,7 +1397,6 @@ export function createInputTypeNum(padre, id, type, label, placeholder, value, c
     });
     contenedor.appendChild(divRow);
 }
-
 // crear funcion si es un switch
 export function createSwitch(padre, id, type, label1, label2, value, classe){
     const contenedor = document.querySelector(padre);
@@ -1380,7 +1454,7 @@ export function createSwitch(padre, id, type, label1, label2, value, classe){
     switchChange( id );
 }
 //crear input tipo select
-export function createSelectType(padre, id, type, label1, label2, value, classe){
+export function createSelectType(padre, id, type, label, label2, options, value, classe){
     const contenedor = document.querySelector(padre);
 
     let select = {
@@ -1388,24 +1462,33 @@ export function createSelectType(padre, id, type, label1, label2, value, classe)
         props: {class: `form-select ${classe}`, id:id, name:id},
         children: []
     }
+    // 0,1,2
     options.forEach(option =>{
         const opt = {
             type: 'option',
             props: option === value ? { value : option, select: ''}:{value: option},
-            children: [`QoS ${options}`]
+            children: [`${label2} ${option}`] // QoS 0, 1, 2
         }
         select.children.push( opt );
     });
-    //const divRow = builder({
-    //    type: 'div',
-    //    props: {class: 'col-sm-4 col-form-label', for: id},
-    //    children:[
-    //        {
-    //            type: 'label',
-    //            props: {class:}
-    //        }
-    //    ]
-    //})
+
+    const divRow = builder({
+        type: 'div',
+        props: {class: 'row mb-3 mt-3'},
+        children:[
+            {
+                type: 'label',
+                props: {class: 'col-sm-4 col-form-label', for: id},
+                children: [label]
+            },
+            {
+                type: 'div',
+                props: { class: 'col-sm-8'},
+                children: [ select ]
+            }
+        ]
+    });
+    contenedor.appendChild(divRow);
 }
 
 

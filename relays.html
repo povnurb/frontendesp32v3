@@ -52,7 +52,7 @@
         <div class="row">
           <div class="col-lg-6">
             <div class="card">
-              <div class="card-header">Configuración del Relay1 (D33) <i id="RELAY01_Status"
+              <div class="card-header">Configuración del Relay1 (D04) <i id="RELAY01_Status"
                 class="bi bi-lightbulb-fill text-warning"></i></div>
               <div class="card-body">
                 <!-- General Form Elements -->
@@ -74,9 +74,8 @@
                   </div>
                   <hr>
                   <div id="inputRelayName1">
-                    <!-- auto - input nombre Nota: No PUEDEN LLEVAR punto-->
-                    
-                  </div>
+                    <!-- auto - input nombre Nota: No PUEDEN LLEVAR punto ni espacio-->
+                  </div><span class="badge bg-warning text-dark">Nota: Usar nombre corto y sin espacio</span>
                   <div id="inputDescripcion1">
                     <!-- auto - input descripción -->
                   </div>
@@ -88,7 +87,7 @@
                     </div>
                     <div id="inputR_TIMER1">
                       <!-- Tiempo de duracion del relay -->                             
-                    </div>
+                    </div><span class="badge bg-info text-dark">Activa el relevador de 1 hasta 3600 seg.</span>
                     <hr>
                     <div style="background-color: rgb(173, 231, 197);" id="switchTEMPORIZADOR1">
                       <!-- auto - switch Temporizador -->                             
@@ -108,7 +107,7 @@
           </div>
           <div class="col-lg-6">
             <div class="card">
-              <div class="card-header">Configuración del Relay2 (D15) <i id="RELAY02_Status"
+              <div class="card-header">Configuración del Relay2 (D02) <i id="RELAY02_Status"
                 class="bi bi-lightbulb-fill text-danger"></i></div>
               <div class="card-body">
                 <!-- General Form Elements -->
@@ -119,8 +118,7 @@
                       <hr>
                       <div id="inputRelayName2">
                         <!-- auto - input nombre Nota: No PUEDEN LLEVAR punto-->
-                        
-                      </div>
+                      </div><span class="badge bg-warning text-dark">Nota: Usar nombre corto y sin espacio</span>
                       <div id="inputDescripcion2">
                         <!-- auto - input descripción -->
                       </div>
@@ -132,7 +130,7 @@
                         </div>
                         <div id="inputR_TIMER2">
                           <!-- Tiempo de duracion del relay -->
-                        </div>
+                        </div><span class="badge bg-info text-dark">Activa el relevador de 1 hasta 3600 seg.</span>
                         <hr>
                         <div style="background-color: rgb(173, 231, 197);" id="switchTEMPORIZADOR2">
                           <!-- auto - switch Temporizador -->

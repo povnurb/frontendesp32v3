@@ -63,7 +63,7 @@ export async function iniciarRelays(){
         }else{
             formDisable("TRELAY1",true)
         }
-        if(rtime1.Checked){
+        if(rtime1.Checked){ //temporizador
             formDisable("TEMPRELAY1",false)
         }else{
             formDisable("TEMPRELAY1",true)

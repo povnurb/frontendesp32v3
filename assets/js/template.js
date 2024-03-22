@@ -36,11 +36,12 @@ export const sidebar=[
             {
                 url:'esp-relays',
                 text: 'Relays'
-            },
+            }
+            /*,
             {
                 url:'esp-espnow',
                 text:'Expanciones'
-            }
+            }*/
         ]
     },
     {
@@ -56,11 +57,12 @@ export const sidebar=[
             {
                 url:'esp-mqtt',
                 text: 'MQTT'
-            },
+            }
+            /*,
             {
                 url:'esp-deviceremote',
                 text:'Dispositivo Remoto'
-            }
+            }*/
         ]
     },
     {
@@ -170,7 +172,7 @@ export const wifiMainInput = [
         parentId: '#inputIpv4',
         inputId:'wifi_ipv4',
         type: 'text',
-        label1: 'Direccion IPv4',
+        label1: 'Dirección IPv4',
         label2: '192.168.0.10', //placeholder 
         value: '',
         classe: 'wifi client ip'
@@ -281,7 +283,7 @@ export const relayMainInput1 = [
         label1: 'Relay1:',
         label2: '', //placeholder 
         value: true,
-        classe: 'RELAYS'
+        classe: 'RELAYS',
     },
     {
         switch: false,
@@ -341,7 +343,7 @@ export const relayMainInput1 = [
         inputId:'TIMEONRELAY1',
         type: 'text',
         label1: 'Hr. de Encendido ',
-        label2: '', //placeholder 
+        label2: 'hr:mn', //placeholder 
         value: '00:00',
         classe: 'RELAYS TEMPRELAY1'
     },
@@ -351,7 +353,7 @@ export const relayMainInput1 = [
         inputId:'TIMEOFFRELAY1',
         type: 'text',
         label1: 'Hr. de Apagado ',
-        label2: '', //placeholder 
+        label2: 'hr:mn', //placeholder 
         value: '00:00',
         classe: 'RELAYS TEMPRELAY1'
     }
@@ -427,7 +429,7 @@ export const relayMainInput2 = [
         inputId:'TIMEONRELAY2',
         type: 'text',
         label1: 'Hr. de Encendido ',
-        label2: '', //placeholder 
+        label2: 'hr:mn', //placeholder 
         value: '00:00',
         classe: 'RELAYS TEMPRELAY2'
     },
@@ -437,7 +439,7 @@ export const relayMainInput2 = [
         inputId:'TIMEOFFRELAY2',
         type: 'text',
         label1: 'Hr. de Apagado ',
-        label2: '', //placeholder 
+        label2: 'hr:mn', //placeholder 
         value: '00:00',
         classe: 'RELAYS TEMPRELAY2'
     }
@@ -459,7 +461,7 @@ export const mqttMainInput = [
         parentId: '#inputServer',
         inputId: 'mqtt_server',
         type: 'text',
-        label1: 'Sevidor MQTT',
+        label1: 'Servidor MQTT',
         label2: 'Dirección del servidor',
         value: '',
         classe: 'mqtt mq'
@@ -477,7 +479,7 @@ export const mqttMainInput = [
     {
         switch : true,
         parentId: '#switchRetain',
-        inputId: 'mqtt_retin',
+        inputId: 'mqtt_retain',
         type: 'checkbox',
         label1: 'Mensajes retenidos',
         label2: '',
@@ -490,24 +492,24 @@ export const mqttMainInput = [
         inputId: 'mqtt_qos',
         type: 'select',
         label1: 'Calidad del servicio',
-        label2: 'QOS',
+        label2: 'QoS',
         option: [0,1,2],
         value: '',
         classe: 'mqtt mq'
     },
     {
         switch : false,
-        parentId: '#inputClientId',
+        parentId: '#inputClienId',
         inputId: 'mqtt_id',
         type: 'text',
-        label1: 'Client Id',
-        label2: 'Client Id MQTT',
+        label1: 'Cliente Id',
+        label2: 'Cliente Id MQTT',
         value: '',
         classe: 'mqtt mq'
     },
     {
         switch : false,
-        parentId: '#inputServer',
+        parentId: '#inputUser',
         inputId: 'mqtt_user',
         type: 'text',
         label1: 'Usuario',
@@ -550,7 +552,7 @@ export const mqttMainInput = [
         parentId: '#inputInterval',
         inputId: 'mqtt_time_interval',
         type: 'number',
-        label1: 'Intervalo en segundos(s)',
+        label1: 'Intervalo en segundos (s)',
         label2: '60',
         value: '',
         classe: 'mqtt mq'

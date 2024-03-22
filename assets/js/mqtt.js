@@ -17,8 +17,9 @@ export async function iniciarMqtt(){
     //pasar los valores de la respuesta al objeto mqtt
     mqttMainInput.forEach((inputValue, index)=>{
         if(inputValue.inputId === Object.keys(resp.mqtt)[index])
-        inputValue.value = resp.mqtt[inputValue.inputId]
+            inputValue.value = resp.mqtt[inputValue.inputId]
     });
+
     //dibujar los inputs
     mqttMainInput.forEach( input =>{
         if(input.switch){
@@ -28,5 +29,5 @@ export async function iniciarMqtt(){
         }else{
             createInputType(input.parentId, input.inputId, input.type, input.label1, input.label2, input.value, input.classe);
         }
-    })
+    });
 }
