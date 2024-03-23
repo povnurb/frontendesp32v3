@@ -1,7 +1,8 @@
 "use strict";
-   
-const ipdevice ='192.168.1.207'; // o en mi casa 192.168.1.68 -casa  - .207 en el trabajo
-const urlActual = window.location; //la url donde estamos la metemos en la constante 
+
+const ipdevice ='192.168.1.68'; // o en mi casa 192.168.1.68 -casa  - .207 en el trabajo
+const urlActual = window.location; //la url donde estamos la metemos en la constante
+const evitarpaginamqtt = 'http://127.0.0.1:5501/mqtt.html';
 const evitarpaginarelay = 'http://127.0.0.1:5501/relays.html';
 const evitarpaginawifi='http://127.0.0.1:5501/wifi.html';
 const evitarPagIndex = 'http://127.0.0.1:5501/';
@@ -18,307 +19,315 @@ export const url =  /^(\w+):\/\/([^\/]+)([^]+)$/.exec(urlActual);//mostrando un 
 //esto nos ayuda a decifrar el url y saber en que pagina me encuentro
 //tambien nos sirve para saber la dirección IP y saber si estamos en modo desarrollo o producción
 export const host = url[2] === '127.0.0.1:5501' ? ipdevice : url[2]; //puede ser el ip o mdns
+
+
 //funcion que construye codigo HTML desde JS
 export function builder(Node) {
-   // si el node viene indefinido
-   if (typeof Node === "undefined") {
-       return document.createTextNode("");
-   }
-   // si el node es un string lo dibujamos
-   if (typeof Node === "string") {
-       return document.createTextNode(Node);
-   }
-   // si es un html comparamos por tagname y retorno el mismo hmtl
-   if (Node.tagName) {
-       return Node;
-   }
-   // si enviamos un Objeto de JS
-   const element = document.createElement(Node.type);
-   // si llega props
-   if (Node.props) {
-       for (const prop in Node.props) {
-           if (typeof Node.props[prop] === 'function' || typeof Node.props[prop] === 'object') {
-               element[prop] = Node.props[prop];
-           } else if (prop.includes('bs')) { // data-bs-toggle = toggle
-               element.dataset[prop] = Node.props[prop]
-           } else {
-               element.setAttribute(prop, Node.props[prop]);
-           }
-       }
-   }
-   // si llegan hijos
-   if (Node.children) {
-       Node.children.map(builder).forEach(Child => element.appendChild(Child));
-   }
-   // eventos
-   if (Node.events) {
-       for (const event in Node.events) {
-           element.addEventListener(event, Node.events[event](), false);
-       }
-   }
-   return element;
+    // si el node viene indefinido
+    if (typeof Node === "undefined") {
+        return document.createTextNode("");
+    }
+    // si el node es un string lo dibujamos
+    if (typeof Node === "string") {
+        return document.createTextNode(Node);
+    }
+    // si es un html comparamos por tagname y retorno el mismo hmtl
+    if (Node.tagName) {
+        return Node;
+    }
+    // si enviamos un Objeto de JS
+    const element = document.createElement(Node.type);
+    // si llega props
+    if (Node.props) {
+        for (const prop in Node.props) {
+            if (typeof Node.props[prop] === 'function' || typeof Node.props[prop] === 'object') {
+                element[prop] = Node.props[prop];
+            } else if (prop.includes('bs')) { // data-bs-toggle = toggle
+                element.dataset[prop] = Node.props[prop]
+            } else {
+                element.setAttribute(prop, Node.props[prop]);
+            }
+        }
+    }
+    // si llegan hijos
+    if (Node.children) {
+        Node.children.map(builder).forEach(Child => element.appendChild(Child));
+    }
+    // eventos
+    if (Node.events) {
+        for (const event in Node.events) {
+            element.addEventListener(event, Node.events[event](), false);
+        }
+    }
+    return element;
 }
 // definir función para crear el Header desde js
 export function createHeader() {
-   const contenedor = document.querySelector('#header');
-   const div = builder({
-       type: 'div',
-       props: { class: 'd-flex align-items-center justify-content-between' },
-       children: [
-           {
-               type: 'a',
-               props: { class: 'logo d-flex align-items-center', href: '/' },
-               children: [
+    const contenedor = document.querySelector('#header');
+    const div = builder({
+        type: 'div',
+        props: { class: 'd-flex align-items-center justify-content-between' },
+        children: [
+            {
+                type: 'a',
+                props: { class: 'logo d-flex align-items-center', href: '/' },
+                children: [
                    //{
                    //    type: 'img',
                    //    props: { src: 'assets/img/logo.png', alt: 'logo' },
                    //},
                    //--------------------------------------------------
-                   {
-                       type: 'span',
-                       props: { class: 'd-none d-lg-block' },
-                       children: ['Control AC Remoto'] //aqui se modifica el nombre del titulo de la pagina del dispositivo 
-                   }
-               ]
-           },
-           {
-               type: 'i',
-               props: { class: 'bi bi-list toggle-sidebar-btn' }
-           }
-       ]
-   });
-   contenedor.appendChild(div);
-   // crear nav
-   const nav = builder({
-       type: 'nav',
-       props: { class: 'header-nav ms-auto' },
-       children: [
-           {
-               type: 'ul',
-               props: { class: 'd-flex align-items-center' },
-               children: [
-                   {
-                       type: 'li',
-                       props: { class: 'nav-item dropdown' },
-                       children: [
-                           {
-                               type: 'a',
-                               props: {
-                                   class: 'nav-link nav-icon',
-                                   href: '#',
-                                   bsToggle: 'dropdown'
-                               },
-                               children: [
-                                   {
-                                       type: 'i',
-                                       props: {
-                                           class: 'bi',
-                                           bsToggle: 'tooltip',
-                                           bsPlacement: 'bottom',
-                                           bsOriginalTitle: 'Conexión WiFi',
-                                           id: 'wifiStatus'
-                                       }
-                                   }
-                               ]
-                           }
-                       ]
-                   },
-                   {
-                       type: 'li',
-                       props: { class: 'nav-item dropdown' },
-                       children: [
-                           {
-                               type: 'a',
-                               props: {
-                                   class: 'nav-link nav-icon',
-                                   href: '#',
-                                   bsToggle: 'dropdown'
-                               },
-                               children: [
-                                   {
-                                       type: 'i',
-                                       props: {
-                                           class: 'bi',
-                                           bsToggle: 'tooltip',
-                                           bsPlacement: 'bottom',
-                                           bsOriginalTitle: 'WiFi RSSI',
-                                           id: 'rssiStatus'
-                                       }
-                                   }
-                               ]
-                           }
-                       ]
-                   },
-                   {
-                       type: 'li',
-                       props: { class: 'nav-item dropdown' },
-                       children: [
-                           {
-                               type: 'a',
-                               props: {
-                                   class: 'nav-link nav-icon',
-                                   href: '#',
-                                   bsToggle: 'dropdown'
-                               },
-                               children: [
-                                   {
-                                       type: 'i',
-                                       props: {
-                                           class: 'bi',
-                                           bsToggle: 'tooltip',
-                                           bsPlacement: 'bottom',
-                                           bsOriginalTitle: 'Conexión MQTT',
-                                           id: 'mqttStatus'
-                                       }
-                                   }
-                               ]
-                           }
-                       ]
-                   },
-                   {
-                       type: 'li',
-                       props: { class: 'nav-item dropdown pe-3' },
-                       children: [
-                           {
-                               type: 'a',
-                               props: {
-                                   class: 'nav-link nav-profile d-flex align-items-center pe-0',
-                                   href: '#',
-                                   bsToggle: 'dropdown'
-                               },
-                               children: [
-                                   {
-                                       type: 'span',
-                                       props: { class: 'd-none d-md-block dropdown-toggle ps-2' },
-                                       children: ['Admin']
-                                   }
-                               ]
-                           },
-                           {
-                               type: 'ul',
-                               props: { class: 'dropdown-menu dropdown-menu-end dropdown-menu-arrow profile' },
-                               children: [
-                                   {
-                                       type: 'li',
-                                       props: { class: 'dropdown-header' },
-                                       children: [
-                                           {
-                                               type: 'h6',
-                                               children: ['Admin']
-                                           },
-                                           {
-                                               type: 'span',
-                                               children: ['Administrador del sistema']
-                                           }
-                                       ]
-                                   },
-                                   {
-                                       type: 'li',
-                                       children: [
-                                           {
-                                               type: 'hr',
-                                               props: { class: 'dropdown-divider' }
-                                           }
-                                       ]
-                                   },
-                                   {
-                                       type: 'li',
-                                       children: [
-                                           {
-                                               type: 'a',
-                                               props: { class: 'dropdown-item d-flex align-items-center', href: 'esp-admin' },
-                                               children: [
-                                                   { type: 'i', props: { class: 'bi bi-person' } },
-                                                   { type: 'span', children: ['Perfil'] }
-                                               ]
-                                           }
-                                       ]
-                                   },
-                                   {
-                                       type: 'li',
-                                       children: [
-                                           {
-                                               type: 'hr',
-                                               props: { class: 'dropdown-divider' }
-                                           }
-                                       ]
-                                   },
-                                   {
-                                       type: 'li',
-                                       children: [
-                                           {
-                                               type: 'a',
-                                               props: { class: 'dropdown-item d-flex align-items-center', href: 'esp-device' },
-                                               children: [
-                                                   { type: 'i', props: { class: 'bi bi-gear' } },
-                                                   { type: 'span', children: ['Configuración'] }
-                                               ]
-                                           }
-                                       ]
-                                   },
-                                   {
-                                       type: 'li',
-                                       children: [
-                                           {
-                                               type: 'hr',
-                                               props: { class: 'dropdown-divider' }
-                                           }
-                                       ]
-                                   },
-                                   {
-                                       type: 'li',
-                                       children: [
-                                           {
-                                               type: 'a',
-                                               props: {
-                                                   class: 'dropdown-item d-flex align-items-center',
-                                                   href: 'https://iotmx.com',
-                                                   target: '_blank'
-                                               },
-                                               children: [
-                                                   { type: 'i', props: { class: 'bi bi-question-circle' } },
-                                                   { type: 'span', children: ['Ayuda?'] }
-                                               ]
-                                           }
-                                       ]
-                                   },
-                                   {
-                                       type: 'li',
-                                       children: [
-                                           {
-                                               type: 'hr',
-                                               props: { class: 'dropdown-divider' }
-                                           }
-                                       ]
-                                   },
-                                   {
-                                       type: 'li',
-                                       children: [
-                                           {
-                                               type: 'a',
-                                               props: {
-                                                   class: 'dropdown-item d-flex align-items-center',
-                                                   href: 'esp-logout',
-                                                   id: 'logoutHeader'
-                                               },
-                                               children: [
-                                                   { type: 'i', props: { class: 'bi bi-box-arrow-right' } },
-                                                   { type: 'span', children: ['Salir'] }
-                                               ]
-                                           }
-                                       ]
-                                   }
-                               ]
-                           }
-                       ]
-                   }
-               ]
-           }
-       ]
-   });
-   contenedor.appendChild(nav);
-   //iniciar los toolstips
-   initTooltips();
+                    {
+                        type: 'span',
+                        props: { class: 'd-none d-lg-block' },
+                        children: ['Control AC Remoto'] //aqui se modifica el nombre del titulo de la pagina del dispositivo 
+                    }
+                ]
+            },
+            {
+                type: 'i',
+                props: { class: 'bi bi-list toggle-sidebar-btn' }
+            }
+        ]
+    });
+    contenedor.appendChild(div);
+    // crear nav
+    const nav = builder({
+        type: 'nav',
+        props: { class: 'header-nav ms-auto' },
+        children: [
+            {
+                type: 'ul',
+                props: { class: 'd-flex align-items-center' },
+                children: [
+                    {
+                        type: 'li',
+                        props: { class: 'nav-item dropdown' },
+                        children: [
+                            {
+                                type: 'a',
+                                props: {
+                                    class: 'nav-link nav-icon',
+                                    href: '#',
+                                    bsToggle: 'dropdown'
+                                },
+                                children: [
+                                    {
+                                        type: 'i',
+                                        props: {
+                                            class: 'bi',
+                                            bsToggle: 'tooltip',
+                                            bsPlacement: 'bottom',
+                                            bsOriginalTitle: 'Conexión WiFi',
+                                            id: 'wifiStatus'
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        type: 'li',
+                        props: { class: 'nav-item dropdown' },
+                        children: [
+                            {
+                                type: 'a',
+                                props: {
+                                    class: 'nav-link nav-icon',
+                                    href: '#',
+                                    bsToggle: 'dropdown'
+                                },
+                                children: [
+                                    {
+                                        type: 'i',
+                                        props: {
+                                            class: 'bi',
+                                            bsToggle: 'tooltip',
+                                            bsPlacement: 'bottom',
+                                            bsOriginalTitle: 'WiFi RSSI',
+                                            id: 'rssiStatus'
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        type: 'li',
+                        props: { class: 'nav-item dropdown' },
+                        children: [
+                            {
+                                type: 'a',
+                                props: {
+                                    class: 'nav-link nav-icon',
+                                    href: '#',
+                                    bsToggle: 'dropdown'
+                                },
+                                children: [
+                                    {
+                                        type: 'i',
+                                        props: {
+                                            class: 'bi',
+                                            bsToggle: 'tooltip',
+                                            bsPlacement: 'bottom',
+                                            bsOriginalTitle: 'Conexión MQTT',
+                                            id: 'mqttStatus'
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        type: 'li',
+                        props: { class: 'nav-item dropdown pe-3' },
+                        children: [
+                            {
+                                type: 'a',
+                                props: {
+                                    class: 'nav-link nav-profile d-flex align-items-center pe-0',
+                                    href: '#',
+                                    bsToggle: 'dropdown'
+                                },
+                                children: [
+                                    {
+                                        type: 'span',
+                                        props: { class: 'd-none d-md-block dropdown-toggle ps-2' },
+                                        children: ['Admin']
+                                    }
+                                ]
+                            },
+                            {
+                                type: 'ul',
+                                props: { class: 'dropdown-menu dropdown-menu-end dropdown-menu-arrow profile' },
+                                children: [
+                                    {
+                                        type: 'li',
+                                        props: { class: 'dropdown-header' },
+                                        children: [
+                                            {
+                                                type: 'h6',
+                                                children: ['Admin']
+                                            },
+                                            {
+                                                type: 'span',
+                                                children: ['Administrador del sistema']
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        type: 'li',
+                                        children: [
+                                            {
+                                                type: 'hr',
+                                                props: { class: 'dropdown-divider' }
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        type: 'li',
+                                        children: [
+                                            {
+                                                type: 'a',
+                                                props: { class: 'dropdown-item d-flex align-items-center', href: 'esp-admin' },
+                                                children: [
+                                                    { type: 'i', props: { class: 'bi bi-person' } },
+                                                    { type: 'span', children: ['Perfil'] }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        type: 'li',
+                                        children: [
+                                            {
+                                                type: 'hr',
+                                                props: { class: 'dropdown-divider' }
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        type: 'li',
+                                        children: [
+                                            {
+                                                type: 'a',
+                                                props: { class: 'dropdown-item d-flex align-items-center', href: 'esp-device' },
+                                                children: [
+                                                    { type: 'i', props: { class: 'bi bi-gear' } },
+                                                    { type: 'span', children: ['Configuración'] }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        type: 'li',
+                                        children: [
+                                            {
+                                                type: 'hr',
+                                                props: { class: 'dropdown-divider' }
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        type: 'li',
+                                        children: [
+                                            {
+                                                type: 'a',
+                                                props: {
+                                                    class: 'dropdown-item d-flex align-items-center',
+                                                    href: 'https://iotmx.com',
+                                                    target: '_blank'
+                                                },
+                                                children: [
+                                                    { type: 'i', props: { class: 'bi bi-question-circle' } },
+                                                    { type: 'span', children: ['Ayuda?'] }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        type: 'li',
+                                        children: [
+                                            {
+                                                type: 'hr',
+                                                props: { class: 'dropdown-divider' }
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        type: 'li',
+                                        children: [
+                                            {
+                                                type: 'a',
+                                                props: {
+                                                    class: 'dropdown-item d-flex align-items-center',
+                                                    href: 'esp-logout',
+                                                    id: 'logoutHeader'
+                                                },
+                                                children: [
+                                                    { type: 'i', props: { class: 'bi bi-box-arrow-right' } },
+                                                    { type: 'span', children: ['Salir'] }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    });
+    contenedor.appendChild(nav);
+    // iniciar los toolstips
+    initTooltips();
+    // capturar el evento click
+    // document.getElementById('logoutHeader').addEventListener('click', evento =>{
+    //     evento.preventDefault();
+    //     //console.log('click')
+    //     SweetAlert('Salir', '¿Realmente desea cerrar la sesión?', 'question', 'esp-logout', '');
+    // });
 }
 //definir la funcion de crear el sidebar
 export function createSidebarNav(list) {
@@ -452,22 +461,22 @@ export function createBreadCrumb(title, funcion, link){
     contenedor.appendChild(h1);
     contenedor.appendChild(nav)
 }
-//POO para la api service
+// POO para la api service
 export class ApiService{
 
-    constructor(path, data){
+    constructor( path, data ){
         this.path = path;
         this.data = data;
     }
-    //metodo para hacer el GET de la información
+    //método para hacer el GET de la información
     async getApiData(){ //metodo que es como una funcion pero no se declara asi dentro de una clase
         try {
             const get = `http://${host}/api/${this.path}`;
             const response = await fetch( get,
                 {
                     method: 'GET',
-                    headers:{
-                        'Accept': 'application/json'
+                    headers: {
+                        'Accept': 'application/json',
                     }
                 }
             );
@@ -479,14 +488,14 @@ export class ApiService{
     }
     //método para hacer el POST de la información a la API
     async postApiData(){
-        try{
+        try {
             const post = `http://${host}/api/${this.path}`;
             const response = await fetch( post,
                 {
                     method: 'POST',
-                    headers:{
+                    headers: {
                         'Accept': 'application/json',
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
                     },
                     body: JSON.stringify(this.data)//stringify convierte un objeto de JS (this.data)a formato JSON
                     // y con JSON.parse de un JSON a objeto JS
@@ -494,7 +503,7 @@ export class ApiService{
             );
             const json = await response.json();
             return await json;
-        }catch (error){
+        } catch (error) {
             console.log(error);
         }
     }
@@ -543,16 +552,14 @@ export class ApiService{
         } catch (error) {
             console.log(error);
         }
-    }
-*/
+    }*/
 }
-
 //crear card para el index
-export function createCard(padre, classCard, title, icon ='cpu', id, value, titleSmall){
+export function createCard(padre, classCard, title, icon = 'cpu', id, value, titleSmall){
     const contenedor = document.querySelector(padre);
     const card = builder({
         type: 'div',
-        props: {class: `card info-card ${classCard}`},
+        props: { class: `card info-card ${classCard}` },
         children:[
             {
                 type: 'div',
@@ -561,29 +568,29 @@ export function createCard(padre, classCard, title, icon ='cpu', id, value, titl
                     {
                         type: 'h5',
                         props: {class: 'card-title text-start'},
-                        children : [`${title}`]
+                        children: [`${title}`]
                     },
                     {
                         type: 'div',
                         props: {class: 'd-flex align-items-center'},
-                        children:[
+                        children: [
                             {
                                 type: 'div',
-                                props: {class: 'card-icon rounded-circle d-flex align-items-center justify-content-center'},
-                                children:[
+                                props: { class: 'card-icon rounded-circle d-flex align-items-center justify-content-center'},
+                                children: [
                                     {
                                         type: 'i',
-                                        props:{class: `bi bi-${icon}`}
+                                        props: {class: `bi bi-${icon}`}
                                     }
                                 ]
                             },
                             {
                                 type: 'div',
                                 props: {class: 'ps-1'},
-                                children: [
+                                children:[
                                     {
-                                        type:'h6',
-                                        props:{ id: `${id}`, class: 'text-start ps-0'},
+                                        type: 'h6',
+                                        props: {id: `${id}`, class: 'text-start ps-0'},
                                         children: [`${value}`]
                                     },
                                     {
@@ -599,7 +606,7 @@ export function createCard(padre, classCard, title, icon ='cpu', id, value, titl
             }
         ]
     });
-    contenedor.appendChild(card);
+    contenedor.appendChild( card );
 }
 //crear card para la temperatura
 export function createCardTemp(padre, classCard, title, icon ='cpu', id, value, valuemin, valuemax){
@@ -664,22 +671,24 @@ export function createCardTemp(padre, classCard, title, icon ='cpu', id, value, 
 export function createCardTable(padre, filter, filterText, filterHref, filterHrefText, cardBodyH5Text, cardBodySpanText = " | Conexión", tableID, data){
     const entriesData = Object.entries(data);
     //console.log(entriesData);
-    let tbody = {type: 'tbody', props:{ id: tableID}, children: [] }
+    let tbody = { type: 'tbody', props: { id: tableID}, children: [] }
 
     entriesData.forEach(row =>{
 
         let tr = { type: 'tr', children:[] };
-        let th = { type: 'th', props:{scope: 'row'}, children: [ `${row[0].replace(/_/g, ' ')}:`]} //sustituir los guines bajo por espacios
-        let td = { type: 'td', props:{id:`${row[0]}`}, children: [`${row[1]}`] };
+        let th = { type: 'th', props: { scope: 'row' }, children: [ ` ${row[0].replace(/_/g, ' ')}: ` ] } //sustituir los guines bajo por espacios
+        let td = { type: 'td', props: { id:`${row[0]}`}, children: [`${row[1]}`] };
 
         tr.children.push(th);
         tr.children.push(td);
         tbody.children.push(tr);
 
     });
+
     //si tiene filtro
     let filterContainer;
-    if (filter){
+
+    if(filter){
         filterContainer = {
             type: 'div',
             props: {class: 'filter'},
@@ -699,8 +708,8 @@ export function createCardTable(padre, filter, filterText, filterHref, filterHre
                             children: [{ type: 'h6', children:[filterText]}]
                         },
                         {
-                            type:'li',
-                            props:{class: 'dropdown-item'},
+                            type: 'li',
+                            props: { class: 'dropdown-item' },
                             children: [
                                 {
                                     type: 'a',
@@ -742,7 +751,7 @@ export function createCardTable(padre, filter, filterText, filterHref, filterHre
                         type: 'div',
                         props: {class: 'table-responsive'},
                         children:[
-                            {
+                            { 
                                 type: 'table',
                                 props:{class:'table table-borderless datatable align-middle'},
                                 children:[ tbody ]
@@ -753,6 +762,7 @@ export function createCardTable(padre, filter, filterText, filterHref, filterHre
             }
         ]
     });
+
     contenedor.appendChild(card);
 
 }
@@ -763,15 +773,14 @@ export function createCardRelays(padre, data){
         type: 'div',
         props: { class: 'row text-center'},
         children: [
-            //data[0]['R_NAME1'].toString(),data[1]['R_NAME2'].toString()
         {
             type: 'div',
             props: {class: 'col-md-12 pb-2 mb-2'},
             children: [
-                {   
+                {
                     type: 'li',
                     props: {class: 'list-group-item d-flex align-items-center justify-content-between'},
-                    children:[
+                    children: [
                         {
                             type: 'h4',
                             props:{class: 'mt-3'},
@@ -1149,6 +1158,7 @@ const switchRelay = (name1,logic1,name2,logic2) =>{
 export async function ejecutarPost(path, data){
     const postAPI = new ApiService(path,data);//instancia del servicio de la API
     const resp = await postAPI.postApiData();//lo que responde el await del post API
+
     if (urlActual!=evitarpaginawifi){//para evitar un error en la pagina de wifi    
         const relayStatus1 = document.querySelector(`#${resp["RELAY1"].R_NAME1}_Status`);//es el foco
         const relayIcon1= document.querySelector(`#${resp["RELAY1"].R_NAME1}_Icon`);//es el icono
@@ -1207,7 +1217,6 @@ export async function ejecutarPost(path, data){
         SweetAlertMsg('top-end', 'error', `${resp.msg}` , 5000);
     }*/
 }
-
 //funcion de cambio de estado de los relay en el html en el dashboard
 const relaysStatusChange=(relayStatus,relayIcon,stado)=>{
     //esas funciones solo se deben ejecutar si estoy en el dashboard
@@ -1247,6 +1256,7 @@ const relaysStatusChangeNeg=(relayStatus,relayIcon,stado)=>{
 //función card de los progressbar
 export function createProgressBar(padre, type, idProgress, idSpan, value){
     const contenedor = document.querySelector(padre);
+
     const progress = builder({
         type: 'div',
         props:{class: 'progress', style: 'height: 25px'},
@@ -1256,7 +1266,7 @@ export function createProgressBar(padre, type, idProgress, idSpan, value){
                 props:{
                     id:idProgress,
                     class: `progress-bar ${type}`,
-                    style: `width: ${value}%`
+                    style: `width: ${value}%`,
                 },
                 children:[
                     {
@@ -1279,6 +1289,7 @@ export function createProgressBar(padre, type, idProgress, idSpan, value){
     });
 
     contenedor.appendChild(progress);
+
 }
 //actualizar los estado de los iconoes del header
 export function headerIconsStatus(wifiStatus, rssiStatus, mqttStatus){
@@ -1459,7 +1470,7 @@ export function createSelectType(padre, id, type, label, label2, options, value,
 
     let select = {
         type: type,
-        props: {class: `form-select ${classe}`, id:id, name:id},
+        props: {class: `form-select ${classe}`,  id: id, name: id },
         children: []
     }
     // 0,1,2
@@ -1490,10 +1501,29 @@ export function createSelectType(padre, id, type, label, label2, options, value,
     });
     contenedor.appendChild(divRow);
 }
-
-
+// crear una tarjeta desde una clase
+export class card{
+    constructor(textHeaer, body){
+        this.textHeaer = textHeaer;
+        this.body = body;
+    }
+    buildCard(){
+        return builder({
+            type: 'div',
+            props: {class: 'card'},
+            children: [
+                {
+                    type: 'div',
+                    props: {class: 'card-header'},
+                    children: [ this.textHeaer ]
+                },
+                this.body
+            ]
+        });
+    }
+}
 //switchChange manipular los switch
-const switchChange =(id)=>{
+const switchChange=( id )=>{
     if(document.querySelector(`#${id}`).checked){
         if(id === 'wifi_mode'){
             //document.querySelector(`.switch_${id}`).innerHTML = id === 'wifi_mode'?'Cliente': 'SI';
@@ -1531,7 +1561,7 @@ const switchChange =(id)=>{
             document.querySelector('.switch_TEMPORIZADOR2').innerHTML = 'Activado';
             formDisable("TEMPRELAY2", false);
         }else{
-            console.log(id);
+            //console.log(id);
         }
     }else{
         if(id === 'wifi_mode'){
@@ -1580,7 +1610,6 @@ export function formDisable(clase, boolean){
     //console.log(formElement);
     for(let i = 0; i < formElement.length; i++){
         formElement[i].disabled = boolean;
-        //console.log(formElement[i])
     }
 }
 
@@ -1745,7 +1774,6 @@ const buzzerStatusChange=(buzzerStatus,buzzerIcon,stado)=>{
  * Initiate tooltips
  */
 export const initTooltips=()=>{
-    
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl)
@@ -1772,15 +1800,15 @@ export function SweetAlert(title, text, icon, path, data){
         }
     })
 }
-//crear un sweete alert de mensaje
+//crear un sweete alert de mensaje          -----------------------------------------------------------------------------
 export const SweetAlertMsg = (position, icon, title, timer) => {
     if (urlActual!=evitarPagIndex){//ya que hay un error 
         Swal.fire({
-            position:position,
-            icon:icon,
+            position: position,
+            icon: icon,
             title: title,
-            showConfirmButton:false,
-            timer:timer
+            showConfirmButton: false,
+            timer: timer
         });
     }
 };
@@ -1788,17 +1816,17 @@ export const SweetAlertMsg = (position, icon, title, timer) => {
 //crear el alert desde localstorage
 export const alertMsg = (type, amsg) =>{
     const msg = builder({ //se crea un builder
-        type:'div',
+        type: 'div',
         props: {class: `alert alert-${type} alert-dismissible fade show`, role:'alert'},
-        children:[
+        children: [
             {type: 'i', props: { class: 'bi bi-exclamation-octagon me-1'}, children:[]},
             `${amsg}`,
-            {type: 'button', props:{
-                class:'btn-close',
+            {type: 'button', props: {
+                class: 'btn-close',
                 type: 'button',
                 bsDismiss: 'alert',
                 onclick:()=>{clearLocalStorage('save');},
-            },children:[]},
+            }, children:[]},
         ]
     });
     //inserta el alert en la posicion #1 del contenedor id= 'main'
@@ -1808,10 +1836,31 @@ export const alertMsg = (type, amsg) =>{
     localStorage.setItem('save', true);
 }
 //limpiar el local storage
-const clearLocalStorage = (variable) => {
-    localStorage.removeItem(variable)
+const clearLocalStorage = (key) => {
+    localStorage.removeItem(key);
 }
 
+//Clase para botones
+export class btnSend{
+    constructor(type, text){
+        this.type = type;
+        this.text = text;
+    }
+    //crear un boton segun los parametros del constructor
+    btnSendSettings(){
+        return builder({
+            type: 'div',
+            props: { class: 'col-sm-10'},
+            children:[
+                {
+                    type:'button',
+                    props: { class:`btn btn-${this.type}`, type:'submit'},
+                    children: [ `${this.text}`]
+                }
+            ]
+        });
+    }
+}
 
 /*
 export class card{
@@ -1834,3 +1883,31 @@ export class card{
         });
     }
 }*/
+// crear clase para reinicio y restauración
+// class RestoreRestart{
+//     constructor(time){
+//         this.time = time;
+//     }
+//     runTime(progres, div){
+//         div.style.cssText = 'display:block;';
+//         this.time --;
+//         document.querySelector(progres).style.width = this.time * 10 + '%';
+//         document.querySelector(progres).innerHTML = this.time * 10 + '%';
+//         if(this.time === 0){
+//             this.time = 10;
+//             div.style.cssText = 'display:none;';
+//         }else{
+//             setTimeout(()=>{
+//                 clearTimeout(this.runTime(progres, div));
+//             }, 1000);
+//         }
+//     }
+// }
+// // función para recargar la pagina
+// export const reloadPage = (url, time)=>{
+//     localStorage.clear();
+//     const timeOut = setTimeout(()=>{
+//         window.location = `/${url}`;
+//         clearTimeout(timeOut);
+//     }, time)
+// }

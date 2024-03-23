@@ -104,7 +104,7 @@ export async function iniciarRelays(){
     const form2 = document.querySelector('#form2')
     form2.addEventListener('submit', event=>{
         event.preventDefault();
-        const relays = document.querySelectorAll('.RELAYS');
+        const relays = document.querySelectorAll('.RELAYS'); //por que s la clase del template
         //console.log(relays);
         let data = {
             R_LOGIC1:'',
