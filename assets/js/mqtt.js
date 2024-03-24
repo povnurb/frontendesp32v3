@@ -6,7 +6,7 @@ import{mqttMainInput} from './template.js' //trae informacion
 export async function iniciarMqtt(){
 
     // Cambiar la etiqueta de titulo
-    document.title = "MQTT | ESP32 Admin Tool v3";
+    document.title = "MQTT";
     // Creamos el breadcrum
     createBreadCrumb('Configuración del MQTT', 'Conexiones', 'MQTT');
     //crear la conexion a la API

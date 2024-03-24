@@ -1,7 +1,9 @@
 "use strict";
 
-const ipdevice ='192.168.1.68'; // o en mi casa 192.168.1.68 -casa  - .207 en el trabajo
+const ipdevice ='192.168.1.78'; // o en mi casa 192.168.1.68 -casa  - .207 en el trabajo
 const urlActual = window.location; //la url donde estamos la metemos en la constante
+const evitarpaginarestart='http://127.0.0.1:5501/restart.html';
+const evitarpaginarestore='http://127.0.0.1:5501/restore.html';
 const evitarpaginamqtt = 'http://127.0.0.1:5501/mqtt.html';
 const evitarpaginarelay = 'http://127.0.0.1:5501/relays.html';
 const evitarpaginawifi='http://127.0.0.1:5501/wifi.html';
@@ -502,6 +504,7 @@ export class ApiService{
                 }
             );
             const json = await response.json();
+            console.log(json);
             return await json;
         } catch (error) {
             console.log(error);
@@ -1159,7 +1162,7 @@ export async function ejecutarPost(path, data){
     const postAPI = new ApiService(path,data);//instancia del servicio de la API
     const resp = await postAPI.postApiData();//lo que responde el await del post API
 
-    if (urlActual!=evitarpaginawifi){//para evitar un error en la pagina de wifi    
+    if (urlActual!=evitarpaginawifi&&urlActual!=evitarpaginarestore&&urlActual!=evitarpaginamqtt&&urlActual!=evitarpaginarestart){//para evitar un error en la pagina de wifi    
         const relayStatus1 = document.querySelector(`#${resp["RELAY1"].R_NAME1}_Status`);//es el foco
         const relayIcon1= document.querySelector(`#${resp["RELAY1"].R_NAME1}_Icon`);//es el icono
         const relayStatus2 = document.querySelector(`#${resp["RELAY2"].R_NAME2}_Status`);//es el foco
@@ -1171,29 +1174,30 @@ export async function ejecutarPost(path, data){
         }else{
             relaysStatusChangeNeg(relayStatus1,relayIcon1,resp["RELAY1"].R_STATUS1)
         }
-        if(resp["RELAY2"].R_LOGIC2){
-            
+        if(resp["RELAY2"].R_LOGIC2){         
             //funcion para cambiar los estados de los relay en la pantalla html
-
             relaysStatusChange(relayStatus2,relayIcon2,resp["RELAY2"].R_STATUS2)
         }else{
             relaysStatusChangeNeg(relayStatus2,relayIcon2,resp["RELAY2"].R_STATUS2)
         }
     }
-    if(resp["save"]){//solo para la pagina de los relay
-        SweetAlertMsg('top-end','success','¡Configuracion guardada correctamente!',3000);
+    if(resp["save"]){//solo para la pagina de los relay   -----ok
+        SweetAlertMsg('top-end','success','¡Configuracion guardada correctamente de los relays!',3000);
         //crear alert y salvar en local storage si no está guardado
         if(!localStorage.getItem('save')){
             //el siguiente metodo
             alertMsg('danger','¡Se han realizado cambios en la configuración es necesario reiniciar el equipo para guardar estos los cambios!')
         }
-    }else if(resp.save){
-        SweetAlertMsg('top-end', 'success', '¡Configuración guardada correctamente!', 3000);
+    }
+    else if(resp.save){
+        SweetAlertMsg('top-end', 'success', '¡Configuración guardada correctamente en wifi!', 3000);
         // crear el alert y salvar en localstorage si no está guardado
         if(!localStorage.getItem('save')){
             alertMsg('danger', '¡Se han realizado cambios en la configuración, es necesario reiniciar el equipo!');
         }
-    }/*else if(resp.restore){
+    }
+    else if(resp.restore){
+        console.log("restaurando");
         SweetAlertMsg('top-end', 'success', '¡Dispositivo restablecido!', 5000);
         const div = document.querySelector('.restoreLoading');
         const time = new RestoreRestart(10);
@@ -1207,7 +1211,7 @@ export async function ejecutarPost(path, data){
         time.runTime('#progressRestart', div);
         // función para recargar la pagina
         reloadPage('', 10000);
-    }else if( !resp.session ){ 
+    }/*else if( !resp.session ){ 
         // manejo  de la respuesta de la sesión | mensaje superior y recargar pagina en 5s
         SweetAlertMsg('top-end', 'warning', `${resp.msg}` , 5000);
         // Recargar la pagina
@@ -1884,30 +1888,31 @@ export class card{
     }
 }*/
 // crear clase para reinicio y restauración
-// class RestoreRestart{
-//     constructor(time){
-//         this.time = time;
-//     }
-//     runTime(progres, div){
-//         div.style.cssText = 'display:block;';
-//         this.time --;
-//         document.querySelector(progres).style.width = this.time * 10 + '%';
-//         document.querySelector(progres).innerHTML = this.time * 10 + '%';
-//         if(this.time === 0){
-//             this.time = 10;
-//             div.style.cssText = 'display:none;';
-//         }else{
-//             setTimeout(()=>{
-//                 clearTimeout(this.runTime(progres, div));
-//             }, 1000);
-//         }
-//     }
-// }
-// // función para recargar la pagina
-// export const reloadPage = (url, time)=>{
-//     localStorage.clear();
-//     const timeOut = setTimeout(()=>{
-//         window.location = `/${url}`;
-//         clearTimeout(timeOut);
-//     }, time)
-// }
+class RestoreRestart{
+    constructor(time){
+        this.time = time;
+    }
+    runTime(progres, div){
+        div.style.cssText = 'display:block;';
+        this.time --;
+        document.querySelector(progres).style.width = this.time * 10 + '%';
+        document.querySelector(progres).innerHTML = this.time * 10 + '%';
+        if(this.time === 0){
+            this.time = 10;
+            div.style.cssText = 'display:none;';
+        }else{
+            setTimeout(()=>{
+                clearTimeout(this.runTime(progres, div));
+            }, 1000);
+        }
+    }
+}
+// función para recargar la pagina
+export const reloadPage = (url, time)=>{
+    console.log("Limpiando el local storage");
+    localStorage.clear();
+    const timeOut = setTimeout(()=>{
+        window.location = `/${url}`;
+        clearTimeout(timeOut);
+    }, time)
+}

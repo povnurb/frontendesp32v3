@@ -7,11 +7,13 @@ import { iniciarWifi } from './wifi.js';
 import { iniciarAlarmas } from './alarmas.js';
 import { iniciarDeviceRemote } from './deviceremote.js';
 import { iniciarMqtt } from './mqtt.js'
+import { iniciarRestore } from './restore.js';
 
 import { iniciarRelays } from './relays.js';
 import { iniciarTime } from './time.js';
 
 import { iniciarEspNow } from './espnow.js';
+import { iniciarRestart } from './restart.js';
 
 // 3:"/index.html" o '/' o 'esp-admin'
 switch (url[3]) {
@@ -111,7 +113,30 @@ switch (url[3]) {
         //cuando todo el documento se carge despues se ejecuta la funcion iniciarIndex
         document.addEventListener('DOMContentLoaded', iniciarMqtt);
         break;
-    
+    case '/restore.html': //para modo desarrollo
+        createHeader();
+        createSidebarNav(sidebar);
+        //cuando todo el documento se carge despues se ejecuta la funcion iniciarIndex
+        document.addEventListener('DOMContentLoaded', iniciarRestore);
+        break;
+    case '/esp-restore': //para producción
+        createHeader();
+        createSidebarNav(sidebar);
+        //cuando todo el documento se carge despues se ejecuta la funcion iniciarIndex
+        document.addEventListener('DOMContentLoaded', iniciarRestore);
+        break;
+    case '/restart.html': //para modo desarrollo
+        createHeader();
+        createSidebarNav(sidebar);
+        //cuando todo el documento se carge despues se ejecuta la funcion iniciarIndex
+        document.addEventListener('DOMContentLoaded', iniciarRestart);
+        break;
+    case '/esp-restart': //para producción
+        createHeader();
+        createSidebarNav(sidebar);
+        //cuando todo el documento se carge despues se ejecuta la funcion iniciarIndex
+        document.addEventListener('DOMContentLoaded', iniciarRestart);
+        break;    
     default:
         break;
 }
