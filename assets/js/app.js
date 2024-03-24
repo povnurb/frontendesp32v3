@@ -14,6 +14,7 @@ import { iniciarTime } from './time.js';
 
 import { iniciarEspNow } from './espnow.js';
 import { iniciarRestart } from './restart.js';
+import { iniciarFirmware } from './firmware.js';
 
 // 3:"/index.html" o '/' o 'esp-admin'
 switch (url[3]) {
@@ -136,7 +137,19 @@ switch (url[3]) {
         createSidebarNav(sidebar);
         //cuando todo el documento se carge despues se ejecuta la funcion iniciarIndex
         document.addEventListener('DOMContentLoaded', iniciarRestart);
-        break;    
+        break;
+    case '/firmware.html': //para modo desarrollo
+        createHeader();
+        createSidebarNav(sidebar);
+        //cuando todo el documento se carge despues se ejecuta la funcion iniciarIndex
+        document.addEventListener('DOMContentLoaded', iniciarFirmware);
+        break;
+    case '/esp-device': //para producción
+        createHeader();
+        createSidebarNav(sidebar);
+        //cuando todo el documento se carge despues se ejecuta la funcion iniciarIndex
+        document.addEventListener('DOMContentLoaded', iniciarFirmware);
+        break;
     default:
         break;
 }

@@ -510,7 +510,7 @@ export class ApiService{
             console.log(error);
         }
     }
-    /*/ post firmware, Método para subir el firmware o el spiffs
+    // post firmware, Método para subir el firmware o el spiffs
     async postFirmware(){
         try {
             const post = `http://${host}/api/${this.path}`;
@@ -555,7 +555,7 @@ export class ApiService{
         } catch (error) {
             console.log(error);
         }
-    }*/
+    }
 }
 //crear card para el index
 export function createCard(padre, classCard, title, icon = 'cpu', id, value, titleSmall){

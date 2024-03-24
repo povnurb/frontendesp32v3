@@ -9,7 +9,7 @@ let index = {};
 export async function iniciarIndex(){
 
     //cambiar el titulo del html en cada una de las paginas
-    document.title = 'HOME | ESP32 admin tool v3';
+    document.title = 'HOME';
     //llamar l función para crear el breadcrum
     createBreadCrumb('Dashboard', "Información", "Dashboard");
 
