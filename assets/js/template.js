@@ -37,11 +37,6 @@ export const sidebar=[
                 url:'esp-relays',
                 text: 'Relays'
             }
-            /*,
-            {
-                url:'esp-espnow',
-                text:'Expanciones'
-            }*/
         ]
     },
     {
@@ -58,11 +53,6 @@ export const sidebar=[
                 url:'esp-mqtt',
                 text: 'MQTT'
             }
-            /*,
-            {
-                url:'esp-deviceremote',
-                text:'Dispositivo Remoto'
-            }*/
         ]
     },
     {

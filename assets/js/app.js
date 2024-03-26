@@ -1,20 +1,17 @@
 "use strict";
 
-import { url, createHeader, createSidebarNav } from './scripts.js'
+import { url, createHeader, createSidebarNav } from './scripts.js';
 import { sidebar } from './template.js';
 import { iniciarIndex } from './index.js';
 import { iniciarWifi } from './wifi.js';
 import { iniciarAlarmas } from './alarmas.js';
-import { iniciarDeviceRemote } from './deviceremote.js';
-import { iniciarMqtt } from './mqtt.js'
+import { iniciarMqtt } from './mqtt.js';
 import { iniciarRestore } from './restore.js';
-
 import { iniciarRelays } from './relays.js';
 import { iniciarTime } from './time.js';
-
-import { iniciarEspNow } from './espnow.js';
 import { iniciarRestart } from './restart.js';
 import { iniciarFirmware } from './firmware.js';
+import { iniciarUser } from './admin.js';
 
 // 3:"/index.html" o '/' o 'esp-admin'
 switch (url[3]) {
@@ -52,30 +49,6 @@ switch (url[3]) {
         createSidebarNav(sidebar);
         //cuando todo el documento se carge despues se ejecuta la funcion iniciarIndex
         document.addEventListener('DOMContentLoaded', iniciarAlarmas);
-        break;
-    case '/deviceremote.html': //para modo desarrollo
-        createHeader();
-        createSidebarNav(sidebar);
-        //cuando todo el documento se carge despues se ejecuta la funcion iniciarIndex
-        document.addEventListener('DOMContentLoaded', iniciarDeviceRemote);
-        break;
-    case '/esp-deviceremote': //para producción
-        createHeader();
-        createSidebarNav(sidebar);
-        //cuando todo el documento se carge despues se ejecuta la funcion iniciarIndex
-        document.addEventListener('DOMContentLoaded', iniciarDeviceRemote);
-        break;
-    case '/espnow.html': //para modo desarrollo
-        createHeader();
-        createSidebarNav(sidebar);
-        //cuando todo el documento se carge despues se ejecuta la funcion iniciarIndex
-        document.addEventListener('DOMContentLoaded', iniciarEspNow);
-        break;
-    case '/esp-espnow': //para producción
-        createHeader();
-        createSidebarNav(sidebar);
-        //cuando todo el documento se carge despues se ejecuta la funcion iniciarIndex
-        document.addEventListener('DOMContentLoaded', iniciarEspNow);
         break;
     case '/relays.html': //para modo desarrollo
         createHeader();
@@ -149,6 +122,18 @@ switch (url[3]) {
         createSidebarNav(sidebar);
         //cuando todo el documento se carge despues se ejecuta la funcion iniciarIndex
         document.addEventListener('DOMContentLoaded', iniciarFirmware);
+        break;
+    case '/user.html': //para modo desarrollo
+        createHeader();
+        createSidebarNav(sidebar);
+        //cuando todo el documento se carge despues se ejecuta la funcion iniciarIndex
+        document.addEventListener('DOMContentLoaded', iniciarUser);
+        break;
+    case '/esp-admin': //para producción
+        createHeader();
+        createSidebarNav(sidebar);
+        //cuando todo el documento se carge despues se ejecuta la funcion iniciarIndex
+        document.addEventListener('DOMContentLoaded', iniciarUser);
         break;
     default:
         break;

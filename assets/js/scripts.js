@@ -1,6 +1,6 @@
 "use strict";
 
-const ipdevice ='192.168.1.78'; // o en mi casa 192.168.1.68 -casa  - .207 en el trabajo
+const ipdevice ='192.168.1.207'; // o en mi casa 192.168.1.68 -casa  - .207 en el trabajo
 const urlActual = window.location; //la url donde estamos la metemos en la constante
 const evitarpaginarestart='http://127.0.0.1:5501/restart.html';
 const evitarpaginarestore='http://127.0.0.1:5501/restore.html';
@@ -8,6 +8,7 @@ const evitarpaginamqtt = 'http://127.0.0.1:5501/mqtt.html';
 const evitarpaginarelay = 'http://127.0.0.1:5501/relays.html';
 const evitarpaginawifi='http://127.0.0.1:5501/wifi.html';
 const evitarPagIndex = 'http://127.0.0.1:5501/';
+const evitarContra = 'http://127.0.0.1:5501/user.html'
 //export es para exportar fuera de este archivo la siguiente expresion regular
 export const url =  /^(\w+):\/\/([^\/]+)([^]+)$/.exec(urlActual);//mostrando un array con posiciones
 /**
@@ -20,7 +21,7 @@ export const url =  /^(\w+):\/\/([^\/]+)([^]+)$/.exec(urlActual);//mostrando un 
  */
 //esto nos ayuda a decifrar el url y saber en que pagina me encuentro
 //tambien nos sirve para saber la dirección IP y saber si estamos en modo desarrollo o producción
-export const host = url[2] === '127.0.0.1:5501' ? ipdevice : url[2]; //puede ser el ip o mdns
+export const host = url[2] === '127.0.0.1:5501' ? '192.168.1.207' : url[2]; //puede ser el ip o mdns
 
 
 //funcion que construye codigo HTML desde JS
@@ -325,11 +326,11 @@ export function createHeader() {
     // iniciar los toolstips
     initTooltips();
     // capturar el evento click
-    // document.getElementById('logoutHeader').addEventListener('click', evento =>{
-    //     evento.preventDefault();
-    //     //console.log('click')
-    //     SweetAlert('Salir', '¿Realmente desea cerrar la sesión?', 'question', 'esp-logout', '');
-    // });
+    document.getElementById('logoutHeader').addEventListener('click', evento =>{
+        evento.preventDefault();
+        //console.log('click')
+        SweetAlert('Salir', '¿Realmente desea cerrar la sesión?', 'question', 'esp-logout', '');
+    });
 }
 //definir la funcion de crear el sidebar
 export function createSidebarNav(list) {
@@ -504,7 +505,7 @@ export class ApiService{
                 }
             );
             const json = await response.json();
-            console.log(json);
+            //console.log(json);
             return await json;
         } catch (error) {
             console.log(error);
@@ -1162,7 +1163,7 @@ export async function ejecutarPost(path, data){
     const postAPI = new ApiService(path,data);//instancia del servicio de la API
     const resp = await postAPI.postApiData();//lo que responde el await del post API
 
-    if (urlActual!=evitarpaginawifi&&urlActual!=evitarpaginarestore&&urlActual!=evitarpaginamqtt&&urlActual!=evitarpaginarestart){//para evitar un error en la pagina de wifi    
+    if (urlActual!=evitarpaginawifi&&urlActual!=evitarpaginarestore&&urlActual!=evitarpaginamqtt&&urlActual!=evitarpaginarestart&&urlActual!=evitarContra){//para evitar un error en la pagina de wifi    
         const relayStatus1 = document.querySelector(`#${resp["RELAY1"].R_NAME1}_Status`);//es el foco
         const relayIcon1= document.querySelector(`#${resp["RELAY1"].R_NAME1}_Icon`);//es el icono
         const relayStatus2 = document.querySelector(`#${resp["RELAY2"].R_NAME2}_Status`);//es el foco
@@ -1181,8 +1182,8 @@ export async function ejecutarPost(path, data){
             relaysStatusChangeNeg(relayStatus2,relayIcon2,resp["RELAY2"].R_STATUS2)
         }
     }
-    if(resp["save"]){//solo para la pagina de los relay   -----ok
-        SweetAlertMsg('top-end','success','¡Configuracion guardada correctamente de los relays!',3000);
+    else if(resp["save"]){//solo para la pagina de los relay   -----ok
+        SweetAlertMsg('top-end','success','¡Configuracion guardada correctamente!',3000);
         //crear alert y salvar en local storage si no está guardado
         if(!localStorage.getItem('save')){
             //el siguiente metodo
@@ -1197,7 +1198,6 @@ export async function ejecutarPost(path, data){
         }
     }
     else if(resp.restore){
-        console.log("restaurando");
         SweetAlertMsg('top-end', 'success', '¡Dispositivo restablecido!', 5000);
         const div = document.querySelector('.restoreLoading');
         const time = new RestoreRestart(10);
@@ -1211,7 +1211,7 @@ export async function ejecutarPost(path, data){
         time.runTime('#progressRestart', div);
         // función para recargar la pagina
         reloadPage('', 10000);
-    }/*else if( !resp.session ){ 
+    }else if( !resp.session ){ 
         // manejo  de la respuesta de la sesión | mensaje superior y recargar pagina en 5s
         SweetAlertMsg('top-end', 'warning', `${resp.msg}` , 5000);
         // Recargar la pagina
@@ -1219,7 +1219,7 @@ export async function ejecutarPost(path, data){
     }else{
         // Alert superior de error solo para el cambio de la contraseña
         SweetAlertMsg('top-end', 'error', `${resp.msg}` , 5000);
-    }*/
+    }
 }
 //funcion de cambio de estado de los relay en el html en el dashboard
 const relaysStatusChange=(relayStatus,relayIcon,stado)=>{
@@ -1909,7 +1909,7 @@ class RestoreRestart{
 }
 // función para recargar la pagina
 export const reloadPage = (url, time)=>{
-    console.log("Limpiando el local storage");
+    //console.log("Limpiando el local storage");
     localStorage.clear();
     const timeOut = setTimeout(()=>{
         window.location = `/${url}`;
