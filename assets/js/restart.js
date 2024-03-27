@@ -103,6 +103,10 @@ export async function iniciarRestart(){
     if(localStorage.getItem('save')){
         alertMsg('danger', '¡Se han realizado cambios en la configuración, es necesario reiniciar el equipo!');
     }
-
+    /**
+     * Quitar el loadig al cargar la pagina
+     */
+    document.querySelector('.preloader').remove();
+    document.querySelector('#content').style = 'display:block;';
 
 }

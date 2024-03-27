@@ -12,7 +12,7 @@ export async function iniciarMqtt(){
     //crear la conexion a la API
     const getMqtt = new ApiService('connection/mqtt');
     const resp = await getMqtt.getApiData();
-    console.log(resp);
+    //console.log(resp);
     //pasar valores a los iconos del header
     headerIconsStatus(resp.wifiStatus, resp.rssiStatus, resp.mqttStatus);
 
@@ -86,5 +86,9 @@ export async function iniciarMqtt(){
             formDisable("mq", true);
         }
     })();
-    
+    /**
+     * Quitar el loadig al cargar la pagina
+     */
+    document.querySelector('.preloader').remove();
+    document.querySelector('#content').style = 'display:block;';
 }

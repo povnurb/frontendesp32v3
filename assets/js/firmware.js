@@ -319,5 +319,9 @@ export async function iniciarFirmware(){
         }
 
     }
-
+    /**
+     * Quitar el loadig al cargar la pagina
+     */
+    document.querySelector('.preloader').remove();
+    document.querySelector('#content').style = 'display:block;';
 }

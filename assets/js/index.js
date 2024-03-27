@@ -85,8 +85,11 @@ export async function iniciarIndex(){
         alertMsg('danger','¡Se han realizado cambios en la configuracion, es necesario reiniciar el equipo');
     }
 
-
-
+    /**
+     * Quitar el loadig al cargar la pagina
+     */
+    document.querySelector('.preloader').remove();
+    document.querySelector('#content').style = 'display:block;';
 
 
 

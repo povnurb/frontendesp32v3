@@ -1,13 +1,13 @@
 "use strict";
 
-const ipdevice ='192.168.1.207'; // o en mi casa 192.168.1.68 -casa  - .207 en el trabajo
+const ipdevice ='192.168.1.75'; // o en mi casa 192.168.1.68 -casa  - .207 en el trabajo
 const urlActual = window.location; //la url donde estamos la metemos en la constante
 const evitarpaginarestart='http://127.0.0.1:5501/restart.html';
 const evitarpaginarestore='http://127.0.0.1:5501/restore.html';
 const evitarpaginamqtt = 'http://127.0.0.1:5501/mqtt.html';
 const evitarpaginarelay = 'http://127.0.0.1:5501/relays.html';
 const evitarpaginawifi='http://127.0.0.1:5501/wifi.html';
-const evitarPagIndex = 'http://127.0.0.1:5501/';
+const evitarPagIndex = 'http://127.0.0.1:5501/index.html';
 const evitarContra = 'http://127.0.0.1:5501/user.html'
 //export es para exportar fuera de este archivo la siguiente expresion regular
 export const url =  /^(\w+):\/\/([^\/]+)([^]+)$/.exec(urlActual);//mostrando un array con posiciones
@@ -21,7 +21,7 @@ export const url =  /^(\w+):\/\/([^\/]+)([^]+)$/.exec(urlActual);//mostrando un 
  */
 //esto nos ayuda a decifrar el url y saber en que pagina me encuentro
 //tambien nos sirve para saber la dirección IP y saber si estamos en modo desarrollo o producción
-export const host = url[2] === '127.0.0.1:5501' ? '192.168.1.207' : url[2]; //puede ser el ip o mdns
+export const host = url[2] === '127.0.0.1:5501' ? ipdevice : url[2]; //puede ser el ip o mdns
 
 
 //funcion que construye codigo HTML desde JS
@@ -1162,27 +1162,37 @@ const switchRelay = (name1,logic1,name2,logic2) =>{
 export async function ejecutarPost(path, data){
     const postAPI = new ApiService(path,data);//instancia del servicio de la API
     const resp = await postAPI.postApiData();//lo que responde el await del post API
-
-    if (urlActual!=evitarpaginawifi&&urlActual!=evitarpaginarestore&&urlActual!=evitarpaginamqtt&&urlActual!=evitarpaginarestart&&urlActual!=evitarContra){//para evitar un error en la pagina de wifi    
+    //console.log(resp);
+    if (urlActual!=evitarpaginawifi&&urlActual!=evitarpaginarestore&&urlActual!=evitarpaginamqtt&&urlActual!=evitarpaginarestart&&urlActual!=evitarContra&&urlActual!=evitarpaginarelay&&urlActual!="http://"+ipdevice+"/esp-wifi"&&urlActual!="http://"+ipdevice+"/esp-mqtt"&&urlActual!="http://"+ipdevice+"/esp-restore"&&urlActual!="http://"+ipdevice+"/esp-restart"&&urlActual!="http://"+ipdevice+"/esp-device"&&urlActual!="http://"+ipdevice+"/esp-time"&&urlActual!="http://"+ipdevice+"/esp-admin"){//&&urlActual!=ipdevice + "/esp-relays"&&urlActual!=ipdevice+"/esp-wifi"&&urlActual!=ipdevice+"/esp-mqtt"&&urlActual!=ipdevice+"/esp-restore"&&urlActual!=ipdevice+"/esp-restart"&&urlActual!=ipdevice+"/esp-restart"&&urlActual!=ipdevice+"/esp-time"&&urlActual!=ipdevice+"/esp-admin"){//para evitar un error en la pagina de wifi    
+        console.log("entra a evitar -1167");
         const relayStatus1 = document.querySelector(`#${resp["RELAY1"].R_NAME1}_Status`);//es el foco
         const relayIcon1= document.querySelector(`#${resp["RELAY1"].R_NAME1}_Icon`);//es el icono
         const relayStatus2 = document.querySelector(`#${resp["RELAY2"].R_NAME2}_Status`);//es el foco
         const relayIcon2= document.querySelector(`#${resp["RELAY2"].R_NAME2}_Icon`);//es el icono    
         if(resp["RELAY1"].R_LOGIC1){ //sustituye a resp.relay
-            
+            //console.log("1")
             //funcion para cambiar los estados de los relay en la pantalla html
             relaysStatusChange(relayStatus1,relayIcon1,resp["RELAY1"].R_STATUS1)
         }else{
+            //console.log("1 negativo")
             relaysStatusChangeNeg(relayStatus1,relayIcon1,resp["RELAY1"].R_STATUS1)
         }
-        if(resp["RELAY2"].R_LOGIC2){         
+        if(resp["RELAY2"].R_LOGIC2){    
+            //console.log("2")     
             //funcion para cambiar los estados de los relay en la pantalla html
             relaysStatusChange(relayStatus2,relayIcon2,resp["RELAY2"].R_STATUS2)
         }else{
+            //console.log("2 negativo")
             relaysStatusChangeNeg(relayStatus2,relayIcon2,resp["RELAY2"].R_STATUS2)
+        }
+        SweetAlertMsg('top-end','success','¡Configuracion guardada correctamente!',3000);
+        console.log(resp["save"]);
+        if(!localStorage.getItem('save')){
+            alertMsg('danger','¡Se han realizado cambios en la configuración es necesario reiniciar el equipo para guardar estos los cambios!')
         }
     }
     else if(resp["save"]){//solo para la pagina de los relay   -----ok
+        console.log('resp["save"]');
         SweetAlertMsg('top-end','success','¡Configuracion guardada correctamente!',3000);
         //crear alert y salvar en local storage si no está guardado
         if(!localStorage.getItem('save')){
@@ -1191,6 +1201,7 @@ export async function ejecutarPost(path, data){
         }
     }
     else if(resp.save){
+        console.log('resp.save');
         SweetAlertMsg('top-end', 'success', '¡Configuración guardada correctamente en wifi!', 3000);
         // crear el alert y salvar en localstorage si no está guardado
         if(!localStorage.getItem('save')){
@@ -1217,6 +1228,7 @@ export async function ejecutarPost(path, data){
         // Recargar la pagina
         reloadPage('', 6000);
     }else{
+        console.log('else');
         // Alert superior de error solo para el cambio de la contraseña
         SweetAlertMsg('top-end', 'error', `${resp.msg}` , 5000);
     }
@@ -1224,7 +1236,8 @@ export async function ejecutarPost(path, data){
 //funcion de cambio de estado de los relay en el html en el dashboard
 const relaysStatusChange=(relayStatus,relayIcon,stado)=>{
     //esas funciones solo se deben ejecutar si estoy en el dashboard
-    if (urlActual!=evitarpaginarelay){//para evitar un error en la pagina de relays
+    if (urlActual!=evitarpaginarelay&&urlActual==ipdevice + "/esp-relays"){//para evitar un error en la pagina de relays
+        //console.log("evitar pagina relay en desarrollo y produccion -1236")
         if (stado){
             relayStatus.classList.remove('text-dark');
             relayStatus.classList.add('text-warning');
@@ -1241,7 +1254,7 @@ const relaysStatusChange=(relayStatus,relayIcon,stado)=>{
 const relaysStatusChangeNeg=(relayStatus,relayIcon,stado)=>{
     //console.log("logica negativa del relay1");
     //esas funciones solo se deben ejecutar si estoy en el dashboard
-    if (urlActual!=evitarpagina){//para evitar un error en la pagina de realys
+    if (urlActual!=evitarpaginarelay&&urlActual==ipdevice + "/esp-relays"){//para evitar un error en la pagina de realys ---------------------------------------------------------------------------------------------
         if (stado){
             relayStatus.classList.remove('text-dark');
             relayStatus.classList.add('text-danger');
@@ -1806,7 +1819,9 @@ export function SweetAlert(title, text, icon, path, data){
 }
 //crear un sweete alert de mensaje          -----------------------------------------------------------------------------
 export const SweetAlertMsg = (position, icon, title, timer) => {
-    if (urlActual!=evitarPagIndex){//ya que hay un error 
+    if (urlActual!=evitarPagIndex&&urlActual!="http://"+ipdevice+"/"){//ya que hay un error 
+
+        console.log(urlActual)
         Swal.fire({
             position: position,
             icon: icon,

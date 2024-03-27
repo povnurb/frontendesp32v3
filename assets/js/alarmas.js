@@ -16,7 +16,7 @@ export async function iniciarAlarmas(){
 
     index = resp;
 
-    console.log(resp);
+    //console.log(resp);
     //revenue-card = verde
     //sales-card = azul
     createCardA1('#alarm1Card',index.ALRMS.ALRM_NAME1, index.ALRMS.ALRM_STATUS1, index.ALRMS.ALRM_TON1,index.ALRMS.ALRM_TOFF1);
@@ -27,4 +27,9 @@ export async function iniciarAlarmas(){
     
     //pasar valores a los iconos del header
     headerIconsStatus(resp.wifiStatus, resp.rssiStatus, resp.mqttStatus);
+    /**
+     * Quitar el loadig al cargar la pagina
+     */
+    document.querySelector('.preloader').remove();
+    document.querySelector('#content').style = 'display:block;';
 }
