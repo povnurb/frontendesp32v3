@@ -95,10 +95,10 @@ export async function iniciarFirmware(){
                                 type: 'div', 
                                 props: {
                                     class: 'progress-bar progress-bar-striped bg-secondary progress-bar-animated',
-                                    style: 'width: 100%',
-
+                                    style: 'width: 0%',
+                                    id: 'progressFirmware'
                                 },
-                                children: [ '100']
+                                children: [ '0']
                             }
                         ]
                     }
@@ -257,12 +257,13 @@ export async function iniciarFirmware(){
         const postFirmware = new ApiService('device/firmware', file);
         const resp = await postFirmware.postFirmware();
         console.log(resp);
-        if(resp["save"]) // se modificar a resp["save"] y si jala antes resp.save
+        if(resp["save"]){ // se modificar a resp["save"] y si jala antes resp.save
             SweetAlertMsg('top-end', 'success', `¡${resp.type} actualizado correctamente!`, 5000);
-
-        // Ocultar el progressbar
-        div.style.cssText = "display:none;";
-        reloadPage('', 10000);
+            // Ocultar el progressbar
+            div.style.cssText = "display:none;";
+            reloadPage('', 10000);
+        }
+        
     }
     // función paradescargar el setting.json
     const settingDonwload = async() => { //es asincrona por que va hacer una peticion a la api
@@ -311,7 +312,7 @@ export async function iniciarFirmware(){
         const postSettings = new ApiService('device/upload', file);
         const resp = await postSettings.postFileApi();
 
-        console.log(resp)
+        //console.log(resp)
 
         if(resp.save){
             SweetAlertMsg('top-end', 'success', `${resp.msg}`, 5000);

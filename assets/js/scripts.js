@@ -1982,8 +1982,8 @@ const initWS=()=>{
     }
     ws.onmessage=(msg)=>{
         const resp = JSON.parse(msg.data);
-        console.log(resp);
-        if(resp.type === 'data'&& url[3] != '/alarmas.html'&&url[3] != '/esp-alarmas'){
+        //console.log(resp);
+        if(resp.type === 'data'&& url[3] != '/alarmas.html'&&url[3] != '/esp-alarmas'&&url[3] != '/esp-device'&&url[3] != '/esp-relays'&&url[3] != '/esp-wifi'&&url[3] != '/esp-mqtt'&&url[3] != '/esp-admin'&&url[3] != '/esp-time'){
             let ram;
             headerIconsStatus(resp.wifiStatus,resp.rssiStatus,resp.mqttStatus);
             //actualizar el estado del wifi y del mqtt
@@ -2151,6 +2151,9 @@ const initWS=()=>{
                     }
                 }
             }
+        }else if(resp.type === 'update'){
+            document.getElementById('progressFirmware').style.width=resp.msg+'%';
+            document.getElementById('progressFirmware').innerHTML=resp.msg+'%';
         }
         else{
             headerIconsStatus(resp.wifiStatus,resp.rssiStatus,resp.mqttStatus);
