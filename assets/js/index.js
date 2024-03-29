@@ -72,11 +72,11 @@ export async function iniciarIndex(){
     createProgressBar("#liRam","bg-danger","ramAvailable", "ramAvailableSpan",ramAvailable());
 
     //crear card temperatura del dispositivo
-    createCard("#tempCpuCard", "revenue-card", "Temperatura Interna:", "thermometer-half", "salaTemp", index.cpuTemp, "Temp. del dispositivo (°C)");
+    createCard("#tempCpuCard", "revenue-card", "Temperatura Interna:", "thermometer-half", "salaTemp3", index.cpuTemp, "Temp. del dispositivo (°C)");
     //crear card Humedad en sala 
-    createCard("#tempHum", "revenue-card", "Humedad en Sala:", "water", "salaTemp", index.hum, "Humedad Relativa (%)");
+    createCard("#tempHum", "revenue-card", "Humedad en Sala:", "water", "salaTemp2", index.hum, "Humedad Relativa (%)");
     //crear card temperatura de la sala
-    createCardTemp("#tempCard", "revenue-card", "Temperatura de la Sala:", "thermometer-half", "salaTemp", index.tC, index.tmin, index.tmax);
+    createCardTemp("#tempCard", "revenue-card", "Temperatura de la Sala:", "thermometer-half", "salaTemp1", index.tC, index.tmin, index.tmax);
 
     //pasar valores a los iconos del header
     headerIconsStatus(resp.wifiStatus, resp.rssiStatus, resp.mqttStatus);

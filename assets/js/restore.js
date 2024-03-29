@@ -16,7 +16,7 @@ export async function iniciarRestore(){
 
     const getRestore = new ApiService('device/status'); //peticion a la api
     const resp = await getRestore.getApiData();
-    console.log(resp)
+    //console.log(resp)
 
     headerIconsStatus(resp.wifiStatus, resp.rssiStatus, resp.mqttStatus); //para los iconos
 

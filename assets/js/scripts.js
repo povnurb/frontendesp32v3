@@ -1,6 +1,6 @@
 "use strict";
 
-const ipdevice ='192.168.1.75'; // o en mi casa 192.168.1.68 -casa  - .207 en el trabajo
+const ipdevice ='192.168.1.207'; // o en mi casa 192.168.1.75 -casa  - .207 en el trabajo
 const urlActual = window.location; //la url donde estamos la metemos en la constante
 const evitarpaginarestart='http://127.0.0.1:5501/restart.html';
 const evitarpaginarestore='http://127.0.0.1:5501/restore.html';
@@ -992,11 +992,12 @@ export function createCardRelays(padre, data){
     contenedor.appendChild(card);
 }
 //Crear tarjeta de alarma de temperatura y falla de compresor
-export function createCardA1(padre, title, data, ton, toff){
+export function createCardA1(padre, title, data, ton, toff, id){
     const contenedor = document.querySelector(padre);
     const card = builder({
         type: 'div',
         props: {
+            id: `cardh${id}`,
             //class: relay.R_LOGIC1? (relay.R_STATUS1?'bi bi-alt':'bi bi-option' ):(relay.R_STATUS1?'bi bi-option':'bi bi-alt'),
             //class: data['ALRMS']['ALRM_STATUS1']?`btn btn-danger`:`btn btn-outline-primary`
             //class: `btn btn-primary`
@@ -1007,7 +1008,7 @@ export function createCardA1(padre, title, data, ton, toff){
         children:[
             {
                 type: 'div',
-                props: {class: 'card-body'},
+                props: {id: `cards${id}`,class: 'card-body'},
                 children: [
                     {
                         type: 'h5',
@@ -1015,6 +1016,7 @@ export function createCardA1(padre, title, data, ton, toff){
                         children : [
                             {
                                 type: 'strong',
+                                props:{ id: `title${id}`},
                                 children : [`${title}`]
                             }
                         ]//temp. alta
@@ -1031,14 +1033,14 @@ export function createCardA1(padre, title, data, ton, toff){
                                 children: [
                                     {
                                         type: 'span',
-                                        props: {class: 'badge bg-warning card '},
+                                        props: {id: `ton${id}`, class: 'badge bg-warning card '},
                                         children: [toff?data?`Alarma presente:  ${ton}`:`La alarma se presentó: ${ton}`:data?`Alarma presente:  ${ton}`:``]
                                     },
                                     {
                                         type: 'span',
                                         
                                         //props: {class: 'badge bg-success card '},
-                                        props: {class: data?` badge bg-danger card `:`badge bg-success card`},
+                                        props: {id: `toff${id}`,class: data?` badge bg-danger card `:`badge bg-success card`},
                                         //
                                         children: [!toff?``:`Alarma Clareada:  ${toff}`]
                                     }
@@ -1053,22 +1055,23 @@ export function createCardA1(padre, title, data, ton, toff){
     contenedor.appendChild(card);
 }
 //Crear tarjeta de alarma de climas operando
-export function createCardAB(padre, title, data, ton, toff){
+export function createCardAB(padre, title, data, ton, toff, id){
     const contenedor = document.querySelector(padre);
     const card = builder({
         type: 'div',
         props: {
+            id: `cardh${id}`,
             //class: relay.R_LOGIC1? (relay.R_STATUS1?'bi bi-alt':'bi bi-option' ):(relay.R_STATUS1?'bi bi-option':'bi bi-alt'),
             //class: data['ALRMS']['ALRM_STATUS1']?`btn btn-danger`:`btn btn-outline-primary`
             //class: `btn btn-primary`
-            class: data?`bg-primary card info-card-primary`:`bg-body card info-card-body`
+            class: data?`bg-primary card info-card-primary`:`bg-danger card info-card-danger`
             //class: data?`btn btn-danger`:`btn btn-primary`
             //class: `bg-danger card info-card ${classCard}`
         },
         children:[
             {
                 type: 'div',
-                props: {class: 'card-body'},
+                props: {id: `cards${id}`,class: 'card-body'},
                 children: [
                     {
                         type: 'h5',
@@ -1076,6 +1079,7 @@ export function createCardAB(padre, title, data, ton, toff){
                         children : [
                             {
                                 type: 'strong',
+                                props:{ id: `title${id}`},
                                 children : [data?`${title} ENERGIZADO`:`${title} DESENERGIZADO`]
                             }
                         ]//temp. alta
@@ -1092,7 +1096,7 @@ export function createCardAB(padre, title, data, ton, toff){
                                 children: [
                                     {
                                         type: 'span',
-                                        props: {class: 'badge bg-info card '},
+                                        props: {id: `ton${id}`,class: 'badge bg-info card '},
                                         //children: [ton?`Operando desde:  ${ton}`:``]
                                         //children: [!toff?ton?`Inició operación el:  ${ton}`:``:ton?`Operando desde:  ${ton}`:``]
                                         children: [!toff?ton?`Operando desde:  ${ton}`:``:ton?`Inició operación el:  ${ton}`:``]
@@ -1101,7 +1105,7 @@ export function createCardAB(padre, title, data, ton, toff){
                                         type: 'span',
                                         
                                         //props: {class: 'badge bg-success card '},
-                                        props: {class: data?` badge bg-danger card `:`badge bg-success card`},
+                                        props: {id: `toff${id}`,class: data?` badge bg-danger card `:`badge bg-warning card`},
                                         //
                                         children: [toff?`Desenergizado desde el: ${toff}`:``]
                                     }
@@ -1163,8 +1167,9 @@ export async function ejecutarPost(path, data){
     const postAPI = new ApiService(path,data);//instancia del servicio de la API
     const resp = await postAPI.postApiData();//lo que responde el await del post API
     //console.log(resp);
-    if (urlActual!=evitarpaginawifi&&urlActual!=evitarpaginarestore&&urlActual!=evitarpaginamqtt&&urlActual!=evitarpaginarestart&&urlActual!=evitarContra&&urlActual!=evitarpaginarelay&&urlActual!="http://"+ipdevice+"/esp-wifi"&&urlActual!="http://"+ipdevice+"/esp-mqtt"&&urlActual!="http://"+ipdevice+"/esp-restore"&&urlActual!="http://"+ipdevice+"/esp-restart"&&urlActual!="http://"+ipdevice+"/esp-device"&&urlActual!="http://"+ipdevice+"/esp-time"&&urlActual!="http://"+ipdevice+"/esp-admin"){//&&urlActual!=ipdevice + "/esp-relays"&&urlActual!=ipdevice+"/esp-wifi"&&urlActual!=ipdevice+"/esp-mqtt"&&urlActual!=ipdevice+"/esp-restore"&&urlActual!=ipdevice+"/esp-restart"&&urlActual!=ipdevice+"/esp-restart"&&urlActual!=ipdevice+"/esp-time"&&urlActual!=ipdevice+"/esp-admin"){//para evitar un error en la pagina de wifi    
-        console.log("entra a evitar -1167");
+    //if (urlActual!=evitarpaginawifi&&urlActual!=evitarpaginarestore&&urlActual!=evitarpaginamqtt&&urlActual!=evitarpaginarestart&&urlActual!=evitarContra&&urlActual!=evitarpaginarelay&&urlActual!="http://"+ipdevice+"/esp-wifi"&&urlActual!="http://"+ipdevice+"/esp-mqtt"&&urlActual!="http://"+ipdevice+"/esp-restore"&&urlActual!="http://"+ipdevice+"/esp-restart"&&urlActual!="http://"+ipdevice+"/esp-device"&&urlActual!="http://"+ipdevice+"/esp-time"&&urlActual!="http://"+ipdevice+"/esp-admin"){
+        if (urlActual!=evitarpaginawifi&&urlActual!=evitarpaginarestore&&urlActual!=evitarpaginamqtt&&urlActual!=evitarpaginarestart&&urlActual!=evitarContra&&urlActual!=evitarpaginarelay&&urlActual!="http://"+host+"/esp-wifi"&&urlActual!="http://"+host+"/esp-mqtt"&&urlActual!="http://"+host+"/esp-restore"&&urlActual!="http://"+host+"/esp-restart"&&urlActual!="http://"+host+"/esp-device"&&urlActual!="http://"+host+"/esp-time"&&urlActual!="http://"+host+"/esp-admin"){
+        //console.log("entra a evitar -1167");
         const relayStatus1 = document.querySelector(`#${resp["RELAY1"].R_NAME1}_Status`);//es el foco
         const relayIcon1= document.querySelector(`#${resp["RELAY1"].R_NAME1}_Icon`);//es el icono
         const relayStatus2 = document.querySelector(`#${resp["RELAY2"].R_NAME2}_Status`);//es el foco
@@ -1186,7 +1191,7 @@ export async function ejecutarPost(path, data){
             relaysStatusChangeNeg(relayStatus2,relayIcon2,resp["RELAY2"].R_STATUS2)
         }
         SweetAlertMsg('top-end','success','¡Configuracion guardada correctamente!',3000);
-        console.log(resp["save"]);
+        //console.log(resp["save"]);
         if(!localStorage.getItem('save')){
             alertMsg('danger','¡Se han realizado cambios en la configuración es necesario reiniciar el equipo para guardar estos los cambios!')
         }
@@ -1819,9 +1824,9 @@ export function SweetAlert(title, text, icon, path, data){
 }
 //crear un sweete alert de mensaje          -----------------------------------------------------------------------------
 export const SweetAlertMsg = (position, icon, title, timer) => {
-    if (urlActual!=evitarPagIndex&&urlActual!="http://"+ipdevice+"/"){//ya que hay un error 
-
-        console.log(urlActual)
+    //if (urlActual!=evitarPagIndex&&urlActual!="http://"+ipdevice+"/"){//ya que hay un error 
+    if (urlActual!=evitarPagIndex&&urlActual!="http://"+host+"/"){//ya que hay un error 
+        //console.log(urlActual)
         Swal.fire({
             position: position,
             icon: icon,
@@ -1930,4 +1935,255 @@ export const reloadPage = (url, time)=>{
         window.location = `/${url}`;
         clearTimeout(timeOut);
     }, time)
+}
+
+//-----------------------------------------------
+// Funciones para el WS
+//------------------------------------------------------
+const wsURL =`ws://${host}/ws`;
+let reConnect = false;
+let tt = 0;
+let ws = '';
+
+// reconexion ws
+const reconnect =()=>{
+    if(reConnect){
+        return
+    }
+    reConnect = true;
+    tt && window.clearTimeout(tt);
+    tt = window.setTimeout(()=>{
+        createWebSeckets();
+        reConnect= false;
+    }, 1000);
+}
+// iniciar el WS
+const createWebSeckets=()=>{
+    try {
+        ws= new WebSocket(wsURL,['arduino']);
+        initWS();
+    }catch(error){
+        reconnect();
+    }
+}
+createWebSeckets();
+// iniciar los eventos de WS
+const initWS=()=>{
+    ws.onclose=()=>{
+        console.log('WS-Close');
+        reconnect();
+    }
+    ws.onerror=(e)=>{
+        console.log('WS-Error ', e);
+        reconnect();
+    }
+    ws.onopen=()=>{
+        console.log('WS-Open');
+    }
+    ws.onmessage=(msg)=>{
+        const resp = JSON.parse(msg.data);
+        console.log(resp);
+        if(resp.type === 'data'&& url[3] != '/alarmas.html'&&url[3] != '/esp-alarmas'){
+            let ram;
+            headerIconsStatus(resp.wifiStatus,resp.rssiStatus,resp.mqttStatus);
+            //actualizar el estado del wifi y del mqtt
+            document.getElementById('Estado_WiFi').innerHTML=resp.wifiStatus ? 'ONLINE':'OFFLINE';
+            document.getElementById('Estado_MQTT').innerHTML=resp.mqttStatus ? 'ONLINE':'OFFLINE';
+            document.getElementById('Servidor_MQTT').innerHTML=resp.mqtt_server;
+            //tiempo actividad
+            document.getElementById('activeTime').innerHTML=resp.activeTime;
+            document.getElementById('Tiempo_de_Actividad_del_Sistema').innerHTML=resp.activeTime;
+            // Actualizar el estado de los relays
+            relayStatusChange1(resp.R_STATUS1);
+            relayStatusChange2(resp.R_STATUS2);
+            // document.getElementById('salaTemp3').innerHTML = resp.cpuTemp.toFixed(2);
+            document.getElementById('salaTemp2').innerHTML = resp.hum;
+            document.getElementById('salaTemp1').innerHTML = resp.tC;
+            // Actualizar el progress de la RAM
+            // ram = (resp.ramAvailable/resp.RAM_SIZE_KB)*100;
+            // document.getElementById('ramAvailable').style.width = ram.toFixed(2) + "%";
+            // document.getElementById('ramAvailableSpan').innerHTML = ram.toFixed(2) + "%";
+            // Actualizar el progress del WIFI
+            document.getElementById('wifiQuality').style.width = resp.wifiQuality + "%";  //la barra
+            document.getElementById('wifiQualitySpan').innerHTML = resp.wifiQuality + "%";
+        }else if(url[3] == '/alarmas.html'||url[3] == '/esp-alarmas'){
+            document.getElementById('title1').innerHTML = resp.ALRM_NAME1;
+            document.getElementById('title2').innerHTML = resp.ALRM_NAME2;
+            document.getElementById('title3').innerHTML = resp.ALRM_NAME3;
+            resp.ALRM_STATUS4? document.getElementById('title4').innerHTML = resp.ALRM_NAME4 +" Desenergizado":document.getElementById('title4').innerHTML = resp.ALRM_NAME4 +" Operando";
+            resp.ALRM_STATUS5? document.getElementById('title5').innerHTML = resp.ALRM_NAME5 +" Desenergizado":document.getElementById('title5').innerHTML = resp.ALRM_NAME5 +" Operando";
+            //--------------------------------------------------------------------------aqui se esta moviendo
+            if(!resp.ALRM_STATUS1){ //alarma presente bg-danger card info-card-danger`:`bg-primary card info-card-primary
+                document.getElementById('cards1').classList.remove("bg-primary");
+                document.getElementById('cards1').classList.add('bg-danger');
+                if(resp.ALRM_TON1){ //registro de fecha on
+                    if(resp.ALRM_TOFF1){ //registro fecha off
+                        document.getElementById('ton1').innerHTML= `Alarma presente: `+resp.ALRM_TON1;
+                        document.getElementById('toff1').innerHTML= ``;
+                    }else{
+                        document.getElementById('ton1').innerHTML= `Alarma presente: `+resp.ALRM_TON1;
+                        document.getElementById('toff1').innerHTML= ``;
+                      
+                    }
+                }
+            }else{ //alarma se desactivo
+                document.getElementById('cards1').classList.remove("bg-danger");
+                document.getElementById('cards1').classList.add("bg-primary");
+                if(resp.ALRM_TON1){//registro de fecha on
+                    if(resp.ALRM_TOFF1){//registro fecha off
+                        document.getElementById('ton1').innerHTML= `Alarma se presentó: `+resp.ALRM_TON1;
+                        document.getElementById('toff1').innerHTML= `Alarma se clareo: `+resp.ALRM_TOFF1;
+                        
+                    }else{
+                        document.getElementById('ton1').innerHTML= `Alarma se presentó: `+resp.ALRM_TON1;
+                    }
+                }
+            }
+            // alarma 2
+            if(!resp.ALRM_STATUS2){ //alarma presente
+                document.getElementById('cards2').classList.remove("bg-primary");
+                document.getElementById('cards2').classList.add('bg-danger');
+                if(resp.ALRM_TON2){ //registro de fecha on
+                    if(resp.ALRM_TOFF2){ //registro fecha off
+                        document.getElementById('ton2').innerHTML= `Alarma presente: `+resp.ALRM_TON2;
+                        document.getElementById('toff2').innerHTML= ``;
+                    }else{
+                        document.getElementById('ton2').innerHTML= `Alarma presente: `+resp.ALRM_TON2;
+                        document.getElementById('toff2').innerHTML= ``;
+                      
+                    }
+                }
+            }else{ //alarma se desactivo
+                document.getElementById('cards2').classList.remove("bg-danger");
+                document.getElementById('cards3').classList.add("bg-primary");
+                if(resp.ALRM_TON2){//registro de fecha on
+                    if(resp.ALRM_TOFF2){//registro fecha off
+                        document.getElementById('ton2').innerHTML= `Alarma se presentó: `+resp.ALRM_TON2;
+                        document.getElementById('toff2').innerHTML= `Alarma se clareo: `+resp.ALRM_TOFF2;
+                        
+                    }else{
+                        document.getElementById('ton2').innerHTML= `Alarma se presentó: `+resp.ALRM_TON2;
+                    }
+                }
+            }
+            //alarma 3 1
+            if(!resp.ALRM_STATUS3){ //alarma presente
+                document.getElementById('cards3').classList.remove("bg-primary");
+                document.getElementById('cards3').classList.add('bg-danger');
+                if(resp.ALRM_TON3){ //registro de fecha on
+                    if(resp.ALRM_TOFF3){ //registro fecha off
+                        document.getElementById('ton3').innerHTML= `Alarma presente: `+resp.ALRM_TON3;
+                        document.getElementById('toff3').innerHTML= ``;
+                    }else{
+                        document.getElementById('ton3').innerHTML= `Alarma presente: `+resp.ALRM_TON3;
+                        document.getElementById('toff3').innerHTML= ``;
+                      
+                    }
+                }
+            }else{ //alarma se desactivo
+                document.getElementById('cards3').classList.remove("bg-danger");
+                document.getElementById('cards3').classList.add("bg-primary");
+                if(resp.ALRM_TON3){//registro de fecha on
+                    if(resp.ALRM_TOFF3){//registro fecha off
+                        document.getElementById('ton3').innerHTML= `Alarma se presentó: `+resp.ALRM_TON3;
+                        document.getElementById('toff3').innerHTML= `Alarma se clareo: `+resp.ALRM_TOFF3;
+                        
+                    }else{
+                        document.getElementById('ton3').innerHTML= `Alarma se presentó: `+resp.ALRM_TON3;
+                    }
+                }
+            }
+            //alarma 4
+            if(resp.ALRM_STATUS4){ //alarma presente
+                document.getElementById('cards4').classList.remove("bg-primary");
+                document.getElementById('cards4').classList.add('bg-danger');
+                
+                if(resp.ALRM_TON4){ //registro de fecha on
+                    if(resp.ALRM_TOFF4){ //registro fecha off
+                        document.getElementById('ton4').innerHTML= `Operando desde: `+resp.ALRM_TON4;
+                        document.getElementById('toff4').innerHTML= `Dejo de operar el: `+resp.ALRM_TOFF4;
+                    }else{
+                        document.getElementById('ton4').innerHTML= `Operando desde: `+resp.ALRM_TON4;
+                        document.getElementById('toff4').innerHTML= ``;
+                      
+                    }
+                }
+            }else{ //alarma se desactivo
+                document.getElementById('cards4').classList.remove("bg-danger");
+                document.getElementById('cards4').classList.add("bg-primary");
+                if(resp.ALRM_TON4){//registro de fecha on
+                    if(resp.ALRM_TOFF4){//registro fecha off
+                        document.getElementById('ton4').innerHTML= `Inició operación: `+resp.ALRM_TON4;
+                        document.getElementById('toff4').innerHTML= ``;
+                        
+                    }else{
+                        document.getElementById('ton4').innerHTML= `Inició operación: `+resp.ALRM_TON4;
+                        document.getElementById('toff4').innerHTML= ``;
+                    }
+                }
+            }
+            //alarma 5
+            if(resp.ALRM_STATUS5){ //alarma presente
+                document.getElementById('cards5').classList.remove("bg-primary");
+                document.getElementById('cards5').classList.add('bg-danger');
+                
+                if(resp.ALRM_TON5){ //registro de fecha on
+                    if(resp.ALRM_TOFF5){ //registro fecha off
+                        document.getElementById('ton5').innerHTML= `Operando desde: `+resp.ALRM_TON5;
+                        document.getElementById('toff5').innerHTML= `Dejo de operar el: `+resp.ALRM_TOFF5;
+                    }else{
+                        document.getElementById('ton5').innerHTML= `Operando desde: `+resp.ALRM_TON5;
+                        document.getElementById('toff5').innerHTML= ``;
+                      
+                    }
+                }
+            }else{ //alarma se desactivo
+                document.getElementById('cards5').classList.remove("bg-danger");
+                document.getElementById('cards5').classList.add("bg-primary");
+                if(resp.ALRM_TON5){//registro de fecha on
+                    if(resp.ALRM_TOFF5){//registro fecha off
+                        document.getElementById('ton5').innerHTML= `Inició operación: `+resp.ALRM_TON5;
+                        document.getElementById('toff5').innerHTML= ``;
+                        
+                    }else{
+                        document.getElementById('ton5').innerHTML= `Inició operación: `+resp.ALRM_TON5;
+                        document.getElementById('toff5').innerHTML= ``;
+                    }
+                }
+            }
+        }
+        else{
+            headerIconsStatus(resp.wifiStatus,resp.rssiStatus,resp.mqttStatus);
+        }
+    }
+}// función de cambio de estados de los relays RELAY1_Status
+const relayStatusChange1=(status)=>{
+    if(status){
+        RELAY1_Status.classList.remove('text-dark');
+        RELAY1_Status.classList.add('text-warning');
+        RELAY1_Icon.classList.remove('bi-option')
+        RELAY1_Icon.classList.add('bi-alt');
+        document.getElementById('RELAY1').checked = true;
+    }else{
+        RELAY1_Status.classList.remove('text-warning');
+        RELAY1_Status.classList.add('text-dark');
+        RELAY1_Icon.classList.remove('bi-alt')
+        RELAY1_Icon.classList.add('bi-option');
+        document.getElementById('RELAY1').checked = false;
+    }
+}
+const relayStatusChange2=(status)=>{
+    if(status){
+        RELAY2_Status.classList.remove('text-dark');
+        RELAY2_Status.classList.add('text-warning');
+        RELAY2_Icon.classList.remove('bi-option')
+        RELAY2_Icon.classList.add('bi-alt');
+        document.getElementById('RELAY2').checked = true;
+    }else{
+        RELAY2_Status.classList.remove('text-warning');
+        RELAY2_Status.classList.add('text-dark');
+        RELAY2_Icon.classList.remove('bi-alt')
+        RELAY2_Icon.classList.add('bi-option');
+        document.getElementById('RELAY2').checked = false;
+    }
 }
