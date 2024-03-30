@@ -2331,7 +2331,7 @@ const initWS = () => {
   };
   ws.onmessage = (msg) => {
     const resp = JSON.parse(msg.data);
-    //console.log(resp);
+    //console.log(resp); ///muestra la respuesta en consola
     if (
       resp.type === "data" &&
       url[3] != "/alarmas.html" &&
@@ -2375,16 +2375,69 @@ const initWS = () => {
         resp.wifiQuality + "%";
 
       //modificar el grafico de linea de index con los valores que llegan pero cada 60 segundos
-      if (wait >= 60) {
-        wait = 0;
-        dhtTem = [...dhtTem, resp.tC]; //captura el valor del array y agrega nuevo valor
-        dhtHum = [...dhtHum, resp.hum];
-      } else {
-        wait++;
-      }
+      // if (wait >= 60) {
+      //   wait = 0;
+      //   dhtTem = [...dhtTem, resp.tC]; //captura el valor del array y agrega nuevo valor
+      //   dhtHum = [...dhtHum, resp.hum];
+      // } else {
+      //   wait++;
+      // }
+      dhtHum = [
+        String(resp.cH23),
+        String(resp.cH22),
+        String(resp.cH21),
+        String(resp.cH20),
+        String(resp.cH19),
+        String(resp.cH18),
+        String(resp.cH17),
+        String(resp.cH16),
+        String(resp.cH15),
+        String(resp.cH14),
+        String(resp.cH13),
+        String(resp.cH12),
+        String(resp.cH11),
+        String(resp.cH10),
+        String(resp.cH9),
+        String(resp.cH8),
+        String(resp.cH7),
+        String(resp.cH6),
+        String(resp.cH5),
+        String(resp.cH4),
+        String(resp.cH3),
+        String(resp.cH2),
+        String(resp.cH1),
+        String(resp.cH0),
+      ];
+      dhtTem = [
+        String(resp.cT23),
+        String(resp.cT22),
+        String(resp.cT21),
+        String(resp.cT20),
+        String(resp.cT19),
+        String(resp.cT18),
+        String(resp.cT17),
+        String(resp.cT16),
+        String(resp.cT15),
+        String(resp.cT14),
+        String(resp.cT13),
+        String(resp.cT12),
+        String(resp.cT11),
+        String(resp.cT10),
+        String(resp.cT9),
+        String(resp.cT8),
+        String(resp.cT7),
+        String(resp.cT6),
+        String(resp.cT5),
+        String(resp.cT4),
+        String(resp.cT3),
+        String(resp.cT2),
+        String(resp.cT1),
+        String(resp.cT0),
+      ];
+
       //limitar a 60 valores quita el primer valor guardado
-      if (dhtTem.length > 60) dhtTem.shift();
-      if (dhtHum.length > 60) dhtHum.shift();
+      // if (dhtTem.length > 60) dhtTem.shift();
+      // if (dhtHum.length > 60) dhtHum.shift();
       //pasar a la grafica los valores
       chart.updateSeries([{ data: dhtTem }, { data: dhtHum }]);
     } else if (url[3] == "/alarmas.html" || url[3] == "/esp-alarmas") {
