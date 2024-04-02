@@ -245,22 +245,103 @@ export async function iniciarIndex() {
     chart: {
       height: 300,
       type: "line",
+      // dropShadow: {
+      //   enabled: true,
+      //   color: "#000",
+      //   top: 18,
+      //   left: 7,
+      //   blur: 10,
+      //   opacity: 0.2,
+      // },
       zoom: {
         enabled: false,
       },
     },
     annotations: {
+      points: [
+        // {
+        //   x: 1,
+        //   y: resp.cH0,
+        //   marker: {
+        //     size: 0,
+        //   },
+        //   image: {
+        //     path: "../img/loader.png",
+        //   },
+        // },
+        //   {
+        //     x: 50,
+        //     y: 10,
+        //     borderColor: "#00E396",
+        //     label: {
+        //       borderColor: "#00E396",
+        //       style: {
+        //         color: "#fff",
+        //         background: "#ff0550",
+        //       },
+        //       text: "Muy baja temperatura",
+        //     },
+        //   },
+      ],
       yaxis: [
+        // {
+        //   y: 10,
+        //   borderColor: "#00E396",
+        //   label: {
+        //     borderColor: "#00E396",
+        //     style: {
+        //       color: "#fff",
+        //       background: "#ff0550",
+        //     },
+        //     text: "Zona de baja temperatura",
+        //   },
+        // },
+        // {
+        //   y: 40,
+        //   borderColor: "#ff0550",
+        //   label: {
+        //     borderColor: "#ff0550",
+        //     style: {
+        //       color: "#fff",
+        //       background: "#ff0550",
+        //     },
+        //     text: "Zona de baja humedad",
+        //   },
+        // },
+        // {
+        //   y: 28,
+        //   borderColor: "#ff0550",
+        //   label: {
+        //     borderColor: "#ff0550",
+        //     style: {
+        //       color: "#fff",
+        //       background: "#ff0550",
+        //     },
+        //     text: "Zona de alta temperatura",
+        //   },
+        // },
+        // {
+        //   y: 70,
+        //   borderColor: "#ff0550",
+        //   label: {
+        //     borderColor: "#ff0550",
+        //     style: {
+        //       color: "#fff",
+        //       background: "#ff0550",
+        //     },
+        //     text: "Zona de alta humedad",
+        //   },
+        // },
         {
-          y: 76,
+          y: 70,
           y2: 90,
           borderColor: "#000",
           fillColor: "#ff0550",
           opacity: 0.2,
         },
         {
-          y: 60,
-          y2: 40,
+          y: 18,
+          y2: 10,
           fillColor: "#ff0550",
           opacity: 0.2,
         },
@@ -272,19 +353,19 @@ export async function iniciarIndex() {
         },
       ],
       xaxis: [
-        {
-          x: 1,
-          strokeDashArray: 0,
-          borderColor: "#775DD0",
-          label: {
-            borderColor: "#775DD0",
-            style: {
-              color: "#fff",
-              background: "#775DD0",
-            },
-            text: "Ultimo valor",
-          },
-        },
+        // {
+        //   x: 1,
+        //   strokeDashArray: 0,
+        //   borderColor: "#775DD0",
+        //   label: {
+        //     borderColor: "#775DD0",
+        //     style: {
+        //       color: "#fff",
+        //       background: "#775DD0",
+        //     },
+        //     text: "Ultimo valor",
+        //   },
+        // },
       ],
     },
     dataLabels: {
@@ -302,18 +383,18 @@ export async function iniciarIndex() {
     xaxis: {
       //categories: ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'],
       categories: [
-        "24",
-        "23",
-        "22",
-        "21",
-        "20",
-        "19",
-        "18",
-        "17",
-        "16",
-        "15",
-        "14",
-        "13",
+        // "24",
+        // "23",
+        // "22",
+        // "21",
+        // "20",
+        // "19",
+        // "18",
+        // "17",
+        // "16",
+        // "15",
+        // "14",
+        // "13",
         "12",
         "11",
         "10",
@@ -329,15 +410,16 @@ export async function iniciarIndex() {
       ],
       align: "left",
       title: {
-        text: "Registro de Temperatura y Humedad",
+        text: "Registro de Temperatura y Humedad de cada 30 min",
       },
     },
     yaxis: {
       title: {
         text: "Temperatura °C y Humedad %",
       },
-      min: 15,
-      max: 90,
+      min: 10,
+      max: 85,
+      //logarithmic: true,
     },
   };
   chart = new ApexCharts(document.querySelector("#chart"), options);
