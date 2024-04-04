@@ -410,7 +410,7 @@ export async function iniciarIndex() {
       ],
       align: "left",
       title: {
-        text: "Registro de Temperatura y Humedad de cada 30 min",
+        text: "Registro de Temperatura y Humedad de cada 10 min",
       },
     },
     yaxis: {
