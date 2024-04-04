@@ -897,7 +897,8 @@ export function createCardRelays(padre, data) {
                             ? "bi bi-option"
                             : "bi bi-alt",
                           //id: relay.R_NAME1+'_Icon' //esto seria  RELAY01_Icon
-                          id: data[0]["R_NAME1"] + "_Icon", //esto seria  RELAY01_Icon
+                          //id: data[0]["R_NAME1"] + "_Icon", //esto seria  RELAY01_Icon
+                          id: "RELAY1_Icon", //esto seria  RELAY01_Icon---------------------------------------------------------------------
                         },
                       },
                     ],
@@ -919,63 +920,71 @@ export function createCardRelays(padre, data) {
                         data[0]["R_STATUS1"]
                         ? {
                             //se es verdadero
-                            id: data[0]["R_NAME1"],
+                            //id: data[0]["R_NAME1"],
+                            id: "RELAY1",
                             class: "form-check-input",
                             type: "checkbox",
                             checked: "",
                             onchange: () => {
                               switchRelay(
-                                data[0]["R_NAME1"],
+                                //data[0]["R_NAME1"],
+                                "RELAY1",
                                 data[0]["R_LOGIC1"],
-                                data[1]["R_NAME2"],
+                                "RELAY2",
                                 data[1]["R_LOGIC2"]
                               );
-                            }, //TODO: definir la función   ----------------------------------------------------
+                            }, //TODO: definir la función   --
                           }
                         : {
                             //si es falso
-                            id: data[0]["R_NAME1"],
+                            //id: data[0]["R_NAME1"],
+                            id: "RELAY1",
                             class: "form-check-input",
                             type: "checkbox",
                             onchange: () => {
                               switchRelay(
-                                data[0]["R_NAME1"],
+                                //data[0]["R_NAME1"],
+                                "RELAY1",
                                 data[0]["R_LOGIC1"],
-                                data[1]["R_NAME2"],
+                                "RELAY2",
                                 data[1]["R_LOGIC2"]
                               );
-                            }, //TODO: definir la función   ----------------------------------------------------
+                            }, //TODO: definir la función   --
                           }
                       : //si la logica es negativa osea diferente
                       data[0]["R_STATUS1"]
                       ? {
                           //se es verdadero
-                          id: data[0]["R_NAME1"],
+                          //id: data[0]["R_NAME1"],
+                          id: "RELAY1",
                           class: "form-check-input",
                           type: "checkbox",
                           onchange: () => {
                             switchRelay(
-                              data[0]["R_NAME1"],
+                              //data[0]["R_NAME1"],
+                              "RELAY1",
                               data[0]["R_LOGIC1"],
-                              data[1]["R_NAME2"],
+                              "RELAY2",
                               data[1]["R_LOGIC2"]
                             );
-                          }, //TODO: definir la función   ----------------------------------------------------
+                          }, //TODO: definir la función   --
                         }
                       : {
                           //si es falso
-                          id: data[0]["R_NAME1"],
+                          //id: data[0]["R_NAME1"],
+                          id: "RELAY1",
                           class: "form-check-input",
                           type: "checkbox",
                           checked: "",
                           onchange: () => {
                             switchRelay(
-                              data[0]["R_NAME1"],
+                              //data[0]["R_NAME1"],
+                              "RELAY1",
                               data[0]["R_LOGIC1"],
-                              data[1]["R_NAME2"],
+                              "RELAY2",
                               data[1]["R_LOGIC2"]
                             );
-                          }, //TODO: definir la función   ----------------------------------------------------
+                          }, //TODO: definir la función   --
                         },
                   },
                 ],
@@ -989,7 +998,8 @@ export function createCardRelays(padre, data) {
                   {
                     type: "i",
                     props: {
-                      id: data[0]["R_NAME1"] + "_Status",
+                      //id: data[0]["R_NAME1"] + "_Status", ///-----------------cambia el ID--------------------------------------------------
+                      id: "RELAY1_Status", ///-----------------cambia el ID--------------------------------------------------
                       class: data[0]["R_LOGIC1"]
                         ? data[0]["R_STATUS1"]
                           ? "bi bi-lightbulb-fill text-warning"
@@ -1032,8 +1042,9 @@ export function createCardRelays(padre, data) {
                             : data[1]["R_STATUS2"]
                             ? "bi bi-option"
                             : "bi bi-alt",
-                          //id: relay.R_NAME2+'_Icon' //esto seria  RELAY12_Icon
-                          id: data[1]["R_NAME2"] + "_Icon", //esto seria  RELAY02_Icon
+                          //id: relay.R_NAME2+'_Icon' //esto seria  RELAY2_Icon
+                          //id: data[1]["R_NAME2"] + "_Icon", //esto seria  RELAY2_Icon
+                          id: "RELAY2_Icon", //esto seria  RELAY2_Icon
                         },
                       },
                     ],
@@ -1055,29 +1066,31 @@ export function createCardRelays(padre, data) {
                         data[1]["R_STATUS2"]
                         ? {
                             //se es verdadero
-                            id: data[1]["R_NAME2"],
+                            //id: data[1]["R_NAME2"],
+                            id: "RELAY2",
                             class: "form-check-input",
                             type: "checkbox",
                             checked: "",
                             onchange: () => {
                               switchRelay(
-                                data[0]["R_NAME1"],
+                                "RELAY1",
                                 data[0]["R_LOGIC1"],
-                                data[1]["R_NAME2"],
+                                "RELAY2",
                                 data[1]["R_LOGIC2"]
                               );
                             }, //TODO: definir la función   ----------------------------------------------------
                           }
                         : {
                             //si es falso
-                            id: data[1]["R_NAME2"],
+                            //id: data[1]["R_NAME2"],
+                            id: "RELAY2",
                             class: "form-check-input",
                             type: "checkbox",
                             onchange: () => {
                               switchRelay(
-                                data[0]["R_NAME1"],
+                                "RELAY1",
                                 data[0]["R_LOGIC1"],
-                                data[1]["R_NAME2"],
+                                "RELAY2",
                                 data[1]["R_LOGIC2"]
                               );
                             }, //TODO: definir la función   ----------------------------------------------------
@@ -1086,29 +1099,31 @@ export function createCardRelays(padre, data) {
                       data[1]["R_STATUS2"]
                       ? {
                           //se es verdadero
-                          id: data[1]["R_NAME2"],
+                          //id: data[1]["R_NAME2"],
+                          id: "RELAY2",
                           class: "form-check-input",
                           type: "checkbox",
                           onchange: () => {
                             switchRelay(
-                              data[0]["R_NAME1"],
+                              "RELAY1",
                               data[0]["R_LOGIC1"],
-                              data[1]["R_NAME2"],
+                              "RELAY2",
                               data[1]["R_LOGIC2"]
                             );
                           },
                         }
                       : {
                           //si es falso
-                          id: data[1]["R_NAME2"],
+                          //id: data[1]["R_NAME2"],
+                          id: "RELAY2",
                           class: "form-check-input",
                           type: "checkbox",
                           checked: "",
                           onchange: () => {
                             switchRelay(
-                              data[0]["R_NAME1"],
+                              "RELAY1",
                               data[0]["R_LOGIC1"],
-                              data[1]["R_NAME2"],
+                              "RELAY2",
                               data[1]["R_LOGIC2"]
                             );
                           },
@@ -1125,7 +1140,8 @@ export function createCardRelays(padre, data) {
                   {
                     type: "i",
                     props: {
-                      id: data[1]["R_NAME2"] + "_Status",
+                      //id: data[1]["R_NAME2"] + "_Status",
+                      id: "RELAY2_Status", ///-----------------cambia el ID--------------------------------------------------
                       class: data[1]["R_LOGIC2"]
                         ? data[1]["R_STATUS2"]
                           ? "bi bi-lightbulb-fill text-warning"
@@ -2652,13 +2668,13 @@ const relayStatusChange1 = (status) => {
     RELAY1_Status.classList.add("text-warning");
     RELAY1_Icon.classList.remove("bi-option");
     RELAY1_Icon.classList.add("bi-alt");
-    document.getElementById("RELAY1").checked = true;
+    document.getElementById("RELAY1").checked = true; /// aqui se cambio
   } else {
     RELAY1_Status.classList.remove("text-warning");
     RELAY1_Status.classList.add("text-dark");
     RELAY1_Icon.classList.remove("bi-alt");
     RELAY1_Icon.classList.add("bi-option");
-    document.getElementById("RELAY1").checked = false;
+    document.getElementById("RELAY1").checked = false; /// aqui se cambio
   }
 };
 const relayStatusChange2 = (status) => {
