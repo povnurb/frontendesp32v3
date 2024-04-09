@@ -12,11 +12,20 @@ import {
   createCardBuzzer,
   alertMsg,
   card,
+  ejecutarPost,
 } from "./scripts.js";
 
 //para pasar la informacion que traigo de la api /api/index
 let index = {};
 let chart = "";
+let chartDimmer = "";
+
+//seteo del dimmer
+const setDimmer = (value) => {
+  // document.getElementById('dimmerRangeLabel').innerHTML = `Regulado (${value}) %`;
+  // document.getElementById('dimmerRange').value = value;
+  chartDimmer.updateSeries([value]);
+};
 
 //es asincrona por que se van a solicitar peticiones a la api por lo tanto hay
 //que agregar awaita la funcion
@@ -45,7 +54,7 @@ export async function iniciarIndex() {
   const resp = await getIndex.getApiData();
   index = resp;
 
-  //console.log(index)
+  //console.log(index);
   //llemar el html desde la api
   //crear la tarjeta para el serial
   createCard(
@@ -55,7 +64,7 @@ export async function iniciarIndex() {
     "cpu",
     "serial",
     index.serial,
-    "Numero de serie del equipo"
+    "Número de serie del equipo"
   );
   //crear la tarjeta para el device
   createCard(
@@ -229,7 +238,7 @@ export async function iniciarIndex() {
   // agregar la tarjeta al html
   document.getElementById("chartLine").appendChild(cardLine);
   //llenar los datos a la grafica de linea
-  let options = {
+  let optionsLine = {
     series: [
       {
         name: "TEMPERATURA °C",
@@ -422,9 +431,122 @@ export async function iniciarIndex() {
       //logarithmic: true,
     },
   };
-  chart = new ApexCharts(document.querySelector("#chart"), options);
+  chart = new ApexCharts(document.querySelector("#chart"), optionsLine);
   chart.render();
+  //zona dimmer
+  const inputsDim = builder({
+    type: "div",
+    props: { class: "card-body" },
+    children: [
+      // {
+      //   type: "h5",
+      //   props: { class: "card-title" },
+      //   children: ["RV1"],
+      // },
+      {
+        type: "div",
+        props: { id: "chartDimmer" },
+        children: [],
+      },
+      // { //video de udemy 163
+      //   //visualizacion para el control en mi caso no se uza
+      //   type:'div',
+      //   props:{},
+      //   children:[
+      //     {
+      //       type:'label',
+      //       props:{class: 'form-label', for: 'dimmerRange', id:'dimmerRangeLabel'},
+      //       children:['Regulador (0) %']
+      //     },
+      //     {
+      //       type:'input',
+      //       props:{
+      //         type: 'range',
+      //         class:'form-range',
+      //         id:'dimmerRange',
+      //         min:0,
+      //         max:100,
+      //         step: 1,
+      //         value:0,
+      //         onchange:()=>{dimmer()}
+      //       },
+      //       children:[]
+      //     }
+      //   ]
+      // }
+    ],
+  });
+  const cardDim = new card("Potenciómetro", inputsDim).buildCard();
+  document.getElementById("chartdim").appendChild(cardDim);
+  //crear el elemento dimmer del chart
+  const optionsDimmer = {
+    series: [0],
+    chart: {
+      height: 350, //350
+      type: "radialBar",
+      offsetY: -10, //-10
+    },
+    plotOptions: {
+      radialBar: {
+        startAngle: -135,
+        endAngle: 135,
+        dataLabels: {
+          name: {
+            fontSize: "16px",
+            color: undefined,
+            offsetY: 120,
+          },
+          value: {
+            offsetY: 76,
+            fontSize: "22px",
+            color: undefined,
+            formatter: function (val) {
+              return val + "%";
+            },
+          },
+        },
+      },
+    },
+    fill: {
+      type: "gradient",
+      gradient: {
+        shade: "dark",
+        shadeIntensity: 0.15,
+        inverseColors: false,
+        opacityFrom: 1,
+        opacityTo: 1,
+        stops: [0, 50, 65, 91],
+      },
+    },
+    stroke: {
+      dashArray: 4,
+    },
 
+    labels: ["Min 1 min. - Max 15 min."],
+  };
+  chartDimmer = new ApexCharts(
+    document.getElementById("chartDimmer"),
+    optionsDimmer
+  );
+  chartDimmer.render();
+  ////enviar el valor a la API que despues se aplicara
+  // const dimmer=()=>{
+  //   const value = document.getElementById('dimmerRange').value;
+  //   setDimmer(value);
+  //   //crear objeto para el post (objeto data)
+  //   const data={
+  //     protocol: 'API',
+  //     output: 'Dimmer',
+  //     value:value
+  //   }
+  //   //ejecutar el post a la API
+  // ejecutarPost('device/dimmer', data);
+  // }
+
+  //funcion que se auto ejecuta cuando carga la pagina
+  (function setDim() {
+    setDimmer(index.dimmer);
+  })();
   /**
    * Quitar el loadig al cargar la pagina
    */
@@ -432,4 +554,4 @@ export async function iniciarIndex() {
   document.querySelector("#content").style = "display:block;";
 }
 
-export { chart };
+export { chart, setDimmer };

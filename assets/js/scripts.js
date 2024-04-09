@@ -1,6 +1,6 @@
 "use strict";
 
-import { chart } from "./index.js"; //quiere decir que el archivo index.js tomara los valores de esta pagina
+import { chart, setDimmer } from "./index.js"; //quiere decir que el archivo index.js tomara los valores de esta pagina
 
 const ipdevice = "192.168.1.75"; // o en mi casa 192.168.1.75 -casa  - .207 en el trabajo
 const urlActual = window.location; //la url donde estamos la metemos en la constante
@@ -1505,6 +1505,14 @@ export async function ejecutarPost(path, data) {
     time.runTime("#progressRestart", div);
     // función para recargar la pagina
     reloadPage("", 10000);
+  } else if (resp.dimmer) {
+    SweetAlertMsg(
+      "top-end",
+      "success",
+      `Potenciometro al ${resp.value} %`,
+      5000
+    );
+    console.log(resp.value);
   } else if (!resp.session) {
     // manejo  de la respuesta de la sesión | mensaje superior y recargar pagina en 5s
     SweetAlertMsg("top-end", "warning", `${resp.msg}`, 5000);
@@ -2347,7 +2355,7 @@ const initWS = () => {
   };
   ws.onmessage = (msg) => {
     const resp = JSON.parse(msg.data);
-    //console.log(resp); ///muestra la respuesta en consola
+    //console.log(resp); ///muestra la respuesta en consola de WS
     if (
       resp.type === "data" &&
       url[3] != "/alarmas.html" &&
@@ -2460,6 +2468,8 @@ const initWS = () => {
       // if (dhtHum.length > 60) dhtHum.shift();
       //pasar a la grafica los valores
       chart.updateSeries([{ data: dhtTem }, { data: dhtHum }]);
+      //set dimer desde WS
+      setDimmer(resp.dimmer);
     } else if (url[3] == "/alarmas.html" || url[3] == "/esp-alarmas") {
       document.getElementById("title1").innerHTML = resp.ALRM_NAME1;
       document.getElementById("title2").innerHTML = resp.ALRM_NAME2;
