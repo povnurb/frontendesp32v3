@@ -2378,6 +2378,10 @@ const initWS = () => {
       relayStatusChange1(resp.R_STATUS1);
       relayStatusChange2(resp.R_STATUS2);
       // document.getElementById('salaTemp3').innerHTML = resp.cpuTemp.toFixed(2);
+      //actulizar las temperaturas maximas y minimas---------------------------------------------------------------------------------------------
+      //no encontre donde modificar
+
+      //actualiza temperaturas y humedades
       document.getElementById("salaTemp2").innerHTML = resp.hum;
       document.getElementById("salaTemp1").innerHTML = resp.tC;
       // Actualizar el progress de la RAM

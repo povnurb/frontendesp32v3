@@ -410,7 +410,7 @@ export async function iniciarIndex() {
       ],
       align: "left",
       title: {
-        text: "Registro de Temperatura y Humedad de cada 10 min",
+        text: "Registro de Temperatura y Humedad",
       },
     },
     yaxis: {
@@ -418,7 +418,7 @@ export async function iniciarIndex() {
         text: "Temperatura °C y Humedad %",
       },
       min: 10,
-      max: 85,
+      max: 80,
       //logarithmic: true,
     },
   };
